@@ -1,0 +1,121 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    getAllProjects: [Project]
+    getAllProjectsWithEstimates: [Project]
+    getProjectById(projectId: String!): Project
+
+    getAllClients: [Client]
+    getClientById(clientId: String!): Client
+
+    getAllContractors: [Contractor]
+    getContractorById(contractorId: String!): Contractor
+
+    getAllVisitors(visitorId: String!): [Visitor]
+}
+
+type Mutation {
+    createProject(projectInput: ProjectInput): Project @aws_cognito_user_pools
+    deleteProject(projectId: String!): String @aws_cognito_user_pools
+    updateProject(
+        projectId: String!
+        projectInput: ProjectInput!
+    ): Project @aws_cognito_user_pools
+
+    createClient(clientInput: ClientInput): Client @aws_cognito_user_pools
+    deleteClient(clientName: String!, clientId: String!): String @aws_cognito_user_pools
+    updateClient(
+        clientName: String!
+        clientId: String!
+        clientInput: ClientInput!
+    ): Client @aws_cognito_user_pools
+
+
+    createContractor(contractorInput: ContractorInput): Contractor @aws_cognito_user_pools
+    deleteContractor(contractorName: String!, contractorId: String!): String @aws_cognito_user_pools
+    updateContractor(
+        contractorName: String!
+        contractorId: String!
+        contractorInput: ContractorInput!
+    ): Contractor @aws_cognito_user_pools
+}
+
+input ProjectInput {
+    clientName: String
+    phone: String
+    address: String
+    city: String
+    locationType: String
+    description: String
+    desiredCompletionTime: String
+    imageUrls: [String]
+}
+
+input ClientInput {
+    clientName: String
+    phone: String
+    address: String
+    city: String
+}
+
+input ContractorInput {
+    contractorName: String
+    company: String
+    specialty: String
+    address: String
+    phone: String
+}
+
+type Project {
+    clientName: String
+    clientId: String
+    phone: String
+    address: String
+    city: String
+    locationType: String
+    projectId: String
+    description: String
+    imageUrls: [String]
+    contractorName: String
+    contractorId: String
+    estimate: Float
+    startDate: String
+    endDate: String
+    desiredCompletionTime: String
+    createdAt: String
+    updatedAt: String
+    clientCost: Float
+}
+
+type Client {
+    clientId: String
+    clientName: String
+    phone: String
+    address: String
+    city: String
+    createdAt: String
+    updatedAt: String
+}
+
+type Contractor {
+    contractorId: String
+    contractorName: String
+    company: String
+    specialty: String
+    address: String
+    phone: String
+    createdAt: String
+    updatedAt: String
+}
+
+type Visitor {
+    visitorId: String
+    visitTime: String
+    formSubmitTime: String
+    endTime: String
+    visitorCount: String
+    utmSource: String
+}
