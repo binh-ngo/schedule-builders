@@ -51,7 +51,7 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         memorySize: 512,
         environment: {
           // Contractor Table
-          POSTS_TABLE: contractorSiteTable.tableName,
+          CONTRACTORS_TABLE: contractorSiteTable.tableName,
         },
       });
       contractorSiteTable.grantFullAccess(contractorSiteLambda);
@@ -127,7 +127,15 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       })
       contractorSiteDataSource.createResolver({
         typeName: "Query",
+        fieldName: "getAllProjectsFromAllClients",
+      })
+      contractorSiteDataSource.createResolver({
+        typeName: "Query",
         fieldName: "getAllProjectsWithEstimates",
+      })
+      contractorSiteDataSource.createResolver({
+        typeName: "Query",
+        fieldName: "getAllProjectsWithoutEstimates",
       })
       contractorSiteDataSource.createResolver({
         typeName: "Query",
@@ -154,10 +162,6 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       contractorSiteDataSource.createResolver({
         typeName: "Query",
         fieldName: "getClientById",
-      })
-      contractorSiteDataSource.createResolver({
-        typeName: "Mutation",
-        fieldName: "createClient",
       })
       contractorSiteDataSource.createResolver({
         typeName: "Mutation",

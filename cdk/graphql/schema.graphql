@@ -4,15 +4,17 @@ schema {
 }
 
 type Query {
-    getAllProjects: [Project]
+    getAllProjects(clientName: String!): [Project]
+    getAllProjectsFromAllClients: [Project]
     getAllProjectsWithEstimates: [Project]
+    getAllProjectsWithoutEstimates: [Project]
     getProjectById(projectId: String!): Project
 
     getAllClients: [Client]
-    getClientById(clientId: String!): Client
+    getClientById(clientName: String!, clientId: String!): Client
 
     getAllContractors: [Contractor]
-    getContractorById(contractorId: String!): Contractor
+    getContractorById(contractorName: String!, contractorId: String!): Contractor
 
     getAllVisitors(visitorId: String!): [Visitor]
 }
@@ -25,7 +27,6 @@ type Mutation {
         projectInput: ProjectInput!
     ): Project @aws_cognito_user_pools
 
-    createClient(clientInput: ClientInput): Client @aws_cognito_user_pools
     deleteClient(clientName: String!, clientId: String!): String @aws_cognito_user_pools
     updateClient(
         clientName: String!
@@ -45,7 +46,8 @@ type Mutation {
 
 input ProjectInput {
     clientName: String
-    phone: String
+    clientPhone: String
+    email: String
     address: String
     city: String
     locationType: String
@@ -59,6 +61,7 @@ input ClientInput {
     phone: String
     address: String
     city: String
+    email: String
 }
 
 input ContractorInput {
@@ -67,12 +70,14 @@ input ContractorInput {
     specialty: String
     address: String
     phone: String
+    city: String
+    email: String
+    imageUrl: String
 }
 
-type Project {
+type Project @aws_api_key @aws_cognito_user_pools {
     clientName: String
     clientId: String
-    phone: String
     address: String
     city: String
     locationType: String
@@ -90,28 +95,32 @@ type Project {
     clientCost: Float
 }
 
-type Client {
+type Client @aws_api_key @aws_cognito_user_pools {
     clientId: String
     clientName: String
     phone: String
     address: String
     city: String
+    email: String
     createdAt: String
     updatedAt: String
 }
 
-type Contractor {
+type Contractor @aws_api_key @aws_cognito_user_pools {
     contractorId: String
     contractorName: String
     company: String
     specialty: String
     address: String
+    city: String
     phone: String
+    email: String
+    imageUrl: String
     createdAt: String
     updatedAt: String
 }
 
-type Visitor {
+type Visitor @aws_api_key @aws_cognito_user_pools {
     visitorId: String
     visitTime: String
     formSubmitTime: String
