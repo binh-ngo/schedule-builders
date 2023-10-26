@@ -16,7 +16,7 @@ export type ddbQueryPostsParams = {
 export type Client = {
     clientId: string;
     clientName: string
-    phone: string;
+    clientPhone: string;
     address: string
     email:string;
     city: string
@@ -67,6 +67,7 @@ export type ContractorInput = {
 export type Project = {
     clientName: string;
     clientId: string;
+    clientPhone: string;
     address: string;
     city: string;
     locationType: string;
@@ -76,6 +77,9 @@ export type Project = {
     contractorName: string;
     contractorId: string;
     estimate: number;
+    material: string;
+    projectSize: string;
+    propertyType: string;
     startDate: string;
     endDate: string;
     desiredCompletionTime: string;
@@ -95,6 +99,9 @@ export type ProjectInput = {
     desiredCompletionTime: string;
     imageUrls: string[];
     estimate: number;
+    material: string;
+    propertyType: string;
+    projectSize: string;
     startDate: string;
     endDate: string;
     clientCost: number;

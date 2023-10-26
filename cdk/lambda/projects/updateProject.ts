@@ -16,11 +16,15 @@ const updateProject = async (
         const project: Project = {
             clientName: retrievedProject.clientName,
             clientId: retrievedProject.clientId,
+            projectId: retrievedProject.projectId,
+            clientPhone: projectInput.clientPhone ? projectInput.clientPhone : retrievedProject.clientPhone,
             address: projectInput.address ? projectInput.address : retrievedProject.address,
             city: projectInput.city ? projectInput.city : retrievedProject.city,
             locationType: projectInput.locationType ? projectInput.locationType : retrievedProject.locationType,
-            projectId: retrievedProject.projectId,
             description: projectInput.description ? projectInput.description : retrievedProject.description,
+            material: projectInput.material ? projectInput.material : retrievedProject.material,
+            projectSize: projectInput.projectSize ? projectInput.projectSize : retrievedProject.projectSize,
+            propertyType: projectInput.propertyType ? projectInput.propertyType : retrievedProject.propertyType,
             imageUrls: projectInput.imageUrls ? projectInput.imageUrls : retrievedProject.imageUrls,
             contractorId: projectInput.contractorId ? projectInput.contractorId : retrievedProject.contractorId,
             contractorName: projectInput.contractorName ? projectInput.contractorName : retrievedProject.contractorName,
@@ -32,28 +36,6 @@ const updateProject = async (
             createdAt: retrievedProject.createdAt,
             updatedAt: new Date().toISOString(),
         };
-
-        // const project: Project = {
-        //     ...retrievedProject,
-        //     ...projectInput, // Overwrite properties with input values, if provided
-        //     updatedAt: new Date().toISOString(),
-        //   };
-
-          // const entitiesToUpdate = [
-          //   { PK: `PROJECTS`, SK: `PROJECT#${projectId}` },
-          //   { PK: `PROJECT#${projectId}`, SK: `PROJECT#${projectId}` },
-          //   { PK: `CLIENT#${project.clientName}`, SK: `PROJECT#${projectId}` },
-          // ];
-
-          // const batchWriteRequests = entitiesToUpdate.map((entity) => ({
-          //   PutRequest: {
-          //     Item: {
-          //       ...entity,
-          //       type: 'project',
-          //       ...project,
-          //     },
-          //   },
-          // }));
           
         console.log(`UPDATE project called with:` + JSON.stringify(`Project ID: ${projectId}`));
         // const eventBody = JSON.parse(event.body);

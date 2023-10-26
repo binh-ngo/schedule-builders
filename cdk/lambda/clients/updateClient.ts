@@ -22,7 +22,7 @@ const updateClient = async (
         const client: Client = {
             clientId,
             clientName: clientInput.clientName,
-            phone: clientInput.phone,
+            clientPhone: clientInput.phone,
             address: clientInput.address,
             city: clientInput.city,
             email: clientInput.email,
@@ -43,10 +43,10 @@ const updateClient = async (
             SK: `CLIENT#${clientId}`,
         },
         UpdateExpression:
-            "set #clientName = :clientName, #phone = :phone,  #address = :address,  #email = :email,  #city = :city, #updatedAt = :updatedAt, #createdAt = :createdAt, #clientId = :clientId",
+            "set #clientName = :clientName, #clientPhone = :clientPhone,  #address = :address,  #email = :email,  #city = :city, #updatedAt = :updatedAt, #createdAt = :createdAt, #clientId = :clientId",
         ExpressionAttributeNames: {
             "#clientName": "clientName",
-            "#phone": "phone",
+            "#clientPhone": "clientPhone",
             "#address": "address",
             "#email": "email",
             "#city": "city",
@@ -56,7 +56,7 @@ const updateClient = async (
         },
         ExpressionAttributeValues: {
             ":clientName": client.clientName,
-            ":phone": client.phone,
+            ":clientPhone": client.clientPhone,
             ":address": client.address,
             ":email": client.email,
             ":city": client.city,
@@ -77,11 +77,11 @@ const updateClient = async (
             SK: `CLIENT#${clientName}`,
         },
         UpdateExpression:
-            "set #clientName = :clientName, #phone = :phone,  #address = :address,  #email = :email,  #city = :city, #updatedAt = :updatedAt, #createdAt = :createdAt, #clientId = :clientId",
+            "set #clientName = :clientName, #clientPhone = :clientPhone,  #address = :address,  #email = :email,  #city = :city, #updatedAt = :updatedAt, #createdAt = :createdAt, #clientId = :clientId",
             ExpressionAttributeNames: {
             "#clientId": "clientId",
             "#clientName": "clientName",
-            "#phone": "phone",
+            "#clientPhone": "clientPhone",
             "#address": "address",
             "#email": "email",
             "#city": "city",
@@ -91,7 +91,7 @@ const updateClient = async (
         ExpressionAttributeValues: {
             ":clientId": client.clientId,
             ":clientName": client.clientName,
-            ":phone": client.phone,
+            ":clientPhone": client.clientPhone,
             ":address": client.address,
             ":email": client.email,
             ":city": client.city,

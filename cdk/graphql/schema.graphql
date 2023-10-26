@@ -20,7 +20,7 @@ type Query {
 }
 
 type Mutation {
-    createProject(projectInput: ProjectInput): Project @aws_cognito_user_pools
+    createProject(projectInput: ProjectInput): Project @aws_cognito_user_pools @aws_api_key
     deleteProject(projectId: String!): String @aws_cognito_user_pools
     updateProject(
         projectId: String!
@@ -50,15 +50,24 @@ input ProjectInput {
     email: String
     address: String
     city: String
-    locationType: String
     description: String
+    material: String
+    projectType: String
+    projectSize: String
+    propertyType: String
     desiredCompletionTime: String
     imageUrls: [String]
+    estimate: Float
+    startDate: String
+    endDate: String
+    clientCost: Float
+    contractorId: String
+    contractorName: String
 }
 
 input ClientInput {
     clientName: String
-    phone: String
+    clientPhone: String
     address: String
     city: String
     email: String
@@ -73,16 +82,20 @@ input ContractorInput {
     city: String
     email: String
     imageUrl: String
-}
+}  
 
 type Project @aws_api_key @aws_cognito_user_pools {
     clientName: String
     clientId: String
+    clientPhone: String
     address: String
     city: String
-    locationType: String
     projectId: String
+    projectType: String
     description: String
+    material: String
+    projectSize: String
+    propertyType: String
     imageUrls: [String]
     contractorName: String
     contractorId: String
@@ -98,7 +111,7 @@ type Project @aws_api_key @aws_cognito_user_pools {
 type Client @aws_api_key @aws_cognito_user_pools {
     clientId: String
     clientName: String
-    phone: String
+    clientPhone: String
     address: String
     city: String
     email: String
