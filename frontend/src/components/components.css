@@ -2,6 +2,10 @@
     font-size: 1.5rem;
 }
 
+.login {
+  border: #1d5591;
+}
+
 .question-form-container {
     display: flex;
     justify-content: center;
@@ -90,3 +94,75 @@
   
   }
   
+.landing {
+  background-color: rgb(30, 106, 132);
+
+}
+  /* HERO */
+
+  .hero-section {
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 100px 0;
+    text-align: center;
+
+  }
+  
+  .hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+  }
+  
+  .hero-section img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* FOOTER  */
+
+  .footer {
+  background-color: #0f1c3fa9;
+  bottom: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 8px !important ;
+}
+
+.footer-body {
+  z-index: 1;
+  text-align: center !important;
+}
+
+@media (max-width: 767px) {
+  .footer-copywright {
+    text-align: center !important;
+  }
+
+  .footer-body {
+    text-align: center !important;
+  }
+}
+
+.footer h3 {
+  font-size: 1em;
+  color: white !important;
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+}
+.footer-icons {
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+  padding: 0 !important;
+}
+
+.social-icons {
+  display: inline-block !important;
+  padding-right: 15px;
+  padding-left: 15px;
+}

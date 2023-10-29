@@ -28,48 +28,48 @@ export const Login = (props:any) => {
   };
 
   return (
-<div className="d-flex flex-row justify-content-end">
-  {!loggedInUser && (
-    <form onSubmit={onSubmit} className="d-flex flex-row">
-      <div className="mb-4">
-        <label className="font-semibold">Username:</label>
-        <input
-          className="mt-2 border-b-2 bg-transparent border-white px-2 py-1 rounded-md focus:outline-none focus:border-blue-500"
-          type="text"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div className="mb-4">
-        <label className=" font-semibold">Password:</label>
-        <input
-          className="mt-2 border-b-2 bg-transparent border-white  px-2 py-1 rounded-md focus:outline-none focus:border-blue-500"
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-      <div className="flex justify-center">
-        {!loggedInUser && (
-          <button className="btn btn-primary my-2">
-            Login
-          </button>
-        )}
-      </div>
-    </form>
-  )}
+    <div className="d-flex flex-row justify-content-end">
+    {!loggedInUser && (
+      <form onSubmit={onSubmit} className="d-flex flex-row">
+        <div className="mb-4">
+          <label className="font-semibold px-2 text-white">Username:</label>
+          <input
+            className="login mt-2 bg-transparent text-white px-2 py-1 rounded-md"
+            type="text"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="font-semibold px-2 text-white">Password:</label>
+          <input
+            className="login mt-2 bg-transparent text-white px-2 py-1 rounded-md"
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        <div className="flex justify-center">
+          {!loggedInUser && (
+            <button className="btn bg-transparent text-white my-2 mx-2">
+              Login
+            </button>
+          )}
+        </div>
+      </form>
+    )}
 
-  {loggedInUser && (
-    <button
-      onClick={() => signOut(() => navigate("/"))}
-      className="btn btn-danger"
-    >
-      Log Out
-    </button>
-  )}
-</div>
+    {loggedInUser && (
+      <button
+        onClick={() => signOut(() => navigate("/"))}
+        className="btn bg-transparent text-white font-size-lg"
+      >
+        Log Out
+      </button>
+    )}
+  </div>
   );
   }

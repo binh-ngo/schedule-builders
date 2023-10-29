@@ -9,7 +9,7 @@ import ProjectForm from './components/ProjectForm';
 import { Account } from "./Accounts";
 import { ProjectFormCompleted } from "./pages/ProjectFormCompleted";
 import { Admin } from "./pages/Admin";
-import RequireAuth from "./RequireAuth";
+// import RequireAuth from "./RequireAuth";
 import { LandingPage } from "./pages/LandingPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 

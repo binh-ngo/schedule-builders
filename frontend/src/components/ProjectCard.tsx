@@ -113,7 +113,7 @@ export const ProjectCard = (project: ProjectProps) => {
           ))
         ) : (
           <Carousel.Item>
-            <Card.Img variant="top" src={defaultImage} />
+            <Card.Img variant="top" src={defaultImage} alt="default image"/>
           </Carousel.Item>
         )}
       </Carousel>      <Card.Body>
