@@ -5,18 +5,18 @@ import { API } from "aws-amplify";
 // ===========
 
 export type SaveProjectProps = {
-    clientName: string;
+    clientName?: string;
     projectId?: string;
-    clientPhone: string;
-    email: string;
-    address: string;
-    city: string;
-    description: string;
-    material: string;
-    projectSize: string;
-    projectType: string;
-    propertyType: string;
-    desiredCompletionTime: string;
+    clientPhone?: string;
+    email?: string;
+    address?: string;
+    city?: string;
+    description?: string;
+    material?: string;
+    projectSize?: string;
+    projectType?: string;
+    propertyType?: string;
+    desiredCompletionTime?: string;
     imageUrls?: string[];
     estimate?: number;
     startDate?: string;
@@ -36,9 +36,11 @@ const createProjectQuery = `
         material
         projectSize
         propertyType
+        projectType
         desiredCompletionTime
         imageUrls
         clientCost
+        clientPhone
         clientId
         clientName
         contractorName
@@ -92,9 +94,11 @@ const getProjectByIdQuery = `
         material
         projectSize
         propertyType
+        projectType
         desiredCompletionTime
         imageUrls
         clientCost
+        clientPhone
         clientId
         clientName
         contractorName
@@ -137,9 +141,11 @@ query getAllProjects($clientName: String!) {
     material
     projectSize
     propertyType
+    projectType
     desiredCompletionTime
     imageUrls
     clientCost
+    clientPhone
     clientId
     clientName
     contractorName
@@ -176,9 +182,11 @@ query getAllProjectsFromAllClients {
     material
     projectSize
     propertyType
+    projectType
     desiredCompletionTime
     imageUrls
     clientCost
+    clientPhone
     clientId
     clientName
     contractorName
@@ -213,9 +221,11 @@ query getAllProjectsWithEstimates {
     material
     projectSize
     propertyType
+    projectType
     desiredCompletionTime
     imageUrls
     clientCost
+    clientPhone
     clientId
     clientName
     contractorName
@@ -249,9 +259,11 @@ query getAllProjectsWithoutEstimates {
     material
     projectSize
     propertyType
+    projectType
     desiredCompletionTime
     imageUrls
     clientCost
+    clientPhone
     clientId
     clientName
     contractorName
@@ -278,8 +290,8 @@ export const ddbGetAllProjectsWithoutEstimates = async () => {
 // ===========
 
 const updateProjectQuery = `
-    mutation updateProject($clientName: String!, $projectId: String!, $projectInput: ProjectInput!) {
-      updateProject(clientName: $clientName, projectId: $projectId, projectInput: $projectInput) {
+    mutation updateProject($projectId: String!, $projectInput: ProjectInput!) {
+      updateProject(projectId: $projectId, projectInput: $projectInput) {
         projectId
         address
         city
@@ -287,9 +299,11 @@ const updateProjectQuery = `
         material
         projectSize
         propertyType
-            desiredCompletionTime
+        projectType
+        desiredCompletionTime
         imageUrls
         clientCost
+        clientPhone
         clientId
         clientName
         contractorName
@@ -308,7 +322,6 @@ export const ddbUpdateProject = async (projectInput: SaveProjectProps) => {
   const resp = await API.graphql({
     query: updateProjectQuery,
     variables: {
-      clientName: projectInput.clientName,
       projectId: projectInput.projectId,
       projectInput: {
         clientPhone: projectInput.clientPhone,
@@ -332,6 +345,7 @@ export const ddbUpdateProject = async (projectInput: SaveProjectProps) => {
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
   console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  return resp;
 };
 
 // ===========

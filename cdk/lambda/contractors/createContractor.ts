@@ -2,6 +2,7 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
 import { Contractor, ContractorInput } from "../types";
+import getAllContractors from "./getAllContractors";
 require("dotenv").config({ path: ".env" });
 
 const s3 = new AWS.S3({
@@ -31,7 +32,6 @@ const createContractor = async (contractorInput: ContractorInput) => {
             updatedAt: new Date().toISOString(),
         };
 
-        // Store Contractor data in DynamoDB
         const params = {
             RequestItems: {
                 "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB": [

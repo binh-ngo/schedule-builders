@@ -67,7 +67,7 @@ query getContractorById($contractorName: String!, $contractorId: String!) {
         company
         specialty
         address
-        city:
+        city
         phone
         email
         imageUrl
@@ -100,12 +100,15 @@ export const ddbGetContractorById = async (contractorName: string, contractorId:
   const getAllContractorsQuery = `
   query getAllContractors {
       getAllContractors {
-        clientId
-        clientName
+        contractorId
+        contractorName
+        company
+        specialty
         address
         city
-        email
         phone
+        email
+        imageUrl
         createdAt
         updatedAt
       }
@@ -133,7 +136,7 @@ const updateContractorQuery = `
         company
         specialty
         address
-        city:
+        city
         phone
         email
         imageUrl

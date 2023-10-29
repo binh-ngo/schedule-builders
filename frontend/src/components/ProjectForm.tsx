@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import './components.css';
 import { ddbCreateProject } from '../graphql/projects';
 import { useNavigate } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
 
 interface ProjectFormProps { }
 
@@ -30,7 +31,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
         email
     }
 
-    const [answers, setAnswers] = useState<string[]>(Array(questions.length).fill(''));
+    const [answers, setAnswers] = useState<string[]>(Array(questions.length-1).fill(''));
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     let navigate = useNavigate();
 
@@ -104,7 +105,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate('/home');
+            navigate('/schedule-appointment');
         } else {
             console.log("onSave called but title or children are empty");
         }
@@ -113,6 +114,16 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
     const calculateProgress = () => {
         return ((currentQuestionIndex + 1) / questions.length) * 100 + '%';
     };
+
+    const isFormValid = () => {
+        const isTextInputsValid =
+            name !== '' && address !== '' && city !== '' && phone !== '' && email !== '';
+    
+        const isQuestionsValid = answers.every(answer => answer !== '');
+    
+        return isTextInputsValid && isQuestionsValid;
+    };
+
     const projectTypes = ['Build or Replace Deck', 'Repair Deck', 'Clean and Seal Deck', 'Patio', 'Paint a Deck'];
     const woodTypes = ['Cedar', 'Pressure-treated Pine', 'Redwood', 'Synthetic or Composite', 'Vinyl', 'Need Recommendation'];
     const projectSizes = ['Small: Less than 150 sq ft', 'Medium: 150 - 300 sq ft', 'Large: More than 300 sq ft'];
@@ -227,11 +238,28 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                 <div>
                     <h3 className='question-header'>{question}</h3>
                     <div className="user-details-form">
-                        <input className='contact-info' type="text" placeholder="Name" name="Name" value={name} onChange={handleAnswerChange} />
-                        <input className='contact-info' type="text" placeholder="Address" name="Address" value={address} onChange={handleAnswerChange} />
-                        <input className='contact-info' type="text" placeholder="City" name="City" value={city} onChange={handleAnswerChange} />
-                        <input className='contact-info' type="text" placeholder="Phone" name="Phone" value={phone} onChange={handleAnswerChange} />
-                        <input className='contact-info' type="email" placeholder="Email" name="Email" value={email} onChange={handleAnswerChange} />
+                        <Form>
+                            <Form.Group controlId="name">
+                                <Form.Control type="text" placeholder="Name" name="Name" value={name} required onChange={(e:any) => setName(e.target.value)} />
+                            </Form.Group>
+
+                            <Form.Group controlId="address">
+                                <Form.Control type="text" placeholder="Address" name="Address" value={address} required onChange={(e:any) => setAddress(e.target.value)} />
+                            </Form.Group>
+
+                            <Form.Group controlId="city">
+                                <Form.Control type="text" placeholder="City" name="City" value={city} required onChange={(e:any) => setCity(e.target.value)} />
+                            </Form.Group>
+
+                            <Form.Group controlId="phone">
+                                <Form.Control type="tel" placeholder="Phone" name="Phone" value={phone} required onChange={(e:any) => setPhone(e.target.value)} />
+                            </Form.Group>
+
+                            <Form.Group controlId="email">
+                                <Form.Control type="email" placeholder="Email" name="Email" value={email} required onChange={(e:any) => setEmail(e.target.value)} />
+                            </Form.Group>
+                        </Form>
+
                     </div>
                 </div>
             );
@@ -265,7 +293,8 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                             Next
                         </button>
                     ) : (
-                        <button className="submit-button" onClick={handleSubmit}>
+                        <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()}
+                        onClick={handleSubmit}>
                             Submit
                         </button>
                     )}

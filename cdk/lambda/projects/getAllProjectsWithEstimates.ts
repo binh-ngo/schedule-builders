@@ -9,15 +9,17 @@ const getAllProjectsWithEstimates = async () => {
   const params: ddbQueryPostsParams = {
     TableName: process.env.CONTRACTORS_TABLE || "",
     KeyConditionExpression: "#PK = :post_partition",
-    // filter where estimates aren't equal to zero
-    FilterExpression: "#estimate <> :zero",
+    FilterExpression: "#estimate <> :zero AND #endDate = :empty",
+    //  AND attribute_not_exists(#endDate)
     ExpressionAttributeNames: {
       "#PK": "PK",
       "#estimate": "estimate",
+      "#endDate": "endDate",
     },
     ExpressionAttributeValues: {
       ":post_partition": `PROJECTS`,
       ":zero": 0,
+      ":empty": ''
     },
     ReturnConsumedCapacity: "TOTAL",
     ScanIndexForward: false,

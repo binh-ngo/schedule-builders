@@ -70,7 +70,6 @@ export type Project = {
     clientPhone: string;
     address: string;
     city: string;
-    locationType: string;
     projectId: string;
     description: string;
     imageUrls: string[];
@@ -79,6 +78,7 @@ export type Project = {
     estimate: number;
     material: string;
     projectSize: string;
+    projectType: string;
     propertyType: string;
     startDate: string;
     endDate: string;
@@ -94,13 +94,13 @@ export type ProjectInput = {
     email: string;
     address: string;
     city: string;
-    locationType: string;
     description: string;
     desiredCompletionTime: string;
     imageUrls: string[];
     estimate: number;
     material: string;
     propertyType: string;
+    projectType: string;
     projectSize: string;
     startDate: string;
     endDate: string;
