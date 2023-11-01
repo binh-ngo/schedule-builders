@@ -135,7 +135,7 @@ export const CreateContractor = (props:any) => {
   };
   return (
     <div className="contractor-form">
-      <h1>Contractor Form</h1>
+      <h1 className='contractor-form-header'>Contractor Form</h1>
       <Form>
   <Form.Group className="contractor-form-input" controlId="name">
     <Form.Label className="contractor-form-label">Name</Form.Label>

@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 // import { Auth } from 'aws-amplify';
 import { AccountContext } from '../Accounts';
 import { useNavigate } from 'react-router-dom';
+import { Button, Form } from 'react-bootstrap';
 
 export const Login = (props:any) => {
   const [username, setUsername] = useState('');
@@ -28,48 +29,48 @@ export const Login = (props:any) => {
   };
 
   return (
-    <div className="login d-flex flex-row justify-content-center">
-    {!loggedInUser && (
-      <form onSubmit={onSubmit} className="d-flex flex-row">
-        <div className="mb-4">
-          <label className="font-semibold px-2">Username:</label>
-          <input
-            className="login mt-2 bg-transparent px-2 py-1 rounded-md"
-            type="text"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold px-2">Password:</label>
-          <input
-            className="login mt-2 bg-transparent px-2 py-1 rounded-md"
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-        <div className="flex justify-center">
-          {!loggedInUser && (
-            <button className="btn bg-transparent my-2 mx-2">
-              Login
-            </button>
-          )}
-        </div>
-      </form>
-    )}
+<div className="d-flex flex-column justify-content-center">
+      {!loggedInUser && (
+        <Form onSubmit={onSubmit} className="login-form d-flex flex-column">
+          <Form.Group className="mb-4">
+            <Form.Label className="login-label font-semibold px-2">Username:</Form.Label>
+            <Form.Control
+              className="login mt-2 bg-transparent px-2 py-1 rounded-md"
+              type="text"
+              name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-4">
+            <Form.Label className="login-label font-semibold px-2">Password:</Form.Label>
+            <Form.Control
+              className="login mt-2 bg-transparent px-2 py-1 rounded-md"
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          {errorMessage && <p className="text-danger">{errorMessage}</p>}
+          <div className="d-flex justify-content-center">
+            {!loggedInUser && (
+              <Button type="submit" className="btn">
+                Login
+              </Button>
+            )}
+          </div>
+        </Form>
+      )}
 
-    {loggedInUser && (
-      <button
-        onClick={() => signOut(() => navigate("/"))}
-        className="btn bg-transparent font-size-lg"
-      >
-        Log Out
-      </button>
-    )}
-  </div>
+      {loggedInUser && (
+        <Button
+          onClick={() => signOut(() => navigate("/"))}
+          className="btn bg-transparent font-size-lg"
+        >
+          Log Out
+        </Button>
+      )}
+    </div>
   );
-  }
+};

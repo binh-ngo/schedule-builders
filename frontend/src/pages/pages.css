@@ -1,9 +1,16 @@
 .request-login {
     min-width: 100vw;
     min-height: 100vh;
-    background-color: rgb(54, 163, 200);
     padding-top: 2rem;
   }
+
+.login-header { 
+    color: rgb(54, 163, 200);
+}
+
+.contractor-form-header {
+    color: rgb(54, 163, 200);
+}
 
 .admin-page {
     min-width: 100vw;
@@ -46,3 +53,24 @@
     font-size: larger;
     color: rgb(54, 163, 200);
 }
+
+/* CONTACT PAGE */
+.contact-page {
+    width: 100vw;
+    height: 94vh;
+    background-color: rgb(54, 163, 200);
+}
+
+.contact-content {
+    padding-top: 8rem;
+}
+
+.schedule-appt-header {
+    margin: 5rem 0;
+}
+
+@media (max-width: 700px) {
+    .schedule-appt-header {
+        margin: 10rem 0;
+    }
+  }

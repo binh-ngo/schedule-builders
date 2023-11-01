@@ -15,6 +15,18 @@
   margin-right: -6rem;
 }
 
+.login-form {
+  margin-top: 5rem;
+  width: 25%;
+  transform: translateX(150%);
+}
+
+.login-label {
+  font-weight: 600;
+  font-size: larger;
+  color: rgb(54, 163, 200);
+}
+
 .question-form-container {
     display: flex;
     justify-content: center;
@@ -88,7 +100,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
+  }     
   
   .prev-button:disabled {
     background-color: #ccc;
@@ -138,7 +150,7 @@
   /* FOOTER  */
 
   .footer {
-  background-color:#1d5591;
+  background-color:#697fbaa9;
   bottom: 0 !important;
   padding-top: 10px !important;
   padding-bottom: 8px !important ;
@@ -161,7 +173,7 @@
 
 .footer h3 {
   font-size: 1em;
-  color: white !important;
+  color: black !important;
   margin-top: 0.5em !important;
   margin-bottom: 0.5em !important;
 }
@@ -245,7 +257,7 @@
 
 .navbar-toggler span {
   display: block !important;
-  background-color: #2a61ed !important;
+  background-color: black !important;
   height: 4px !important;
   width: 27px !important;
   margin-top: 5px !important;
@@ -292,14 +304,14 @@
   .navbar {
     padding: 1rem 2rem !important;
     font-size: 1.4rem !important;
-    background-color: #181a27 !important;
+    background-color: #697fbaa9 !important;
   }
   .navbar-nav .nav-item a::after {
     display: none !important;
   }
 }
 .navbar-brand {
-  color: rgb(5, 2, 2) !important;
+  color: black !important;
   margin-left: -1rem;
 }
 

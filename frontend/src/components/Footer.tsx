@@ -19,7 +19,7 @@ export const Footer = () => {
             <li className="social-icons">
               <a
                 href="https://github.com/binh-ngo"
-                style={{ color: "white" }}
+                style={{ color: "black" }}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
@@ -29,7 +29,7 @@ export const Footer = () => {
             <li className="social-icons">
               <a
                 href="https://www.linkedin.com/in/binh-nguyen-ngo/"
-                style={{ color: "white" }}
+                style={{ color: "black" }}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
