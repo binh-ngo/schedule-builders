@@ -163,6 +163,7 @@ export const CreateContractor = (props:any) => {
 
   <Form.Group className="contractor-form-input" controlId="password">
     <Form.Label className="contractor-form-label">Password</Form.Label>
+    <Form.Text className="text-muted">Passwords must be at least 8 characters</Form.Text>
     <Form.Control
       type="password"
       placeholder="Password"
@@ -171,7 +172,6 @@ export const CreateContractor = (props:any) => {
       required
       onChange={handleInputChange}
     />
-      <Form.Text className="text-muted">Passwords must be at least 8 characters</Form.Text>
   </Form.Group>
 
   <Form.Group className="contractor-form-input" controlId="confirmPassword">
