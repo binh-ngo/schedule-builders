@@ -2,15 +2,15 @@ import { API } from "aws-amplify";
 
 export type SaveContractorProps = {
     contractorName: string;
-    contractorId: string;
+    contractorId?: string;
     company: string;
     specialty: string;
     address: string;
     phone: string;
     city: string;
     email: string;
-    imageUrl: string;
-    clientId: string;
+    imageUrl: File | null;
+    clientId?: string;
 }
 // ==================
 // CREATE CONTRACTOR

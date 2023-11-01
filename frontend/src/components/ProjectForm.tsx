@@ -136,6 +136,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                     {projectTypes.map((type: string) => (
                         <div className='radio-buttons'>
                             <input
+                                key={type}
                                 type="radio"
                                 id={type}
                                 name="projectType"
@@ -155,6 +156,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                     {woodTypes.map((type: string) => (
                         <div className='radio-buttons'>
                             <input
+                                key={type}
                                 type="radio"
                                 id={type}
                                 name="projectType"
@@ -173,6 +175,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                     {projectSizes.map((size: string) => (
                         <div className='radio-buttons'>
                             <input
+                                key={size}
                                 type="radio"
                                 id={size}
                                 name="projectType"
@@ -192,6 +195,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                     {timeframes.map((timeframe: string) => (
                         <div className='radio-buttons'>
                             <input
+                                key={timeframe}
                                 type="radio"
                                 id={timeframe}
                                 name="projectType"

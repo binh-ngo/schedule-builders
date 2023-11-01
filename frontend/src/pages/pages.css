@@ -11,7 +11,38 @@
     padding-top: 1rem;
 }
 
+.contractor-page {
+    min-width: 100vw;
+    min-height: 100vh;
+    padding-top: 1rem;
+}
+
 .admin-header {
     margin-left: 2rem;
 }
 
+.contractor-form {
+    margin-top: 6rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contractor-form h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.contractor-form-input {
+    width: 50%;
+    height: 3.5rem;
+    margin: 3rem 0;
+    transform: translateX(50%);
+}
+
+.contractor-form-label {
+    font-weight: 600;
+    font-size: larger;
+    color: rgb(54, 163, 200);
+}

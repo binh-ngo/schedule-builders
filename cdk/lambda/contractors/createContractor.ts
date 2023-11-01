@@ -2,7 +2,6 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
 import { Contractor, ContractorInput } from "../types";
-import getAllContractors from "./getAllContractors";
 require("dotenv").config({ path: ".env" });
 
 const s3 = new AWS.S3({
@@ -14,28 +13,30 @@ const s3 = new AWS.S3({
 const createContractor = async (contractorInput: ContractorInput) => {
     const contractorId = ulid();
     const formattedName = contractorInput.contractorName ? contractorInput.contractorName.trim().replace(/\s+/g, "") : "";
+    
+    try {
 
-        // const imageUrl = await generateUploadURL(formattedName, clientId);
-
+        const imageUrl = await generateUploadURL(formattedName, contractorId);
+        
         // Create the Contractor object with S3 URLs
-        const contractor: Contractor = {
-            contractorId,
-            contractorName: formattedName,
-            company: contractorInput.company,
-            specialty: contractorInput.specialty,
-            address: contractorInput.address,
-            city: contractorInput.city,
-            email: contractorInput.email,
-            imageUrl: contractorInput.imageUrl,
-            phone: contractorInput.phone,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        };
-
-        const params = {
-            RequestItems: {
-                "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB": [
-                    {
+    const contractor: Contractor = {
+        contractorId,
+        contractorName: formattedName,
+        company: contractorInput.company,
+        specialty: contractorInput.specialty,
+        address: contractorInput.address,
+        city: contractorInput.city,
+        email: contractorInput.email,
+        imageUrl,
+        phone: contractorInput.phone,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    };
+    
+    const params = {
+        RequestItems: {
+            "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB": [
+                {
                         PutRequest: {
                             Item: {
                                 PK: `CONTRACTORS`,
@@ -60,7 +61,6 @@ const createContractor = async (contractorInput: ContractorInput) => {
             ReturnConsumedCapacity: "TOTAL",
         };
 
-        try {
 
         await docClient.batchWrite(params).promise();
         console.log(`Created contractor: ${JSON.stringify(contractor, null, 2)}`);
@@ -75,7 +75,7 @@ export async function generateUploadURL(contractorName:string, contractorId:stri
 
     const params = ({
       Bucket: process.env.BUCKET_NAME,
-      Key: `images/contractor/${contractorName}-${contractorId}.jpg`,
+      Key: `images/contractors/${contractorName}-${contractorId}.jpg`,
     })
     
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);

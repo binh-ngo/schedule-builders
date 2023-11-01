@@ -9,6 +9,7 @@ import {
   AiOutlineUser,
   AiOutlinePhone,
 } from "react-icons/ai";
+import { BsFillClipboardCheckFill } from "react-icons/bs"
 import { AccountContext } from "../Accounts";
 import { Login } from "./Login";
 
@@ -46,9 +47,7 @@ export const Header = () => {
             updateExpanded(!expand);
           }}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+
         </Navbar.Toggle>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto" defaultActiveKey="#home">
@@ -65,6 +64,16 @@ export const Header = () => {
                 onClick={() => updateExpanded(false)}
               >
                 <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
+              </Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/create-contractor"
+                onClick={() => updateExpanded(false)}
+              >
+                <BsFillClipboardCheckFill style={{ marginBottom: "2px" }} /> Contractor Signup
               </Nav.Link>
             </Nav.Item>
 

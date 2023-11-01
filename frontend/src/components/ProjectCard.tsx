@@ -209,14 +209,14 @@ export const ProjectCard = (project: ProjectProps) => {
                         multiple
                         onChange={handleImageChange}
                         className=""
-                      />
+                        />
                       {formData.imageUrls !== null ? (
                         <p>Selected Image Count: {formData.imageUrls ? formData.imageUrls.length : 0}</p>
                       ) : (
                         <p>No Image Selected</p>
                       )}
                     </div>
-                    <button className="btn btn-primary" onClick={(e) => updateImages(project, e)}>{project.imageUrls ? `Change Pictures` : `Upload`}</button>
+                    <button className="upload-btn btn btn-primary" onClick={(e) => updateImages(project, e)}>{project.imageUrls ? `Change Pictures` : `Upload`}</button>
                   </form>
                   {project.estimate === 0 && project.contractorName === '' ? (
                     <ListGroup.Item className="bg-transparent">

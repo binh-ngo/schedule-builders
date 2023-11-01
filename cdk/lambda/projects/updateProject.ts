@@ -45,6 +45,13 @@ const updateProject = async (
         createdAt: retrievedProject.createdAt,
         updatedAt: new Date().toISOString(),
     };
+// TODO: Code below is a simplified way of writing the project object but it doesnt
+// work. need to troubleshoot
+    // const project: Project = {
+    //     ...retrievedProject, // Spread the retrieved project's properties
+    //     ...projectInput,   // Spread the updated properties
+    //     updatedAt: new Date().toISOString(),
+    // };
     try {
 
         if (projectInput.imageUrls) {
@@ -118,7 +125,7 @@ export async function generateUploadURL(clientName: string, projectId: string) {
     const imageId = ulid().slice(-5);
     const params = ({
         Bucket: process.env.BUCKET_NAME,
-        Key: `images/${clientName}/${projectId}-${imageId}.jpg`,
+        Key: `images/clients/${clientName}/${projectId}-${imageId}.jpg`,
     })
 
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);
