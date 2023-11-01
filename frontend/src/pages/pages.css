@@ -1,0 +1,17 @@
+.request-login {
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: rgb(54, 163, 200);
+    padding-top: 2rem;
+  }
+
+.admin-page {
+    min-width: 100vw;
+    min-height: 100vh;
+    padding-top: 1rem;
+}
+
+.admin-header {
+    margin-left: 2rem;
+}
+

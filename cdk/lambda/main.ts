@@ -14,6 +14,7 @@ import deleteProject from "./projects/deleteProject";
 import getAllProjects from "./projects/getAllProjects";
 import getAllProjectsFromAllClients from "./projects/getAllProjectsFromAllClients";
 import getAllProjectsWithEstimates from "./projects/getAllProjectsWithEstimates";
+import getAllProjectsWithEstimatesAndContractors from "./projects/getAllProjectsWithEstimatesAndContractors";
 import getAllProjectsWithoutEstimates from "./projects/getAllProjectsWithoutEstimates";
 import getProjectById from "./projects/getProjectById";
 import updateProject from "./projects/updateProject";
@@ -43,6 +44,7 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Visito
     case "getAllProjects":
     case "getAllProjectsFromAllClients":
     case "getAllProjectsWithEstimates":
+    case "getAllProjectsWithEstimatesAndContractors":
     case "getAllProjectsWithoutEstimates":
     case "getProjectById":
     case "createProject":
@@ -98,6 +100,8 @@ function handleProjectEvent(event: ProjectAppsyncEvent) {
       return getAllProjectsFromAllClients();
     case "getAllProjectsWithEstimates":
       return getAllProjectsWithEstimates();
+    case "getAllProjectsWithEstimatesAndContractors":
+      return getAllProjectsWithEstimatesAndContractors();
     case "getAllProjectsWithoutEstimates":
       return getAllProjectsWithoutEstimates();
     case "createProject":

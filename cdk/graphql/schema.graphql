@@ -7,6 +7,7 @@ type Query {
     getAllProjects(clientName: String!): [Project]
     getAllProjectsFromAllClients: [Project]
     getAllProjectsWithEstimates: [Project]
+    getAllProjectsWithEstimatesAndContractors: [Project]
     getAllProjectsWithoutEstimates: [Project]
     getProjectById(projectId: String!): Project
 

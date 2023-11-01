@@ -2,6 +2,14 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { Project, ProjectInput } from "../types";
 import getProjectById from "./getProjectById";
+import { ulid } from "ulid";
+
+const s3 = new AWS.S3({
+    region: 'us-east-1',
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    signatureVersion: 'v4'
+});
 
 const updateProject = async (
     projectId: string,
@@ -10,80 +18,89 @@ const updateProject = async (
 
     if (!projectInput || !projectId) {
         return { statusCode: 400, body: 'Invalid request, missing parameters' };
-      }
+    }
+
     const retrievedProject = await getProjectById(projectId);
 
-        const project: Project = {
-            clientName: retrievedProject.clientName,
-            clientId: retrievedProject.clientId,
-            projectId: retrievedProject.projectId,
-            clientPhone: projectInput.clientPhone ? projectInput.clientPhone : retrievedProject.clientPhone,
-            address: projectInput.address ? projectInput.address : retrievedProject.address,
-            city: projectInput.city ? projectInput.city : retrievedProject.city,
-            description: projectInput.description ? projectInput.description : retrievedProject.description,
-            material: projectInput.material ? projectInput.material : retrievedProject.material,
-            projectSize: projectInput.projectSize ? projectInput.projectSize : retrievedProject.projectSize,
-            projectType: projectInput.projectType ? projectInput.projectType : retrievedProject.projectType,
-            propertyType: projectInput.propertyType ? projectInput.propertyType : retrievedProject.propertyType,
-            imageUrls: projectInput.imageUrls ? projectInput.imageUrls : retrievedProject.imageUrls,
-            contractorId: projectInput.contractorId ? projectInput.contractorId : retrievedProject.contractorId,
-            contractorName: projectInput.contractorName ? projectInput.contractorName : retrievedProject.contractorName,
-            estimate: projectInput.estimate ? projectInput.estimate : retrievedProject.estimate,
-            startDate: projectInput.startDate ? projectInput.startDate : retrievedProject.startDate,
-            endDate: projectInput.endDate ? projectInput.endDate : retrievedProject.endDate,
-            desiredCompletionTime: projectInput.desiredCompletionTime ? projectInput.desiredCompletionTime : retrievedProject.desiredCompletionTime,
-            clientCost: projectInput.clientCost ? projectInput.clientCost : retrievedProject.clientCost,
-            createdAt: retrievedProject.createdAt,
-            updatedAt: new Date().toISOString(),
-        };
-          
+    const project: Project = {
+        clientName: retrievedProject.clientName,
+        clientId: retrievedProject.clientId,
+        projectId: retrievedProject.projectId,
+        clientPhone: projectInput.clientPhone ? projectInput.clientPhone : retrievedProject.clientPhone,
+        address: projectInput.address ? projectInput.address : retrievedProject.address,
+        city: projectInput.city ? projectInput.city : retrievedProject.city,
+        description: projectInput.description ? projectInput.description : retrievedProject.description,
+        material: projectInput.material ? projectInput.material : retrievedProject.material,
+        projectSize: projectInput.projectSize ? projectInput.projectSize : retrievedProject.projectSize,
+        projectType: projectInput.projectType ? projectInput.projectType : retrievedProject.projectType,
+        propertyType: projectInput.propertyType ? projectInput.propertyType : retrievedProject.propertyType,
+        imageUrls: projectInput.imageUrls ? projectInput.imageUrls : retrievedProject.imageUrls,
+        contractorId: projectInput.contractorId ? projectInput.contractorId : retrievedProject.contractorId,
+        contractorName: projectInput.contractorName ? projectInput.contractorName : retrievedProject.contractorName,
+        estimate: projectInput.estimate ? projectInput.estimate : retrievedProject.estimate,
+        startDate: projectInput.startDate ? projectInput.startDate : retrievedProject.startDate,
+        endDate: projectInput.endDate ? projectInput.endDate : retrievedProject.endDate,
+        desiredCompletionTime: projectInput.desiredCompletionTime ? projectInput.desiredCompletionTime : retrievedProject.desiredCompletionTime,
+        clientCost: projectInput.clientCost ? projectInput.clientCost : retrievedProject.clientCost,
+        createdAt: retrievedProject.createdAt,
+        updatedAt: new Date().toISOString(),
+    };
+    try {
+
+        if (projectInput.imageUrls) {
+            const imageUrls = await Promise.all(projectInput.imageUrls.map(async (imageUrl: string) => {
+                return await generateUploadURL(retrievedProject.clientName, projectId);
+            }));
+            project.imageUrls = imageUrls;
+        }
+        
+
         console.log(`UPDATE project called with:` + JSON.stringify(`Project ID: ${projectId}`));
         // const eventBody = JSON.parse(event.body);
         // console.log(`EVENT BODY ${eventBody}`);
         console.log(`TYPEOF projectInput --------- ${typeof (projectInput)}`);
-    
+
         const params = {
             RequestItems: {
                 "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB": // batchWriteRequests
-                [
-                    {
-                        PutRequest: {
-                            Item: {
-                                PK: `PROJECTS`,
-                                SK: `PROJECT#${projectId}`,
-                                type: "project",
-                                ...project
+                    [
+                        {
+                            PutRequest: {
+                                Item: {
+                                    PK: `PROJECTS`,
+                                    SK: `PROJECT#${projectId}`,
+                                    type: "project",
+                                    ...project
+                                },
                             },
                         },
-                    },
-                    {
-                        PutRequest: {
-                            Item: {
-                                PK: `PROJECT#${projectId}`,
-                                SK: `PROJECT#${projectId}`,
-                                type: 'project',
-                                ...project,
+                        {
+                            PutRequest: {
+                                Item: {
+                                    PK: `PROJECT#${projectId}`,
+                                    SK: `PROJECT#${projectId}`,
+                                    type: 'project',
+                                    ...project,
+                                },
                             },
                         },
-                    },
-                    {
-                        PutRequest: {
-                            Item: {
-                                PK: `CLIENT#${project.clientName}`,
-                                SK: `PROJECT#${projectId}`,
-                                type: 'project',
-                                ...project,
+                        {
+                            PutRequest: {
+                                Item: {
+                                    PK: `CLIENT#${project.clientName}`,
+                                    SK: `PROJECT#${projectId}`,
+                                    type: 'project',
+                                    ...project,
+                                },
                             },
                         },
-                    },
-                ],
+                    ],
             },
             ReturnConsumedCapacity: "TOTAL",
         };
 
-    console.log(`params: ${JSON.stringify(params, null, 2)}`);
+        console.log(`params: ${JSON.stringify(params, null, 2)}`);
 
-    try {
         await docClient.batchWrite(params).promise();
 
         console.log(`updatedProject: ${JSON.stringify(project, null, 2)}`);
@@ -97,4 +114,14 @@ const updateProject = async (
     }
 };
 
+export async function generateUploadURL(clientName: string, projectId: string) {
+    const imageId = ulid().slice(-5);
+    const params = ({
+        Bucket: process.env.BUCKET_NAME,
+        Key: `images/${clientName}/${projectId}-${imageId}.jpg`,
+    })
+
+    const uploadURL = await s3.getSignedUrlPromise('putObject', params);
+    return uploadURL;
+}
 export default updateProject;

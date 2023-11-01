@@ -17,7 +17,7 @@ export type SaveProjectProps = {
     projectType?: string;
     propertyType?: string;
     desiredCompletionTime?: string;
-    imageUrls?: string[];
+    imageUrls?: File[];
     estimate?: number;
     startDate?: string;
     endDate?: string;
@@ -247,6 +247,44 @@ export const ddbGetAllProjectsWithEstimates = async () => {
   console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllProjectsWithEstimates;
+};
+
+const getAllProjectsWithEstimatesAndContractorsQuery = `
+query getAllProjectsWithEstimatesAndContractors {
+  getAllProjectsWithEstimatesAndContractors {
+    projectId
+    address
+    city
+    description
+    material
+    projectSize
+    propertyType
+    projectType
+    desiredCompletionTime
+    imageUrls
+    clientCost
+    clientPhone
+    clientId
+    clientName
+    contractorName
+    contractorId
+    startDate
+    endDate
+    estimate
+    createdAt
+    updatedAt
+  }
+}
+`;
+
+export const ddbGetAllProjectsWithEstimatesAndContractors = async () => {
+  const resp = await API.graphql({ 
+    query: getAllProjectsWithEstimatesAndContractorsQuery,
+    authMode: "API_KEY"
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  return resp.data.getAllProjectsWithEstimatesAndContractors;
 };
 
 const getAllProjectsWithoutEstimatesQuery = `

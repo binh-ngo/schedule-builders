@@ -135,6 +135,10 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       })
       contractorSiteDataSource.createResolver({
         typeName: "Query",
+        fieldName: "getAllProjectsWithEstimatesAndContractors",
+      })
+      contractorSiteDataSource.createResolver({
+        typeName: "Query",
         fieldName: "getAllProjectsWithoutEstimates",
       })
       contractorSiteDataSource.createResolver({

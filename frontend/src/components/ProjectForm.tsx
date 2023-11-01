@@ -127,7 +127,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
     const projectTypes = ['Build or Replace Deck', 'Repair Deck', 'Clean and Seal Deck', 'Patio', 'Paint a Deck'];
     const woodTypes = ['Cedar', 'Pressure-treated Pine', 'Redwood', 'Synthetic or Composite', 'Vinyl', 'Need Recommendation'];
     const projectSizes = ['Small: Less than 150 sq ft', 'Medium: 150 - 300 sq ft', 'Large: More than 300 sq ft'];
-    const timeframes = ['Less than 1 week or less', 'Two weeks', '1 month'];
+    const timeframes = ['One week or less', 'Two weeks', 'One month'];
     const renderInput = (question: string, answer: string, index: number) => {
         if (index === 0) {
             return (

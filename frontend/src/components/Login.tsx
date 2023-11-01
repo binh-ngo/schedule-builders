@@ -28,13 +28,13 @@ export const Login = (props:any) => {
   };
 
   return (
-    <div className="d-flex flex-row justify-content-end">
+    <div className="login d-flex flex-row justify-content-center">
     {!loggedInUser && (
       <form onSubmit={onSubmit} className="d-flex flex-row">
         <div className="mb-4">
-          <label className="font-semibold px-2 text-white">Username:</label>
+          <label className="font-semibold px-2">Username:</label>
           <input
-            className="login mt-2 bg-transparent text-white px-2 py-1 rounded-md"
+            className="login mt-2 bg-transparent px-2 py-1 rounded-md"
             type="text"
             name="username"
             value={username}
@@ -42,9 +42,9 @@ export const Login = (props:any) => {
           />
         </div>
         <div className="mb-4">
-          <label className="font-semibold px-2 text-white">Password:</label>
+          <label className="font-semibold px-2">Password:</label>
           <input
-            className="login mt-2 bg-transparent text-white px-2 py-1 rounded-md"
+            className="login mt-2 bg-transparent px-2 py-1 rounded-md"
             type="password"
             name="password"
             value={password}
@@ -54,7 +54,7 @@ export const Login = (props:any) => {
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <div className="flex justify-center">
           {!loggedInUser && (
-            <button className="btn bg-transparent text-white my-2 mx-2">
+            <button className="btn bg-transparent my-2 mx-2">
               Login
             </button>
           )}
@@ -65,7 +65,7 @@ export const Login = (props:any) => {
     {loggedInUser && (
       <button
         onClick={() => signOut(() => navigate("/"))}
-        className="btn bg-transparent text-white font-size-lg"
+        className="btn bg-transparent font-size-lg"
       >
         Log Out
       </button>

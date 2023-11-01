@@ -3,18 +3,18 @@ import { ddbQueryPostsParams } from "../types";
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const getAllProjectsWithEstimates = async () => {
-  console.log(`getAllProjectsWithEstimates called`);
+const getAllProjectsWithEstimatesAndContractors = async () => {
+  console.log(`getAllProjectsWithEstimatesAndContractors called`);
 
   const params: ddbQueryPostsParams = {
     TableName: process.env.CONTRACTORS_TABLE || "",
     KeyConditionExpression: "#PK = :post_partition",
-    FilterExpression: "#estimate <> :zero AND #contractorName = :empty",
-    //  AND attribute_not_exists(#contractorName)
+    FilterExpression: "#estimate <> :zero AND #contractorName <> :empty AND #endDate = :empty",
     ExpressionAttributeNames: {
       "#PK": "PK",
       "#estimate": "estimate",
       "#contractorName": "contractorName",
+      "#endDate": "endDate",
     },
     ExpressionAttributeValues: {
       ":post_partition": `PROJECTS`,
@@ -38,4 +38,4 @@ const getAllProjectsWithEstimates = async () => {
   }
 };
 
-export default getAllProjectsWithEstimates;
+export default getAllProjectsWithEstimatesAndContractors;
