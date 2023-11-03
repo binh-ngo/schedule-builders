@@ -149,6 +149,9 @@
     height: auto;
   }
   
+  .intro {
+    transform: translateY(13%)
+  }
   /* FOOTER  */
 
   .footer {
@@ -208,7 +211,7 @@
 .image-estimate-input {
   display: flex;
   transform: translateY(290%);
-  transition: transform 0.3s ease;
+  transition: opacity 0.3s ease; 
   opacity: 0;
 }
 .project-card:hover .card-content {
@@ -310,6 +313,10 @@
   }
   .navbar-nav .nav-item a::after {
     display: none !important;
+  }
+  .hero-section img {
+    margin-top: 3.5rem;
+    margin-bottom: -5.6rem;
   }
 }
 .navbar-brand {

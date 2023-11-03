@@ -8,7 +8,7 @@ const Hero = () => {
     return (
         <Container className='hero-section mt-3'>
           <Row>
-            <Col lg={6}>
+            <Col className="intro" lg={6}>
               <h1>Kalan's Estimates for Deck Repair & Remodeling Services</h1>
               <p> My name is Kalan Dumadag. I am based in the Seattle area and I am focusing my time on serving the local people. 
                 You can fill out my form below to get a quick estimate, and when you're ready, schedule an appointment
