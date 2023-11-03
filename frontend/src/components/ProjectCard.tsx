@@ -222,6 +222,7 @@ export const ProjectCard = (project: ProjectProps) => {
                     <ListGroup.Item className="bg-transparent">
                       <Form.Control
                         type="text"
+                        placeholder='Estimate'
                         id="Estimate"
                         className="bg-transparent"
                         aria-describedby="projectEstimate"

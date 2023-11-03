@@ -17,6 +17,7 @@
     "react-bootstrap": "^2.9.1",
     "react-calendly": "^4.3.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
@@ -46,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-helmet": "^6.1.8"
   }
 }

@@ -2,7 +2,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './components.css'; 
 // @ts-ignore
-import portrait from '../assets/portrait.webp'
+import hero from '../assets/hero.webp'
 
 const Hero = () => {
     return (
@@ -17,8 +17,8 @@ const Hero = () => {
               <Button className="mx-2" href="/create-project" variant="success" size="lg">Get an Estimate</Button>
               <Button className="mx-2" href="/schedule-appointment" variant="primary" size="lg">Schedule an Appointment</Button>
             </Col>
-            <Col lg={6}>
-              <img src={portrait} alt="default" />
+            <Col lg={6} className="pt-5">
+              <img src={hero} alt="default" />
             </Col>
           </Row>
         </Container>

@@ -29,7 +29,7 @@ function App() {
     <div>
       <Router>
         <Account>
-      <Header />
+          <Header />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<RequestLogin />} />

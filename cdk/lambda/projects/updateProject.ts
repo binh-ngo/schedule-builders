@@ -125,7 +125,8 @@ export async function generateUploadURL(clientName: string, projectId: string) {
     const imageId = ulid().slice(-5);
     const params = ({
         Bucket: process.env.BUCKET_NAME,
-        Key: `images/clients/${clientName}/${projectId}-${imageId}.jpg`,
+        Key: `clients/${clientName}/${projectId}-${imageId}.jpg`,
+        Expires: 120
     })
 
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);

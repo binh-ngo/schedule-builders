@@ -13,6 +13,7 @@ class ContractorStack extends Stack {
 
     new FrontendStack(this, 'ContractorFrontendStack', {
       env: props.env as Environment,
+      
     });
 
     const cognito = new CognitoStack(this, "ContractorCognitoStack", {

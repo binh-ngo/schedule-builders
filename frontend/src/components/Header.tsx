@@ -45,6 +45,8 @@ export const Header = () => {
   }
 
   window.addEventListener("scroll", scrollHandler);
+  const isAdmin = loggedInUser && username === "admin";
+  const isContractor = loggedInUser !== null;
 
   return (
     <Navbar
@@ -67,6 +69,7 @@ export const Header = () => {
           <span></span>
           <span></span>
         </Navbar.Toggle>
+
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto" defaultActiveKey="#home">
             <Nav.Item>
@@ -75,42 +78,27 @@ export const Header = () => {
               </Nav.Link>
             </Nav.Item>
 
-            {username === 'admin' ? (
-              <>
-                <Nav.Item>
-                  <Nav.Link
-                    as={Link}
-                    to="/admin"
-                    onClick={() => updateExpanded(false)}
-                  >
-                    <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
-                  </Nav.Link>
-                </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/admin"
+                disabled={!isAdmin}
+                onClick={() => updateExpanded(false)}
+              >
+                <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
+              </Nav.Link>
+            </Nav.Item>
 
-                <Nav.Item>
-                  <Nav.Link
-                    as={Link}
-                    to="/contractorPage"
-                    onClick={() => updateExpanded(false)}
-                  >
-                    <AiOutlineUser style={{ marginBottom: "2px" }} /> Contractor
-                  </Nav.Link>
-                </Nav.Item>
-              </>
-            ) : (
-              loggedInUser && (
-                <Nav.Item>
-                  <Nav.Link
-                    as={Link}
-                    to="/contractorPage"
-                    onClick={() => updateExpanded(false)}
-                  >
-                    <AiOutlineUser style={{ marginBottom: "2px" }} /> Contractor
-                  </Nav.Link>
-                </Nav.Item>
-              )
-            )}
-
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/contractorPage"
+                disabled={!isContractor}
+                onClick={() => updateExpanded(false)}
+              >
+                <AiOutlineUser style={{ marginBottom: "2px" }} /> Contractor
+              </Nav.Link>
+            </Nav.Item>
 
             <Nav.Item>
               <Nav.Link
@@ -135,25 +123,30 @@ export const Header = () => {
               </Nav.Link>
             </Nav.Item>
 
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/login"
-                onClick={() => updateExpanded(false)}
-              >
-                <BiLogInCircle style={{ marginBottom: "2px" }} /> Login
-              </Nav.Link>
-            </Nav.Item>
-            
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/create-contractor"
-                onClick={() => updateExpanded(false)}
-              >
-                <BsFillClipboardCheckFill style={{ marginBottom: "2px" }} /> Signup
-              </Nav.Link>
-            </Nav.Item>
+            {!loggedInUser &&
+              <>
+                <Nav.Item>
+                  <Nav.Link
+                    as={Link}
+                    to="/login"
+                    onClick={() => updateExpanded(false)}
+                  >
+                    <BiLogInCircle style={{ marginBottom: "2px" }} /> Login
+                  </Nav.Link>
+                </Nav.Item>
+
+                <Nav.Item>
+                  <Nav.Link
+                    as={Link}
+                    to="/create-contractor"
+                    onClick={() => updateExpanded(false)}
+                  >
+                    <BsFillClipboardCheckFill style={{ marginBottom: "2px" }} /> Signup
+                  </Nav.Link>
+                </Nav.Item>
+              </>
+            }
+
             {loggedInUser &&
               <div className="login-header">
                 <Login />

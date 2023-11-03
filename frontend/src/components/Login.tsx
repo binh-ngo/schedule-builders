@@ -66,7 +66,7 @@ export const Login = (props:any) => {
       {loggedInUser && (
         <Button
           onClick={() => signOut(() => navigate("/"))}
-          className="btn bg-transparent font-size-lg"
+          className="btn bg-transparent font-size-lg text-black"
         >
           Log Out
         </Button>

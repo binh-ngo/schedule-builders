@@ -75,7 +75,7 @@ export async function generateUploadURL(contractorName:string, contractorId:stri
 
     const params = ({
       Bucket: process.env.BUCKET_NAME,
-      Key: `images/contractors/${contractorName}-${contractorId}.jpg`,
+      Key: `contractors/${contractorName}-${contractorId}.jpg`,
     })
     
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);

@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { Form } from 'react-bootstrap'
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../Accounts';
 import { ddbCreateContractor, ddbGetAllContractors } from '../graphql/contractors';
@@ -135,6 +136,13 @@ export const CreateContractor = (props:any) => {
   };
   return (
     <div className="contractor-form">
+      <Helmet>
+        <title>Contractor Signup</title>
+        <meta
+          name="description"
+          content="Join our community of contractors by signing up. Gain exclusive access to our website's features by creating an account."
+        />
+      </Helmet>
       <h1 className='contractor-form-header'>Contractor Form</h1>
       <Form>
   <Form.Group className="contractor-form-input" controlId="name">

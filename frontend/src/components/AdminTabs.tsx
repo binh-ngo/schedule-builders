@@ -109,6 +109,16 @@ export const AdminTabs = () => {
           renderProjectTab(projectsWithEstimatesAndContractors)
         )}
       </Tab>
+      <Tab eventKey="Calendar" title="Calendar">
+        {loading ? (
+          <div className="text-center">
+            <p>Loading...</p>
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <iframe className="calendar" title="calendar" src="https://calendar.google.com/calendar/embed?src=kalansestimates%40gmail.com&ctz=America%2FLos_Angeles" scrolling="no"></iframe>
+        )}
+      </Tab>
         </Tabs>
       );
     }
