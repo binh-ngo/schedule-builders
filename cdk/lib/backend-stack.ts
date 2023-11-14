@@ -197,11 +197,27 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         typeName: "Mutation",
         fieldName: "updateContractor",
       })
-
-    //   Visitor Resolvers
+      
+    // Form Resolvers
     contractorSiteDataSource.createResolver({
-        typeName: "Query",
-        fieldName: "getAllVisitors",
-      })
+      typeName: "Query",
+      fieldName: "getAllForms",
+    })
+    contractorSiteDataSource.createResolver({
+      typeName: "Query",
+      fieldName: "getFormById",
+    })
+    contractorSiteDataSource.createResolver({
+      typeName: "Mutation",
+      fieldName: "createForm",
+    })
+    contractorSiteDataSource.createResolver({
+      typeName: "Mutation",
+      fieldName: "deleteForm",
+    })
+    contractorSiteDataSource.createResolver({
+      typeName: "Mutation",
+      fieldName: "updateForm",
+    })
     }
   }

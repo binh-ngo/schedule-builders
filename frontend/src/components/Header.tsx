@@ -77,7 +77,7 @@ export const Header = () => {
                 <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
               </Nav.Link>
             </Nav.Item>
-
+{ username === 'admin' &&
             <Nav.Item>
               <Nav.Link
                 as={Link}
@@ -87,12 +87,12 @@ export const Header = () => {
               >
                 <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
               </Nav.Link>
-            </Nav.Item>
+            </Nav.Item>}
 
             <Nav.Item>
               <Nav.Link
                 as={Link}
-                to="/contractorPage"
+                to="/contractor"
                 disabled={!isContractor}
                 onClick={() => updateExpanded(false)}
               >

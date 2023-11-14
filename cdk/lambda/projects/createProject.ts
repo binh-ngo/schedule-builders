@@ -43,6 +43,7 @@ const createProject = async (projectInput: ProjectInput) => {
         endDate: '',
         desiredCompletionTime: projectInput.desiredCompletionTime,
         clientCost: 0,
+        customAttributes: projectInput.customAttributes,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     };
@@ -105,6 +106,7 @@ const createProject = async (projectInput: ProjectInput) => {
         },
         ReturnConsumedCapacity: "TOTAL",
     };
+    
     try {
 
         await docClient.batchWrite(params).promise();

@@ -42,6 +42,7 @@ const updateProject = async (
         endDate: projectInput.endDate ? projectInput.endDate : retrievedProject.endDate,
         desiredCompletionTime: projectInput.desiredCompletionTime ? projectInput.desiredCompletionTime : retrievedProject.desiredCompletionTime,
         clientCost: projectInput.clientCost ? projectInput.clientCost : retrievedProject.clientCost,
+        customAttributes: projectInput.customAttributes ? projectInput.customAttributes : retrievedProject.customAttributes,
         createdAt: retrievedProject.createdAt,
         updatedAt: new Date().toISOString(),
     };

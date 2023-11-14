@@ -13,6 +13,25 @@ export type ddbQueryPostsParams = {
 //      Client Types      //
 // ~~~~~~~~~~~~~~~~~~~~~~ //
 
+export type Form = {
+  formId: string;
+  formName: string;
+  questions: string[];
+  customAttributes: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type FormInput = {
+  formName: string;
+  questions: string[];
+  customAttributes: Record<string, any>;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~  //
+//      Client Types      //
+// ~~~~~~~~~~~~~~~~~~~~~~ //
+
 export type Client = {
     clientId: string;
     clientName: string
@@ -86,6 +105,7 @@ export type Project = {
     clientCost: number;
     createdAt: string;
     updatedAt: string;
+    customAttributes: CustomAttributes[];
 }
 
 export type ProjectInput = {
@@ -107,6 +127,7 @@ export type ProjectInput = {
     clientCost: number;
     contractorId: string;
     contractorName: string;
+    customAttributes: CustomAttributes[];
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~  //
@@ -144,4 +165,25 @@ export type ContractorAppsyncEvent = {
         contractorName?: string;
         contractorInput?: ContractorInput;
       };
+}
+
+export type FormAppsyncEvent = {
+    info: {
+        fieldName: string;
+      };
+      arguments: {
+        formId?: string;
+        formName?: string;
+        formInput?: FormInput;
+      };
+}
+
+export type CustomAttributes = {
+  name: string;
+  value: string;
+}
+
+export type ProjectFormManager = {
+  questions: string[];
+  customQuestions: string[];
 }

@@ -8,6 +8,10 @@ import deleteContractor from "./contractors/deleteContractor";
 import getAllContractors from "./contractors/getAllContractors";
 import getContractorById from "./contractors/getContractorById";
 import updateContractor from "./contractors/updateContractor";
+import createForm from "./form/createForm";
+import deleteForm from "./form/deleteForm";
+import getAllForms from "./form/getAllForms";
+import getFormById from "./form/getFormById";
 
 import createProject from "./projects/createProject";
 import deleteProject from "./projects/deleteProject";
@@ -19,7 +23,7 @@ import getAllProjectsWithoutEstimates from "./projects/getAllProjectsWithoutEsti
 import getProjectById from "./projects/getProjectById";
 import updateProject from "./projects/updateProject";
 
-import { ClientAppsyncEvent, ContractorAppsyncEvent, ProjectAppsyncEvent } from "./types";
+import { ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, ProjectAppsyncEvent } from "./types";
 
 export async function handler(event: any): Promise<any> {
   console.log(`EVENT --- ${JSON.stringify(event)}`);
@@ -32,6 +36,8 @@ export async function handler(event: any): Promise<any> {
   }
   else if (eventType === "Contractor") {
     return handleContractorEvent(event);
+  } else if (eventType === "Form") {
+    return handleFormEvent(event);
   }
   else {
     throw new Error(`Unknown event type.`);
@@ -39,7 +45,7 @@ export async function handler(event: any): Promise<any> {
 }
 
 // Function to determine the event type based on the field name
-function getEventType(event: any): "Client" | "Project" | "Contractor" | "Visitor" {
+function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" {
   switch (event.info.fieldName) {
     case "getAllProjects":
     case "getAllProjectsFromAllClients":
@@ -62,8 +68,12 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Visito
     case "updateContractor":
     case "deleteContractor":
       return "Contractor";
-    case "getAllVisitors":
-      return "Visitor";
+    case "getAllForms":
+    case "getFormById":
+    case "createForm":
+    case "updateForm":
+    case "deleteForm":      
+      return "Form";
     default:
       throw new Error(`Unknown field name: ${event.info.fieldName}`);
   }
@@ -135,6 +145,27 @@ function handleContractorEvent(event: ContractorAppsyncEvent) {
       );
     case "deleteContractor":
       return deleteContractor(event.arguments.contractorName!, event.arguments.contractorId!);
+    default:
+      throw new Error(`Unknown field name: ${event.info.fieldName}`);
+  }
+}
+
+function handleFormEvent(event: FormAppsyncEvent) {
+  switch (event.info.fieldName) {
+    case "getFormById":
+      return getFormById(event.arguments.formId!);
+    case "getAllForms":
+      return getAllForms();
+    case "createForm":
+      return createForm(event.arguments.formInput!);
+    // case "updateForm":
+    //   return updateForm(
+    //     event.arguments.formName!,
+    //     event.arguments.formId!,
+    //     event.arguments.formInput!
+    //   );
+    case "deleteForm":
+      return deleteForm(event.arguments.formName!, event.arguments.formId!);
     default:
       throw new Error(`Unknown field name: ${event.info.fieldName}`);
   }

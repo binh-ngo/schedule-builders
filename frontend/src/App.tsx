@@ -35,7 +35,7 @@ function App() {
             <Route path="/login" element={<RequestLogin />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin" element={<RequireAdminAuth><Admin /></RequireAdminAuth>} />
-            <Route path="/contractorPage" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
+            <Route path="/contractor" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
             <Route path="/create-project" element={<ProjectForm />} />
             <Route path="/create-contractor" element={<CreateContractor />} />
             <Route path="/schedule-appointment" element={<ProjectFormCompleted />} />
