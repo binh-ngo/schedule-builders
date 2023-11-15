@@ -18,7 +18,7 @@ type Query {
     getContractorById(contractorName: String!, contractorId: String!): Contractor
 
     getAllForms: [Form] @aws_cognito_user_pools
-    getFormById: Form @aws_cognito_user_pools
+    getFormById(formId: String!): Form @aws_cognito_user_pools
 }
 
 type Mutation {
@@ -97,13 +97,17 @@ input ContractorInput {
 
 input FormInput {
     formName: String
-    questions: [String]
-    customAttributes: [CustomAttributesInput]
+    questions: [QuestionsInput]
 }
 
 input CustomAttributesInput {
     name: String
     value: String
+}
+
+input QuestionsInput {
+    question: String!
+    attributes: CustomAttributesInput
 }
 
 type Project @aws_api_key @aws_cognito_user_pools {
@@ -159,8 +163,7 @@ type Contractor @aws_api_key @aws_cognito_user_pools {
 type Form @aws_api_key @aws_cognito_user_pools {
     formId: String
     formName: String
-    questions: [String]
-    customAttributes: [CustomAttributes]
+    questions: [Questions]
     createdAt: String
     updatedAt: String
 }
@@ -168,4 +171,9 @@ type Form @aws_api_key @aws_cognito_user_pools {
 type CustomAttributes @aws_api_key @aws_cognito_user_pools {
     name: String
     value: String
+}
+
+type Questions @aws_cognito_user_pools {
+    question: String!
+    attributes: CustomAttributes
 }

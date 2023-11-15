@@ -1,7 +1,7 @@
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
-import { FormInput } from "../types";
+import { FormInput, QuestionsInput } from "../types";
 import { ProjectAttributesManager, ProjectFormManager } from "./ProjectFormManager";
 require("dotenv").config({ path: ".env" });
 
@@ -11,26 +11,33 @@ const createForm = async (formInput: FormInput) => {
     const projectForm = new ProjectFormManager();
     const projectAttributes = new ProjectAttributesManager();
 
-    const form = {
-        formId,
-        formName: formInput.formName,
-        questions: formInput.questions,
-        customAttributes: formInput.customAttributes,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),        
-    }
+    const formattedName = formInput.formName ? formInput.formName.trim().replace(/\s+/g, "") : "";
 
-    if (formInput.questions) {
-        formInput.questions.forEach((question, index) => {
-
+        const formQuestions = formInput.questions.map((question:QuestionsInput, index) => {
             // Add the custom question to the form
-            projectForm.addCustomQuestion(question);
-
-            // Set the answer for the current question
-            const { name, value } = formInput.customAttributes[index];
-            projectAttributes.setAttributeWithPrefix('question_', index.toString(), value);
-        })}
+            projectForm.addCustomQuestion(question.question);
+    
+            // Set the answer to null
+            const { name } = question.attributes;
+            projectAttributes.setAttributeWithPrefix(name, '');
+    
+            return {
+                question: question.question,
+                attributes: {
+                    name,
+                    value: ''
+                }
+            };
+        });
         
+        const form = {
+            formId,
+            formName: formattedName,
+            questions: formQuestions,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),        
+        }
+
         const params = {
             RequestItems: {
                 "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB": [
@@ -41,7 +48,6 @@ const createForm = async (formInput: FormInput) => {
                                 SK: `FORM#${formId}`,
                                 type: "form",
                                 ...form,
-                                ...projectAttributes.getAttributes()
                         },
                     },
                 },
@@ -52,7 +58,6 @@ const createForm = async (formInput: FormInput) => {
                             SK: `FORM#${formId}`,
                             type: "form",
                             ...form,
-                            ...projectAttributes.getAttributes()
                         },
                     },
                 },
@@ -63,7 +68,6 @@ const createForm = async (formInput: FormInput) => {
                             SK: `FORM#${formId}`,
                             type: "form",
                             ...form,
-                            ...projectAttributes.getAttributes()
                         },
                     },
                 },
@@ -74,8 +78,8 @@ const createForm = async (formInput: FormInput) => {
 
     try {
         await docClient.batchWrite(params).promise();
-        console.log(`Created form: ${JSON.stringify(projectForm, null, 2)}`);
-        return projectForm;
+        console.log(`Created form: ${JSON.stringify(form, null, 2)}`);
+        return form;
     } catch (err) {
         console.error('Error creating form:', err);
         throw err;

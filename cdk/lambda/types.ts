@@ -10,24 +10,26 @@ export type ddbQueryPostsParams = {
   };
 
 //~~~~~~~~~~~~~~~~~~~~~~  //
-//      Client Types      //
+//      Form Types      //
 // ~~~~~~~~~~~~~~~~~~~~~~ //
 
 export type Form = {
   formId: string;
   formName: string;
-  questions: string[];
-  customAttributes: Record<string, any>;
+  questions: QuestionsInput[];
   createdAt: string;
   updatedAt: string;
 }
 
 export type FormInput = {
   formName: string;
-  questions: string[];
-  customAttributes: Record<string, any>;
+  questions: QuestionsInput[];
 }
 
+export type QuestionsInput = {
+  question: string;
+  attributes: CustomAttributes;
+}
 //~~~~~~~~~~~~~~~~~~~~~~  //
 //      Client Types      //
 // ~~~~~~~~~~~~~~~~~~~~~~ //

@@ -35,6 +35,7 @@ export const AdminTabs = () => {
   const [projectsWithEstimatesAndContractors, setProjectsWithEstimatesAndContractors] = useState<ddbGetAllQueryResponse[]>([]);
   const [projectsWithoutEstimates, setProjectsWithoutEstimates] = useState<ddbGetAllQueryResponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const [forms, setForms] = useState<ddbGetAllQueryResponse[]>([]);
 
   useEffect(() => {
     const fetchQuestions = async () => {

@@ -39,9 +39,8 @@ export class ProjectAttributesManager {
         this.attributes[name] = value;
     }
 
-    setAttributeWithPrefix(prefix: string, name: string, value: string | Record<string, any>) {
-        const attributeName = `${prefix}_${name}`;
-        this.setAttribute(attributeName, value);
+    setAttributeWithPrefix(name: string, value: string | Record<string, any>) {
+        this.setAttribute(name, value);
     }
     
     getAttributes() {
