@@ -7,79 +7,79 @@ import { ProjectCard } from '../components/ProjectCard';
 import { LoadingSpinner } from './LoadingSpinner';
 
 export type ddbGetAllQueryResponse = {
-    clientName: string;
-    projectId?: string;
-    clientPhone: string;
-    email: string;
-    address: string;
-    city: string;
-    description: string;
-    material: string;
-    projectSize: string;
-    projectType: string;
-    propertyType: string;
-    desiredCompletionTime: string;
-    imageUrls?: string[];
-    estimate?: number;
-    startDate?: string;
-    endDate?: string;
-    clientCost?: number;
-    contractorId?: string;
-    contractorName?: string;
-    createdAt: string;
-    updatedAt?: string;
+  clientName: string;
+  projectId?: string;
+  clientPhone: string;
+  email: string;
+  address: string;
+  city: string;
+  description: string;
+  material: string;
+  projectSize: string;
+  projectType: string;
+  propertyType: string;
+  desiredCompletionTime: string;
+  imageUrls?: string[];
+  estimate?: number;
+  startDate?: string;
+  endDate?: string;
+  clientCost?: number;
+  contractorId?: string;
+  contractorName?: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export const AdminTabs = () => {
-    const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);
-    const [projectsWithEstimatesAndContractors, setProjectsWithEstimatesAndContractors] = useState<ddbGetAllQueryResponse[]>([]);
-    const [projectsWithoutEstimates, setProjectsWithoutEstimates] = useState<ddbGetAllQueryResponse[]>([]);
-    const [loading, setLoading] = useState(true);
+  const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);
+  const [projectsWithEstimatesAndContractors, setProjectsWithEstimatesAndContractors] = useState<ddbGetAllQueryResponse[]>([]);
+  const [projectsWithoutEstimates, setProjectsWithoutEstimates] = useState<ddbGetAllQueryResponse[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchQuestions = async () => {
-            const responseWithEstimates = await ddbGetAllProjectsWithEstimates();
-            setProjectsWithEstimates(responseWithEstimates);
-            const responseWithEstimatesandContractors = await ddbGetAllProjectsWithEstimatesAndContractors();
-            setProjectsWithEstimatesAndContractors(responseWithEstimatesandContractors);
-            const responseWithoutEstimates = await ddbGetAllProjectsWithoutEstimates();
-            setProjectsWithoutEstimates(responseWithoutEstimates);
-            setLoading(false);
-        };
-        fetchQuestions();
-    }, []);
-    const renderProjectTab = (data: ddbGetAllQueryResponse[]) => {
-        const sortedProjects = data.sort(
-          (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
-        );
-    
-        const cards = sortedProjects.map((project) => (
-          <ProjectCard key={project.projectId} {...project} />
-        ));
-    
-        return (
-          <div className='text-center'>
-            {!cards.length && 
-              <div>
-                <h1 className='my-5 text-black'>No Projects Yet</h1>
-              </div>}
-            {cards.map((card, index) => (
-              <div key={index} className='d-flex justify-content-center my-3'>
-                {card}
-              </div>
-            ))}
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      const responseWithEstimates = await ddbGetAllProjectsWithEstimates();
+      setProjectsWithEstimates(responseWithEstimates);
+      const responseWithEstimatesandContractors = await ddbGetAllProjectsWithEstimatesAndContractors();
+      setProjectsWithEstimatesAndContractors(responseWithEstimatesandContractors);
+      const responseWithoutEstimates = await ddbGetAllProjectsWithoutEstimates();
+      setProjectsWithoutEstimates(responseWithoutEstimates);
+      setLoading(false);
+    };
+    fetchQuestions();
+  }, []);
+  const renderProjectTab = (data: ddbGetAllQueryResponse[]) => {
+    const sortedProjects = data.sort(
+      (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
+    );
+
+    const cards = sortedProjects.map((project) => (
+      <ProjectCard key={project.projectId} {...project} />
+    ));
+
+    return (
+      <div className='text-center'>
+        {!cards.length &&
+          <div>
+            <h1 className='my-5 text-black'>No Projects Yet</h1>
+          </div>}
+        {cards.map((card, index) => (
+          <div key={index} className='d-flex justify-content-center my-3'>
+            {card}
           </div>
-        );
-      }
-    
-      return (
-        <Tabs
-          defaultActiveKey="projectsWithEstimates"
-          transition={false}
-          id="noanim-tab-example"
-          className="mb-3"
-        >
-           <Tab eventKey="projectsWithEstimates" title="Projects to Estimate">
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <Tabs
+      defaultActiveKey="projectsWithEstimates"
+      transition={false}
+      id="noanim-tab-example"
+      className="mb-3"
+    >
+      <Tab eventKey="projectsWithEstimates" title="Projects to Estimate">
         {loading ? (
           <div className="text-center">
             <p>Loading...</p>
@@ -119,7 +119,19 @@ export const AdminTabs = () => {
           <iframe className="calendar" title="calendar" src="https://calendar.google.com/calendar/embed?src=kalansestimates%40gmail.com&ctz=America%2FLos_Angeles" scrolling="no"></iframe>
         )}
       </Tab>
-        </Tabs>
-      );
-    }
-    
+      <Tab eventKey="Create Form" title="Create Form">
+        {loading ? (
+          <div className="text-center">
+            <p>Loading...</p>
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div>
+            
+          </div>
+    )}
+      </Tab>
+    </Tabs>
+  );
+}
+
