@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { ddbCreateForm, ddbGetAllForms } from '../graphql/forms';
 
@@ -11,6 +11,15 @@ export const CreateForm = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Add an initial question and attribute when the component mounts
+        setFormData((prevData) => ({
+            ...prevData,
+            questions: [''],
+            attributes: [''],
+        }));
+    }, []);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -55,11 +64,11 @@ export const CreateForm = () => {
         setFormData((prevData) => {
             const updatedQuestions = [...prevData.questions];
             const updatedAttributes = [...prevData.attributes];
-
+    
             // Remove the question and attribute at the specified index
             updatedQuestions.splice(indexToRemove, 1);
             updatedAttributes.splice(indexToRemove, 1);
-
+    
             return {
                 ...prevData,
                 questions: updatedQuestions,
@@ -136,7 +145,7 @@ export const CreateForm = () => {
             {formStep > 0 && (
                 <div>
                     {formData.questions.map((question, index) => (
-                        <div key={index}>
+                        <div className="quesAttRow" key={index}>
                             <Row>
                                 <Col>
                                     <Form.Group controlId={`question${index + 1}`}>
@@ -164,7 +173,7 @@ export const CreateForm = () => {
                             </Col>
                             <Col>
                                 <Button className="removeBtn formInput" variant="transparent" type="button" onClick={() => handleRemoveQuestion(index)}>
-                                    X
+                                    ❌
                                 </Button>
                             </Col>
                         </Row>

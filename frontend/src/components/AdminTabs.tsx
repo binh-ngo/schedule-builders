@@ -59,6 +59,29 @@ export const AdminTabs = () => {
       </div>
     );
   }
+  const renderFormTab = (data: ddbGetAllQueryResponse[]) => {
+    const sortedProjects = data.sort(
+      (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
+    );
+
+    const cards = sortedProjects.map((project) => (
+      <ProjectCard key={project.projectId} {...project} />
+    ));
+
+    return (
+      <div className='text-center'>
+        {!cards.length &&
+          <div>
+            <h1 className='my-5 text-black'>No Projects Yet</h1>
+          </div>}
+        {cards.map((card, index) => (
+          <div key={index} className='d-flex justify-content-center my-3'>
+            {card}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   
 
@@ -106,7 +129,19 @@ export const AdminTabs = () => {
             <LoadingSpinner />
           </div>
         ) : (
-          <iframe className="calendar" title="calendar" src="https://calendar.google.com/calendar/embed?src=kalansestimates%40gmail.com&ctz=America%2FLos_Angeles" scrolling="no"></iframe>
+          <iframe className="calendar" title="calendar" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FLos_Angeles&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showTz=0&src=a2FsYW5zZXN0aW1hdGVzQGdtYWlsLmNvbQ&color=%23039BE5" scrolling="no"></iframe>
+        )}
+      </Tab>
+      <Tab eventKey="allForms" title="View All Forms">
+        {loading ? (
+          <div className="text-center">
+            <p>Loading...</p>
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div>
+            
+          </div>
         )}
       </Tab>
       <Tab eventKey="Create Form" title="Create Form">

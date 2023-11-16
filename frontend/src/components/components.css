@@ -353,6 +353,9 @@ margin: 5rem 0
 }
 
 /* Create Form  */
+.formName {
+  width: 20rem;
+}
 
 .createForm {
   display: flex;
@@ -374,14 +377,31 @@ margin: 5rem 0
   display: flex;
   justify-content: center;
   width: 100vw;
-  margin-left: -2.5rem;
 }
 
 .formButtons button{
   margin: 0 .5rem;
   margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .formInput {
   margin-left: 6rem;
+}
+
+.quesAttRow {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 520px) {
+  .quesAttRow {
+    flex-direction: column;
+    width: 50vw;
+  }
+
+  .removeBtn {
+    transform: translate3d(173px, -105px, 0);
+  }
 }
