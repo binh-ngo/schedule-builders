@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { ddbCreateForm, ddbGetAllForms } from '../graphql/forms';
 
 export const CreateForm = () => {
@@ -50,6 +51,23 @@ export const CreateForm = () => {
         }));
     };
 
+    const handleRemoveQuestion = (indexToRemove: number) => {
+        setFormData((prevData) => {
+            const updatedQuestions = [...prevData.questions];
+            const updatedAttributes = [...prevData.attributes];
+
+            // Remove the question and attribute at the specified index
+            updatedQuestions.splice(indexToRemove, 1);
+            updatedAttributes.splice(indexToRemove, 1);
+
+            return {
+                ...prevData,
+                questions: updatedQuestions,
+                attributes: updatedAttributes,
+            };
+        });
+    };
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -73,14 +91,14 @@ export const CreateForm = () => {
                 const formObject = {
                     formName: formData.formName,
                     questions: formData.questions.map((question, index) => ({
-                      question: formData.questions[index],
-                      attributes: {
-                        name: formData.attributes[index],
-                      },
+                        question: formData.questions[index],
+                        attributes: {
+                            name: formData.attributes[index],
+                        },
                     })),
-                  };
+                };
 
-                const response = await ddbCreateForm( formObject );
+                const response = await ddbCreateForm(formObject);
 
                 if ('data' in response) {
                     console.log(`Response from DynamoDB: ${JSON.stringify(response.data)}`);
@@ -97,62 +115,80 @@ export const CreateForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <Form className="createForm" onSubmit={handleSubmit}>
             {formStep === 0 && (
-                <div>
-                    <label>
-                        Form Name:
-                        <input
+                <div className="formName">
+                    <Form.Group controlId="formName">
+                        <Form.Label>Form Name:</Form.Label>
+                        <Form.Control
                             type="text"
                             name="formName"
                             value={formData.formName}
                             onChange={handleInputChange}
                         />
-                    </label>
+                    </Form.Group>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
-                    <button type="button" onClick={handleNextStep}>
+                    <Button className="mt-2" variant="primary" type="button" onClick={handleNextStep}>
                         Next
-                    </button>
+                    </Button>
                 </div>
             )}
             {formStep > 0 && (
                 <div>
                     {formData.questions.map((question, index) => (
                         <div key={index}>
-                            <label>
-                                Question {index + 1}:
-                                <input
-                                    type="text"
-                                    name="question"
-                                    value={question || ''}
-                                    onChange={(e) => handleFieldChange('questions', e.target.value, index)}
-                                />
-                            </label>
-                            <label>
-                                Attribute Type {index + 1}:
-                                <input
-                                    type="text"
-                                    name="attribute"
-                                    value={formData.attributes[index] || ''}
-                                    onChange={(e) => handleFieldChange('attributes', e.target.value, index)}
-                                />
-                            </label>
+                            <Row>
+                                <Col>
+                                    <Form.Group controlId={`question${index + 1}`}>
+                                        <Form.Control
+                                            className="my-1 formInput"
+                                            placeholder="Question"
+                                            type="text"
+                                            name="question"
+                                            value={question || ''}
+                                            onChange={(e) => handleFieldChange('questions', e.target.value, index)}
+                                        />                                    
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group controlId={`attribute${index + 1}`}>
+                                        <Form.Control
+                                            placeholder='Attribute (Length, Width, Weight, Etc)'
+                                            className="my-1 formInput"
+                                            type="text"
+                                            name="attribute"
+                                            value={formData.attributes[index] || ''}
+                                            onChange={(e) => handleFieldChange('attributes', e.target.value, index)}
+                                        />
+                                    </Form.Group>                            
+                            </Col>
+                            <Col>
+                                <Button className="removeBtn formInput" variant="transparent" type="button" onClick={() => handleRemoveQuestion(index)}>
+                                    X
+                                </Button>
+                            </Col>
+                        </Row>
                         </div>
-                    ))}
-                    <button type="button" onClick={handleAddQuestion}>
-                        Add Question
-                    </button>
-                    <button type="button" onClick={handlePreviousStep}>
-                        Previous
-                    </button>
-                    <button type="button" onClick={handleNextStep}>
-                        Next
-                    </button>
-                    <button type="submit">
-                        Submit
-                    </button>
-                </div>
-            )}
-        </form>
+            ))}
+            <div className='formButtons'>
+            <Button variant="primary" type="button" onClick={handleAddQuestion}>
+                Add Question
+            </Button>
+            <Button variant="secondary" type="button" onClick={handlePreviousStep}>
+                Previous
+            </Button>
+            {formStep !== 1 &&
+            <Button variant="primary" type="button" onClick={handleNextStep}>
+                Next
+            </Button>
+            }
+            <Button variant="success" type="submit">
+                Submit
+            </Button>
+            </div>
+        </div>
+    )
+}
+        </Form >
     );
 };
