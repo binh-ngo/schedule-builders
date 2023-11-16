@@ -18,8 +18,11 @@ const createForm = async (formInput: FormInput) => {
             projectForm.addCustomQuestion(question.question);
     
             // Set the answer to null
-            const { name } = question.attributes;
+            const { attributes } = question;
+            const name = attributes ? attributes.name : '';
+
             projectAttributes.setAttributeWithPrefix(name, '');
+
     
             return {
                 question: question.question,

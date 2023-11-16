@@ -96,18 +96,18 @@ input ContractorInput {
 }  
 
 input FormInput {
-    formName: String
-    questions: [QuestionsInput]
+    formName: String!
+    questions: [FormQuestionInput]
+    }
+
+input FormQuestionInput {
+    question: String
+    attributes: CustomAttributesInput
 }
 
 input CustomAttributesInput {
     name: String
     value: String
-}
-
-input QuestionsInput {
-    question: String!
-    attributes: CustomAttributesInput
 }
 
 type Project @aws_api_key @aws_cognito_user_pools {
@@ -174,6 +174,6 @@ type CustomAttributes @aws_api_key @aws_cognito_user_pools {
 }
 
 type Questions @aws_cognito_user_pools {
-    question: String!
+    question: String
     attributes: CustomAttributes
 }

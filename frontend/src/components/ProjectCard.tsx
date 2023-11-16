@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ddbUpdateProject } from '../graphql/projects';
 import { ddbGetAllContractors } from '../graphql/contractors';
-import { ddbGetAllQueryResponse } from './AdminTabs';
+import { ddbGetAllQueryResponse } from '../types/types';
 
 type ProjectProps = {
   clientName: string;

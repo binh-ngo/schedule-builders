@@ -30,6 +30,11 @@ export type QuestionsInput = {
   question: string;
   attributes: CustomAttributes;
 }
+
+export type CustomAttributes = {
+  name: string;
+  value: string;
+}
 //~~~~~~~~~~~~~~~~~~~~~~  //
 //      Client Types      //
 // ~~~~~~~~~~~~~~~~~~~~~~ //
@@ -180,10 +185,6 @@ export type FormAppsyncEvent = {
       };
 }
 
-export type CustomAttributes = {
-  name: string;
-  value: string;
-}
 
 export type ProjectFormManager = {
   questions: string[];

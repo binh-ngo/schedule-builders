@@ -5,30 +5,9 @@ import { ddbGetAllProjectsWithEstimates, ddbGetAllProjectsWithEstimatesAndContra
 import moment from 'moment';
 import { ProjectCard } from '../components/ProjectCard';
 import { LoadingSpinner } from './LoadingSpinner';
-
-export type ddbGetAllQueryResponse = {
-  clientName: string;
-  projectId?: string;
-  clientPhone: string;
-  email: string;
-  address: string;
-  city: string;
-  description: string;
-  material: string;
-  projectSize: string;
-  projectType: string;
-  propertyType: string;
-  desiredCompletionTime: string;
-  imageUrls?: string[];
-  estimate?: number;
-  startDate?: string;
-  endDate?: string;
-  clientCost?: number;
-  contractorId?: string;
-  contractorName?: string;
-  createdAt: string;
-  updatedAt?: string;
-}
+import { ddbGetAllForms } from '../graphql/forms';
+import { ddbGetAllQueryResponse } from '../types/types';
+import { CreateForm } from './CreateForm';
 
 export const AdminTabs = () => {
   const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);
@@ -37,18 +16,26 @@ export const AdminTabs = () => {
   const [loading, setLoading] = useState(true);
   const [forms, setForms] = useState<ddbGetAllQueryResponse[]>([]);
 
+
   useEffect(() => {
     const fetchQuestions = async () => {
       const responseWithEstimates = await ddbGetAllProjectsWithEstimates();
       setProjectsWithEstimates(responseWithEstimates);
+
       const responseWithEstimatesandContractors = await ddbGetAllProjectsWithEstimatesAndContractors();
       setProjectsWithEstimatesAndContractors(responseWithEstimatesandContractors);
+
       const responseWithoutEstimates = await ddbGetAllProjectsWithoutEstimates();
       setProjectsWithoutEstimates(responseWithoutEstimates);
+
+      const fetchForms = await ddbGetAllForms();
+      setForms(fetchForms);
+
       setLoading(false);
     };
     fetchQuestions();
   }, []);
+
   const renderProjectTab = (data: ddbGetAllQueryResponse[]) => {
     const sortedProjects = data.sort(
       (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
@@ -72,6 +59,8 @@ export const AdminTabs = () => {
       </div>
     );
   }
+
+  
 
   return (
     <Tabs
@@ -128,9 +117,9 @@ export const AdminTabs = () => {
           </div>
         ) : (
           <div>
-            
+            <CreateForm />
           </div>
-    )}
+        )}
       </Tab>
     </Tabs>
   );

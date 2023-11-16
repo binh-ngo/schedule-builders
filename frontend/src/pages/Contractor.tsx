@@ -2,11 +2,11 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
-import { ddbGetAllQueryResponse } from '../components/AdminTabs';
 import { ContractorProjectCard } from '../components/ContractorProjectCard';
 import { Header } from '../components/Header';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ddbGetAllProjectsWithEstimates } from '../graphql/projects';
+import { ddbGetAllQueryResponse } from '../types/types';
 
 export const Contractor = () => {
   const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);

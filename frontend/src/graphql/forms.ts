@@ -1,18 +1,27 @@
 import { API } from "aws-amplify";
 
 export type SaveFormProps = {
-    formId: string;
-    formName: string;
-    questions: string[];
-    customAttributes: [CustomAttributes];
-    createdAt: string;
-    updatedAt: string;
+  formId?: string;
+  formName?: string;
+  question?: string[];
+  attributes?: string[];
 }
 
-type CustomAttributes = {
-    name: string;
-    value: string;
-}
+type CreateFormProps = {
+    formName: string;
+    questions: {
+      question: string;
+      attributes: {
+        name: string;
+      };
+    }[];
+};
+
+
+// type attributesAttributes = {
+//     name: string;
+//     value: string;
+// }
 
 // ==================
 // CREATE FORM
@@ -20,63 +29,69 @@ type CustomAttributes = {
 const createFormQuery = `
   mutation createForm($formInput: FormInput!) {
     createForm(formInput: $formInput) {
-        formId
-        formName
-        questions
-        customAttributes
-        createdAt
-        updatedAt
+      formId
+      formName
+      questions {
+        question
+        attributes {
+          name
+          value
+        }
+      }
+      createdAt
+      updatedAt
     }
   }
 `;
 
-export const ddbCreateForm = async (formInput: SaveFormProps) => {
+export const ddbCreateForm = async (formInput: CreateFormProps) => {
 
-    const resp = await API.graphql({
-      query: createFormQuery,
-      variables: {
-        formInput: {
-          formName: formInput.formName,
-          questions: formInput.questions,
-          customAttributes: formInput.customAttributes,
-        },
-      },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
-    return resp;
-      };
+  const resp = await API.graphql({
+    query: createFormQuery,
+    variables: {
+      formInput
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  return resp;
+};
 // ==================
 // GET FORM BY ID
 // ==================
 const getFormByIdQuery = `
 query getFormById($formName: String!, $formId: String!) {
     getFormById(formName: $formName, formId: $formId) {
-        formId
-        formName
-        questions
-        customAttributes
-        createdAt
-        updatedAt
+      createdAt
+      formId
+      formName
+      questions {
+        question
+        attributes {
+          name
+          value
+        }
+      }
+      updatedAt
     }
   }
 `
 
 export const ddbGetFormById = async (formName: string, formId: string) => {
-    const resp = await API.graphql({
-      query: getFormByIdQuery,
-      variables: {
-        formName,
-        formId,
-      },
-      authMode: "AMAZON_COGNITO_USER_POOLS"
-    });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
-    // @ts-ignore
-    const form = resp.data.getFormById;
-    // console.log(`post.content: ${post.content}`);
-    return form;
-  };
+  const resp = await API.graphql({
+    query: getFormByIdQuery,
+    variables: {
+      formName,
+      formId,
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS"
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  const form = resp.data.getFormById;
+  // console.log(`post.content: ${post.content}`);
+  return form;
+};
 
 // ==================
 // GET ALL FORMS
@@ -84,24 +99,29 @@ export const ddbGetFormById = async (formName: string, formId: string) => {
 const getAllFormsQuery = `
 query getAllForms {
     getAllForms {
-        formId
-        formName
-        questions
-        customAttributes
-        createdAt
-        updatedAt
+createdAt
+    formId
+    formName
+    questions {
+      question
+      attributes {
+        name
+        value
+      }
+    }
+    updatedAt
     }
   }
 `
 export const ddbGetAllForms = async () => {
-  const resp = await API.graphql({ 
+  const resp = await API.graphql({
     query: getAllFormsQuery,
     authMode: "AMAZON_COGNITO_USER_POOLS"
   });
   console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllForms;
-}; 
+};
 // ==================
 // DELETE FORM
 // ==================
@@ -113,19 +133,19 @@ const deleteFormQuery = `
 `;
 
 export const ddbDeleteForm = async (formName: string, formId: string) => {
-    console.log(`delete called for contractor ${formName}`);
-    const resp = await API.graphql({
-      query: deleteFormQuery,
-      variables: {
-        formName,
-        formId,
-      },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
-    // @ts-ignore
-    console.log(`successfully deleted: ${resp.data.deleteForm}`);
-  };
+  console.log(`delete called for contractor ${formName}`);
+  const resp = await API.graphql({
+    query: deleteFormQuery,
+    variables: {
+      formName,
+      formId,
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  console.log(`successfully deleted: ${resp.data.deleteForm}`);
+};
 
 // ==================
 // UPDATE FORM
@@ -133,29 +153,34 @@ export const ddbDeleteForm = async (formName: string, formId: string) => {
 const updateFormQuery = `
     mutation updateForm($formName: String!, $formId: String!, $formInput: FormInput!) {
       updateForm(formName: $formName, formId: $formId, formInput: $FormInput) {
-        formId
-        formName
-        questions
-        customAttributes
-        createdAt
-        updatedAt
+createdAt
+    formId
+    formName
+    questions {
+      question
+      attributes {
+        name
+        value
+      }
+    }
+    updatedAt
       }
     }
   `;
 
-  export const ddbUpdateForm = async (formInput: SaveFormProps) => {
-    const resp = await API.graphql({
-      query: updateFormQuery,
-      variables: {
+export const ddbUpdateForm = async (formInput: SaveFormProps) => {
+  const resp = await API.graphql({
+    query: updateFormQuery,
+    variables: {
+      formName: formInput.formName,
+      formId: formInput.formId,
+      formInput: {
         formName: formInput.formName,
-        formId: formInput.formId,
-        formInput: {
-          formName: formInput.formName,
-          questions: formInput.questions,
-          customAttributes: formInput.customAttributes,
-        },
+        question: formInput.question,
+        attributes: formInput.attributes,
       },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
-  };
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+};
