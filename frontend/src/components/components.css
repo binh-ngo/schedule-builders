@@ -405,3 +405,11 @@ margin: 5rem 0
     transform: translate3d(173px, -105px, 0);
   }
 }
+
+.formCards {
+  margin: 0 2rem;
+}
+
+.formHeader {
+  width: 100vw;
+}

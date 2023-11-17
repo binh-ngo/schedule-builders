@@ -8,13 +8,13 @@ export type SaveFormProps = {
 }
 
 type CreateFormProps = {
-    formName: string;
-    questions: {
-      question: string;
-      attributes: {
-        name: string;
-      };
-    }[];
+  formName: string;
+  questions: {
+    question: string;
+    attributes: {
+      name: string;
+    };
+  }[];
 };
 
 
@@ -40,6 +40,7 @@ const createFormQuery = `
       }
       createdAt
       updatedAt
+      isSelected
     }
   }
 `;
@@ -73,6 +74,7 @@ query getFormById($formName: String!, $formId: String!) {
         }
       }
       updatedAt
+      isSelected
     }
   }
 `
@@ -99,19 +101,20 @@ export const ddbGetFormById = async (formName: string, formId: string) => {
 const getAllFormsQuery = `
 query getAllForms {
     getAllForms {
-createdAt
-    formId
-    formName
-    questions {
-      question
-      attributes {
-        name
-        value
+      createdAt
+      formId
+      formName
+      questions {
+        question
+        attributes {
+          name
+          value
+        }
+      }
+      updatedAt
+      isSelected
       }
     }
-    updatedAt
-    }
-  }
 `
 export const ddbGetAllForms = async () => {
   const resp = await API.graphql({
@@ -122,6 +125,35 @@ export const ddbGetAllForms = async () => {
   // @ts-ignore
   return resp.data.getAllForms;
 };
+
+const getSelectedFormQuery = `
+query getSelectedForm {
+  getSelectedForm {
+    createdAt
+    formId
+    formName
+    questions {
+      question
+      attributes {
+        name
+        value
+      }
+    }
+    updatedAt
+    isSelected
+    }
+  }
+`;
+export const ddbGetSelectedForm = async () => {
+  const resp = await API.graphql({ 
+    query: getSelectedFormQuery,
+    authMode: "AMAZON_COGNITO_USER_POOLS"
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  return resp.data.getSelectedForm;
+};
+
 // ==================
 // DELETE FORM
 // ==================
@@ -151,21 +183,22 @@ export const ddbDeleteForm = async (formName: string, formId: string) => {
 // UPDATE FORM
 // ==================
 const updateFormQuery = `
-    mutation updateForm($formName: String!, $formId: String!, $formInput: FormInput!) {
-      updateForm(formName: $formName, formId: $formId, formInput: $FormInput) {
-createdAt
-    formId
-    formName
-    questions {
-      question
-      attributes {
-        name
-        value
-      }
+mutation updateForm($formName: String!, $formId: String!, $formInput: FormInput!) {
+  updateForm(formName: $formName, formId: $formId, formInput: $FormInput) {
+  createdAt
+  formId
+  formName
+  questions {
+    question
+    attributes {
+      name
+      value
     }
-    updatedAt
-      }
+  }
+  updatedAt
+  isSelected
     }
+  }
   `;
 
 export const ddbUpdateForm = async (formInput: SaveFormProps) => {
@@ -184,3 +217,51 @@ export const ddbUpdateForm = async (formInput: SaveFormProps) => {
   });
   console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
 };
+
+const selectFormQuery = `
+  mutation adjustFormSelection($formId: String!, $isSelected: Boolean!) {
+    adjustFormSelection(formId: $formId, isSelected: $isSelected) {
+      createdAt
+      formId
+      formName
+      questions {
+        question
+        attributes {
+          name
+          value
+        }
+      }
+      updatedAt
+      isSelected
+        }
+      }
+`
+export const ddbAddSelection = async (formId: string) => {
+  console.log(`Form getting ready to be selected with FormId: ${formId}`);
+  const resp = await API.graphql({
+    query: selectFormQuery,
+    variables: {
+      formId,
+      isSelected: true,
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  console.log(`form ${formId} successfully selected: ${JSON.stringify(resp.data.adjustFormSelection)}`);
+}
+
+export const ddbRemoveSelection = async (formId: string) => {
+  console.log(`Form getting ready to be selected with FormId: ${formId}`);
+  const resp = await API.graphql({
+    query: selectFormQuery,
+    variables: {
+      formId,
+      isSelected: false,
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  console.log(`form ${formId} successfully removed: ${resp.data.adjustFormSelection}`);
+}

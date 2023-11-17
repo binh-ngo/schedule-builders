@@ -37,6 +37,7 @@ const createForm = async (formInput: FormInput) => {
             formId,
             formName: formattedName,
             questions: formQuestions,
+            isSelected: false,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),        
         }

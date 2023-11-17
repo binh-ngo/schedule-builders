@@ -21,3 +21,18 @@ export type ddbGetAllQueryResponse = {
   createdAt: string;
   updatedAt?: string;
 }
+
+export type ddbGetAllFormResponse = {
+  formId: string;
+  formName: string;
+  isSelected: string;
+  questions: {
+    question: string;
+    attributes: {
+      name: string;
+      value: string;
+  };
+}[];
+  createdAt: string;
+  updatedAt?: string;
+}

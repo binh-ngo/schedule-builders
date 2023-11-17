@@ -6,35 +6,52 @@ import moment from 'moment';
 import { ProjectCard } from '../components/ProjectCard';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ddbGetAllForms } from '../graphql/forms';
-import { ddbGetAllQueryResponse } from '../types/types';
+import { ddbGetAllFormResponse, ddbGetAllQueryResponse } from '../types/types';
 import { CreateForm } from './CreateForm';
+import { FormCard } from './FormCard';
 
 export const AdminTabs = () => {
   const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);
   const [projectsWithEstimatesAndContractors, setProjectsWithEstimatesAndContractors] = useState<ddbGetAllQueryResponse[]>([]);
   const [projectsWithoutEstimates, setProjectsWithoutEstimates] = useState<ddbGetAllQueryResponse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [forms, setForms] = useState<ddbGetAllQueryResponse[]>([]);
-
+  const [forms, setForms] = useState<ddbGetAllFormResponse[]>([]);
+  const [selectedTab, setSelectedTab] = useState("projectsWithEstimates");
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      const responseWithEstimates = await ddbGetAllProjectsWithEstimates();
-      setProjectsWithEstimates(responseWithEstimates);
-
-      const responseWithEstimatesandContractors = await ddbGetAllProjectsWithEstimatesAndContractors();
-      setProjectsWithEstimatesAndContractors(responseWithEstimatesandContractors);
-
-      const responseWithoutEstimates = await ddbGetAllProjectsWithoutEstimates();
-      setProjectsWithoutEstimates(responseWithoutEstimates);
-
-      const fetchForms = await ddbGetAllForms();
-      setForms(fetchForms);
-
-      setLoading(false);
+    const fetchProjects = async () => {
+      setLoading(true); 
+  
+      switch (selectedTab) {
+        case "projectsWithoutEstimates":
+          const responseWithoutEstimates = await ddbGetAllProjectsWithoutEstimates();
+          setProjectsWithoutEstimates(responseWithoutEstimates);
+          break;
+  
+        case "assignContractor":
+          const responseWithEstimates = await ddbGetAllProjectsWithEstimates();
+          setProjectsWithEstimates(responseWithEstimates);
+          break;
+  
+        case "manageProjects":
+          const responseWithEstimatesAndContractors = await ddbGetAllProjectsWithEstimatesAndContractors();
+          setProjectsWithEstimatesAndContractors(responseWithEstimatesAndContractors);
+          break;
+  
+        case "allForms":
+          const fetchForms = await ddbGetAllForms();
+          setForms(fetchForms);
+          break;
+    
+        default:
+          break;
+      }
+  
+      setLoading(false); // Set loading to false after data is fetched
     };
-    fetchQuestions();
-  }, []);
+  
+    fetchProjects();
+  }, [selectedTab]);
 
   const renderProjectTab = (data: ddbGetAllQueryResponse[]) => {
     const sortedProjects = data.sort(
@@ -59,23 +76,24 @@ export const AdminTabs = () => {
       </div>
     );
   }
-  const renderFormTab = (data: ddbGetAllQueryResponse[]) => {
-    const sortedProjects = data.sort(
+
+  const renderFormTab = (data: ddbGetAllFormResponse[]) => {
+    const sortedForms = data.sort(
       (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
     );
 
-    const cards = sortedProjects.map((project) => (
-      <ProjectCard key={project.projectId} {...project} />
+    const cards = sortedForms.map((form) => (
+      <FormCard key={form.formId} {...form} />
     ));
 
     return (
-      <div className='text-center'>
+      <div className='text-center d-flex flex-wrap '>
         {!cards.length &&
           <div>
-            <h1 className='my-5 text-black'>No Projects Yet</h1>
+            <h1 className='my-5 text-black formHeader'>No Forms Yet</h1>
           </div>}
         {cards.map((card, index) => (
-          <div key={index} className='d-flex justify-content-center my-3'>
+          <div key={index} className='justify-content-center my-3 formCards'>
             {card}
           </div>
         ))}
@@ -87,12 +105,13 @@ export const AdminTabs = () => {
 
   return (
     <Tabs
-      defaultActiveKey="projectsWithEstimates"
+      defaultActiveKey={selectedTab}
+      onSelect={(key) => setSelectedTab(key as string)}
       transition={false}
       id="noanim-tab-example"
       className="mb-3"
     >
-      <Tab eventKey="projectsWithEstimates" title="Projects to Estimate">
+      <Tab eventKey="projectsWithoutEstimates" title="Projects to Estimate">
         {loading ? (
           <div className="text-center">
             <p>Loading...</p>
@@ -140,7 +159,7 @@ export const AdminTabs = () => {
           </div>
         ) : (
           <div>
-            
+            {renderFormTab(forms)}
           </div>
         )}
       </Tab>

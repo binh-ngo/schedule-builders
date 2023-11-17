@@ -18,6 +18,7 @@ type Query {
     getContractorById(contractorName: String!, contractorId: String!): Contractor
 
     getAllForms: [Form] @aws_cognito_user_pools
+    getSelectedForm: [Form] @aws_cognito_user_pools
     getFormById(formId: String!): Form @aws_cognito_user_pools
 }
 
@@ -45,6 +46,7 @@ type Mutation {
         contractorInput: ContractorInput!
     ): Contractor @aws_cognito_user_pools
 
+    adjustFormSelection(formId: String, isSelected: Boolean): Form @aws_cognito_user_pools
     createForm(formInput: FormInput): Form @aws_cognito_user_pools
     deleteForm(formName: String!, formId: String!): String @aws_cognito_user_pools
     updateForm(
@@ -164,6 +166,7 @@ type Form @aws_api_key @aws_cognito_user_pools {
     formId: String
     formName: String
     questions: [Questions]
+    isSelected: Boolean
     createdAt: String
     updatedAt: String
 }

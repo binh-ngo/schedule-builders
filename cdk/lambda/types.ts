@@ -17,6 +17,7 @@ export type Form = {
   formId: string;
   formName: string;
   questions: QuestionsInput[];
+  isSelected: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -182,6 +183,7 @@ export type FormAppsyncEvent = {
         formId?: string;
         formName?: string;
         formInput?: FormInput;
+        isSelected?: boolean;
       };
 }
 

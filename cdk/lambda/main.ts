@@ -8,10 +8,12 @@ import deleteContractor from "./contractors/deleteContractor";
 import getAllContractors from "./contractors/getAllContractors";
 import getContractorById from "./contractors/getContractorById";
 import updateContractor from "./contractors/updateContractor";
+import { adjustFormSelection } from "./form/adjustFormSelection";
 import createForm from "./form/createForm";
 import deleteForm from "./form/deleteForm";
 import getAllForms from "./form/getAllForms";
 import getFormById from "./form/getFormById";
+import { getSelectedForm } from "./form/getSelectedForm";
 
 import createProject from "./projects/createProject";
 import deleteProject from "./projects/deleteProject";
@@ -70,6 +72,8 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" 
       return "Contractor";
     case "getAllForms":
     case "getFormById":
+    case "getSelectedForm":
+    case "adjustFormSelection":
     case "createForm":
     case "updateForm":
     case "deleteForm":      
@@ -156,6 +160,10 @@ function handleFormEvent(event: FormAppsyncEvent) {
       return getFormById(event.arguments.formId!);
     case "getAllForms":
       return getAllForms();
+    case "getSelectedForm":
+      return getSelectedForm();
+    case "adjustFormSelection":
+      return adjustFormSelection(event.arguments.formId!, event.arguments.isSelected!);
     case "createForm":
       return createForm(event.arguments.formInput!);
     // case "updateForm":

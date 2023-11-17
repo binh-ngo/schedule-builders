@@ -205,7 +205,15 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
     })
     contractorSiteDataSource.createResolver({
       typeName: "Query",
+      fieldName: "getSelectedForm",
+    })
+    contractorSiteDataSource.createResolver({
+      typeName: "Query",
       fieldName: "getFormById",
+    })
+    contractorSiteDataSource.createResolver({
+      typeName: "Mutation",
+      fieldName: "adjustFormSelection",
     })
     contractorSiteDataSource.createResolver({
       typeName: "Mutation",
