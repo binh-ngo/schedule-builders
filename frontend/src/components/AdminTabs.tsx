@@ -78,26 +78,30 @@ export const AdminTabs = () => {
   }
 
   const renderFormTab = (data: ddbGetAllFormResponse[]) => {
-    const sortedForms = data.sort(
-      (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
-    );
-
+    // render alphabetically
+    const sortedForms = data.slice().sort((a, b) => a.formName.localeCompare(b.formName));
+  
     const cards = sortedForms.map((form) => (
       <FormCard key={form.formId} {...form} />
     ));
+  
 
     return (
-      <div className='text-center d-flex flex-wrap '>
-        {!cards.length &&
-          <div>
+      <div className='container-fluid text-center'>
+      <div className='row justify-content-center'>
+        {!cards.length && (
+          <div className='col-12'>
             <h1 className='my-5 text-black formHeader'>No Forms Yet</h1>
-          </div>}
+          </div>
+        )}
         {cards.map((card, index) => (
-          <div key={index} className='justify-content-center my-3 formCards'>
+          <div key={index} className='col-md-4 my-3 formCards'>
             {card}
           </div>
         ))}
       </div>
+    </div>
+    
     );
   }
 

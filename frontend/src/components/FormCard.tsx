@@ -3,16 +3,16 @@ import ListGroup from 'react-bootstrap/ListGroup';
 // @ts-ignore
 import { useEffect, useState } from 'react';
 import { ddbAddSelection, ddbDeleteForm, ddbGetAllForms, ddbGetSelectedForm, ddbRemoveSelection } from '../graphql/forms';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, CardHeader, CardText, Modal } from 'react-bootstrap';
 
 type FormProps = {
   formName: string;
   formId?: string;
   isSelected: string;
   questions: {
-    question:string;
+    question: string;
     attributes: {
-        name: string;
+      name: string;
     };
   }[];
 };
@@ -48,10 +48,10 @@ export const FormCard = (form: FormProps) => {
       } else {
         console.log('No need to remove selection.');
       }
-  
+
       // Add the selection for the new form
       await ddbAddSelection(form.formId ?? '');
-  
+
       // Close the modal
       handleClose();
     } catch (error) {
@@ -59,13 +59,14 @@ export const FormCard = (form: FormProps) => {
       console.error('Error in handleSelectForm:', error);
     }
   };
-  
+
 
   return (
-    <div>
-     <Card style={{ width: '18rem' }} onClick={handleShow}>
+    <div className="form-container">
+      <Card className={form.isSelected ? `selectedCard` : `formCard`} onClick={handleShow}>
         <Card.Body>
           <Card.Title>{form.formName}</Card.Title>
+          <CardText className='selectedText'>{form.isSelected ? 'Selected' : ''}</CardText>
         </Card.Body>
         <ListGroup variant="flush">
           {form.questions && form.questions.slice(0, 3).map((question, index) => (
@@ -82,13 +83,13 @@ export const FormCard = (form: FormProps) => {
         </ListGroup>
       </Card>
 
-      <Modal show={showModal} onHide={handleClose}>
+      <Modal show={showModal} onHide={handleClose} className="form-modal">
         <Modal.Header closeButton>
           <Modal.Title>{form.formName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ListGroup variant="flush">
-          {form.questions && form.questions.map((question, index) => (
+            {form.questions && form.questions.map((question, index) => (
               <ListGroup.Item key={index}>
                 <div>Question: {question.question}</div>
                 <div>Attribute: {question.attributes.name}</div>
@@ -97,9 +98,11 @@ export const FormCard = (form: FormProps) => {
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleSelectForm}>
+          { !form.isSelected && 
+            <Button variant="success" onClick={handleSelectForm}>
             Select
           </Button>
+          }
           <Button variant="danger" onClick={handleDeleteForm}>
             Delete
           </Button>
@@ -108,7 +111,7 @@ export const FormCard = (form: FormProps) => {
           </Button>
         </Modal.Footer>
       </Modal>
-  </div>
+    </div>
 
   )
 }

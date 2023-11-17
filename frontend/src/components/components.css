@@ -413,3 +413,38 @@ margin: 5rem 0
 .formHeader {
   width: 100vw;
 }
+
+.selectedCard {
+  box-shadow:0 4px 6px green;
+}
+
+.formCard {
+  transition: transform 0.3s ease; /* Optional: Add a transition effect */
+}
+
+.selectedCard {
+  transition: transform 0.3s ease; /* Optional: Add a transition effect */
+}
+
+.formCard:hover {
+  transform: scale(1.1); /* Adjust the scale factor as needed */
+}
+
+.selectedCard:hover {
+  transform: scale(1.1); /* Adjust the scale factor as needed */
+}
+
+/* Scale up on hover for the modal */
+.form-modal {
+  transition: transform 0.3s ease; /* Optional: Add a transition effect */
+}
+
+.form-modal:hover {
+  transform: scale(1.05); /* Adjust the scale factor as needed */
+}
+
+.selectedText {
+  color: green;
+  text-align: left;
+  transform: translateY(-140%);
+}
