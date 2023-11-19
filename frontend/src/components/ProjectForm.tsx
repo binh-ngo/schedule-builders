@@ -4,9 +4,7 @@ import { ddbCreateProject } from '../graphql/projects';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 
-interface ProjectFormProps { }
-
-const ProjectForm: React.FC<ProjectFormProps> = () => {
+const ProjectForm = () => {
     const questions: string[] = [
         'What type of decking or patio project is this?',
         'Please provide a detailed description of what you want us to do.',
@@ -31,7 +29,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
         email
     }
 
-    const [answers, setAnswers] = useState<string[]>(Array(questions.length-1).fill(''));
+    const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     let navigate = useNavigate();
 
@@ -66,7 +64,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
         }
         console.log(answers)
     };
-
+    
     const handlePreviousQuestion = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
@@ -132,22 +130,23 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
         if (index === 0) {
             return (
                 <div>
-                    <h3 className='question-header'>{question}</h3>
-                    {projectTypes.map((type: string) => (
-                        <div className='radio-buttons'>
-                            <input
-                                key={type}
-                                type="radio"
-                                id={type}
-                                name="projectType"
-                                value={type}
-                                checked={answer === type}
-                                onChange={handleAnswerChange}
-                            />
-                            <label htmlFor={type}>{type}</label>
-                        </div>
-                    ))}
-                </div>
+                <h3 className='question-header'>{question}</h3>
+                {projectTypes.map((type: string) => (
+                  <div className='radio-buttons'>
+                    <input
+                      className='radio-button-text'
+                      key={type}
+                      type="radio"
+                      id={type}
+                      name="projectType"
+                      value={type}
+                      checked={answer === type}
+                      onChange={handleAnswerChange}
+                    />
+                    <label htmlFor={type}>{type}</label>
+                  </div>
+                ))}
+              </div>
             );
         } else if (index === 2) {
             return (
@@ -157,6 +156,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                         <div className='radio-buttons'>
                             <input
                                 key={type}
+                                className='radio-button-text'
                                 type="radio"
                                 id={type}
                                 name="projectType"
@@ -176,6 +176,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                         <div className='radio-buttons'>
                             <input
                                 key={size}
+                                className='radio-button-text'
                                 type="radio"
                                 id={size}
                                 name="projectType"
@@ -196,6 +197,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                         <div className='radio-buttons'>
                             <input
                                 key={timeframe}
+                                className='radio-button-text'
                                 type="radio"
                                 id={timeframe}
                                 name="projectType"
@@ -215,6 +217,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                     <div className='radio-buttons'>
                         <input
                             type="radio"
+                            className='radio-button-text'
                             id="Residential"
                             name="projectType"
                             value="Residential"
@@ -226,6 +229,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                     <div className='radio-buttons'>
                         <input
                             type="radio"
+                            className='radio-button-text'
                             id="Business"
                             name="projectType"
                             value="Business"
@@ -243,23 +247,23 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
                     <h3 className='question-header'>{question}</h3>
                     <div className="user-details-form">
                         <Form>
-                            <Form.Group controlId="name">
+                            <Form.Group className="mts-5" controlId="name">
                                 <Form.Control type="text" placeholder="Name" name="Name" value={name} required onChange={(e:any) => setName(e.target.value)} />
                             </Form.Group>
 
-                            <Form.Group controlId="address">
+                            <Form.Group className="my-2" controlId="address">
                                 <Form.Control type="text" placeholder="Address" name="Address" value={address} required onChange={(e:any) => setAddress(e.target.value)} />
                             </Form.Group>
 
-                            <Form.Group controlId="city">
+                            <Form.Group className="my-2" controlId="city">
                                 <Form.Control type="text" placeholder="City" name="City" value={city} required onChange={(e:any) => setCity(e.target.value)} />
                             </Form.Group>
 
-                            <Form.Group controlId="phone">
+                            <Form.Group className="my-2" controlId="phone">
                                 <Form.Control type="tel" placeholder="Phone" name="Phone" value={phone} required onChange={(e:any) => setPhone(e.target.value)} />
                             </Form.Group>
 
-                            <Form.Group controlId="email">
+                            <Form.Group className="my-2" controlId="email">
                                 <Form.Control type="email" placeholder="Email" name="Email" value={email} required onChange={(e:any) => setEmail(e.target.value)} />
                             </Form.Group>
                         </Form>

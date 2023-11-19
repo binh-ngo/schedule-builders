@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 // @ts-ignore
 import { useEffect, useState } from 'react';
 import { ddbAddSelection, ddbDeleteForm, ddbGetAllForms, ddbGetSelectedForm, ddbRemoveSelection } from '../graphql/forms';
-import { Button, CardHeader, CardText, Modal } from 'react-bootstrap';
+import { Button, CardText, Modal } from 'react-bootstrap';
 
 type FormProps = {
   formName: string;
@@ -84,7 +84,7 @@ export const FormCard = (form: FormProps) => {
       </Card>
 
       <Modal show={showModal} onHide={handleClose} className="form-modal">
-        <Modal.Header closeButton>
+        <Modal.Header closeButton>Modal
           <Modal.Title>{form.formName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -137,7 +137,46 @@ export type ProjectInput = {
     contractorName: string;
     customAttributes: CustomAttributes[];
 }
+//~~~~~~~~~~~~~~~~~~~~~~  //
+//  Messages Event Types  //
+// ~~~~~~~~~~~~~~~~~~~~~~ //
 
+export type Message = {
+  messageId: string;
+  projectId: string;
+  body: string;
+  authorId: string;
+  authorName: string
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type MessageInput = {
+  body: string;
+  authorId: string;
+  authorName: string;
+  projectId: string;
+}
+//~~~~~~~~~~~~~~~~~~~~~~  //
+//  Bid Event Types   //
+// ~~~~~~~~~~~~~~~~~~~~~~ //
+
+export type Bid = {
+  bidId: string;
+  projectId: string;
+  contractorName: string;
+  contractorId: string;
+  bidAmount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type BidInput = {
+  projectId: string;
+  contractorName: string;
+  contractorId: string;
+  bidAmount: number;
+}
 //~~~~~~~~~~~~~~~~~~~~~~  //
 //  Appsync Event Types   //
 // ~~~~~~~~~~~~~~~~~~~~~~ //

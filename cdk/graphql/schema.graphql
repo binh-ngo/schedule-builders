@@ -20,6 +20,12 @@ type Query {
     getAllForms: [Form] @aws_cognito_user_pools
     getSelectedForm: [Form] @aws_cognito_user_pools
     getFormById(formId: String!): Form @aws_cognito_user_pools
+
+    getAllMessages(projectId: String!): [Message] @aws_cognito_user_pools
+    getMessageById(projectId: String!, messageId: String!): Message @aws_cognito_user_pools
+
+    getAllBids(projectId: String!): [Bid] @aws_cognito_user_pools
+    getBidById(projectId: String!, bidId: String!): Bid @aws_cognito_user_pools
 }
 
 type Mutation {
@@ -37,7 +43,6 @@ type Mutation {
         clientInput: ClientInput!
     ): Client @aws_cognito_user_pools
 
-
     createContractor(contractorInput: ContractorInput): Contractor @aws_cognito_user_pools
     deleteContractor(contractorName: String!, contractorId: String!): String @aws_cognito_user_pools
     updateContractor(
@@ -54,7 +59,24 @@ type Mutation {
         formId: String!
         formInput: FormInput!
     ): Form @aws_cognito_user_pools
+
+    createMessage(messageInput: MessageInput): Message @aws_cognito_user_pools
+    deleteMessage(authorName: String!, messageId: String!): String @aws_cognito_user_pools
+    updateMessage(
+        projectId: String!
+        messageId: String!
+        messageInput: MessageInput!
+    ): Message @aws_cognito_user_pools
+
+    createBid (bidInput: BidInput): Bid @aws_cognito_user_pools
+    deleteBid (contractorName: String!, bidId: String!): String @aws_cognito_user_pools
+    updateBid (
+        projectId: String!
+        bidId: String!
+        bidInput: BidInput!
+    ): Bid @aws_cognito_user_pools
 }
+
 
 input ProjectInput {
     clientName: String
@@ -110,6 +132,18 @@ input FormQuestionInput {
 input CustomAttributesInput {
     name: String
     value: String
+}
+
+input BidInput {
+    projectId: String
+    contractorName: String
+    contractorId: String
+    bidAmount: Float
+}
+
+input MessageInput {
+    body: String
+    authorId: String
 }
 
 type Project @aws_api_key @aws_cognito_user_pools {
@@ -179,4 +213,20 @@ type CustomAttributes @aws_api_key @aws_cognito_user_pools {
 type Questions @aws_cognito_user_pools {
     question: String
     attributes: CustomAttributes
+}
+
+type Bid @aws_cognito_user_pools {
+    bidId: String
+    projectId: String
+    contractorName: String
+    contractorId: String
+    bidAmount: Float
+    createdAt: String
+}
+
+type Message @aws_cognito_user_pools {
+    messageId: String
+    body: String
+    authorId: String
+    createdAt: String
 }

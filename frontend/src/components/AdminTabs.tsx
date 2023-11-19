@@ -9,6 +9,7 @@ import { ddbGetAllForms } from '../graphql/forms';
 import { ddbGetAllFormResponse, ddbGetAllQueryResponse } from '../types/types';
 import { CreateForm } from './CreateForm';
 import { FormCard } from './FormCard';
+import { Button, Modal } from 'react-bootstrap';
 
 export const AdminTabs = () => {
   const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);
@@ -16,7 +17,11 @@ export const AdminTabs = () => {
   const [projectsWithoutEstimates, setProjectsWithoutEstimates] = useState<ddbGetAllQueryResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [forms, setForms] = useState<ddbGetAllFormResponse[]>([]);
-  const [selectedTab, setSelectedTab] = useState("projectsWithEstimates");
+  const [selectedTab, setSelectedTab] = useState("projectsWithoutEstimates");
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -163,6 +168,23 @@ export const AdminTabs = () => {
           </div>
         ) : (
           <div>
+            <Button onClick={handleShow}>
+              Hello
+            </Button>
+            <Modal show={showModal} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Create Form</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <CreateForm />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            
+            </Modal>
             {renderFormTab(forms)}
           </div>
         )}

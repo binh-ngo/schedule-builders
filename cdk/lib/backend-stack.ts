@@ -227,5 +227,49 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       typeName: "Mutation",
       fieldName: "updateForm",
     })
+
+        // Message Resolvers
+        contractorSiteDataSource.createResolver({
+          typeName: "Query",
+          fieldName: "getAllMessages",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Query",
+          fieldName: "getMessageById",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "createMessage",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "deleteMessage",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "updateMessage",
+        })
+
+        // Bid Resolvers
+        contractorSiteDataSource.createResolver({
+          typeName: "Query",
+          fieldName: "getAllBids",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Query",
+          fieldName: "getBidById",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "createBid",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "deleteBid",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "updateBid",
+        })
     }
   }
