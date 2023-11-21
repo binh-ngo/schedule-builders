@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { Form } from 'react-bootstrap'
-import { Helmet } from 'react-helmet';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../Accounts';
 import { ddbCreateContractor, ddbGetAllContractors } from '../graphql/contractors';
@@ -63,7 +63,7 @@ export const CreateContractor = (props: any) => {
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name } = e.target;
     setTouchedFields({ ...touchedFields, [name]: true });
-  };  
+  };
 
   const isFieldValid = (fieldName: string) => {
     switch (fieldName) {
@@ -164,157 +164,158 @@ export const CreateContractor = (props: any) => {
     }
   };
   return (
-    <div className="contractor-form">
-      <Helmet>
-        <title>Contractor Signup</title>
-        <meta
-          name="description"
-          content="Join our community of contractors by signing up. Gain exclusive access to our website's features by creating an account."
-        />
-      </Helmet>
-      <h1 className='contractor-form-header'>Contractor Form</h1>
-      <Form>
-        <Form.Group className="contractor-form-input" controlId="name">
-          <Form.Label className="contractor-form-label">Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Name"
-            name="contractorName"
-            value={formData.contractorName}
-            required
-            onChange={handleInputChange}
+    <HelmetProvider>
+
+      <div className="contractor-form">
+        <Helmet>
+          <title>Contractor Signup</title>
+          <meta
+            name="description"
+            content="Join our community of contractors by signing up. Gain exclusive access to our website's features by creating an account."
           />
-        </Form.Group>
+        </Helmet>
+        <h1 className='contractor-form-header'>Contractor Form</h1>
+        <Form>
+          <Form.Group className="contractor-form-input" controlId="name">
+            <Form.Label className="contractor-form-label">Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Name"
+              name="contractorName"
+              value={formData.contractorName}
+              required
+              onChange={handleInputChange}
+            />
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="email">
-          <Form.Label className="contractor-form-label">Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={formData.email}
-            required
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-          />
-          {touchedFields.email && !isFieldValid('email') && (
-            <Form.Text className="text-danger">Invalid email address</Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="email">
+            <Form.Label className="contractor-form-label">Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={formData.email}
+              required
+              onChange={handleInputChange}
+              onBlur={handleBlur}
+            />
+            {touchedFields.email && !isFieldValid('email') && (
+              <Form.Text className="text-danger">Invalid email address</Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="password">
-          <Form.Label className="contractor-form-label">Password</Form.Label>
-          <Form.Text className="text-muted">Passwords must be at least 8 characters</Form.Text>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={formData.password}
-            required
-            onChange={handleInputChange}
-          />
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="password">
+            <Form.Label className="contractor-form-label">Password</Form.Label>
+            <Form.Text className="text-muted">Passwords must be at least 8 characters</Form.Text>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={formData.password}
+              required
+              onChange={handleInputChange}
+            />
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="confirmPassword">
-          <Form.Label className="contractor-form-label">Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            required
-            onChange={handleInputChange}
-          />
-          {formData.password !== formData.confirmPassword && (
-            <Form.Text className="text-danger">Passwords do not match</Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="confirmPassword">
+            <Form.Label className="contractor-form-label">Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              required
+              onChange={handleInputChange}
+            />
+            {formData.password !== formData.confirmPassword && (
+              <Form.Text className="text-danger">Passwords do not match</Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="company">
-          <Form.Label className="contractor-form-label">Company</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Company"
-            name="company"
-            value={formData.company}
-            required
-            onChange={handleInputChange}
-          />
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="company">
+            <Form.Label className="contractor-form-label">Company</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Company"
+              name="company"
+              value={formData.company}
+              required
+              onChange={handleInputChange}
+            />
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="specialty">
-          <Form.Label className="contractor-form-label">Specialty</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Specialty"
-            name="specialty"
-            value={formData.specialty}
-            required
-            onChange={handleInputChange}
-          />
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="specialty">
+            <Form.Label className="contractor-form-label">Specialty</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Specialty"
+              name="specialty"
+              value={formData.specialty}
+              required
+              onChange={handleInputChange}
+            />
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="address">
-          <Form.Label className="contractor-form-label">Address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Address"
-            name="address"
-            value={formData.address}
-            required
-            onChange={handleInputChange}
-          />
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="address">
+            <Form.Label className="contractor-form-label">Address</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Address"
+              name="address"
+              value={formData.address}
+              required
+              onChange={handleInputChange}
+            />
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="phone">
-          <Form.Label className="contractor-form-label">Phone</Form.Label>
-          <Form.Control
-            type="tel"
-            placeholder="Phone"
-            name="phone"
-            value={formData.phone}
-            required
-            onChange={handleInputChange}
-            onBlur={handleBlur} // Add onBlur event handler
-          />
-          {touchedFields.phone && !isFieldValid('phone') && (
-            <Form.Text className="text-danger">Invalid phone number</Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="phone">
+            <Form.Label className="contractor-form-label">Phone</Form.Label>
+            <Form.Control
+              type="tel"
+              placeholder="Phone"
+              name="phone"
+              value={formData.phone}
+              required
+              onChange={handleInputChange}
+              onBlur={handleBlur} // Add onBlur event handler
+            />
+            {touchedFields.phone && !isFieldValid('phone') && (
+              <Form.Text className="text-danger">Invalid phone number</Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="city">
-          <Form.Label className="contractor-form-label">City</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="City"
-            name="city"
-            value={formData.city}
-            required
-            onChange={handleInputChange}
-          />
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="city">
+            <Form.Label className="contractor-form-label">City</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="City"
+              name="city"
+              value={formData.city}
+              required
+              onChange={handleInputChange}
+            />
+          </Form.Group>
 
-        <Form.Group className="contractor-form-input" controlId="imageUrl">
-          <Form.Label className="contractor-form-label">Image</Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/*"
-            name="imageUrl"
-            onChange={handleImageChange}
-          />
-        </Form.Group>
+          <Form.Group className="contractor-form-input" controlId="imageUrl">
+            <Form.Label className="contractor-form-label">Image</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              name="imageUrl"
+              onChange={handleImageChange}
+            />
+          </Form.Group>
 
-        <button
-          className={`contractor-form-input submit-button ${!isFormValid() ? "btn btn-secondary" : ""
-            }`}
-          disabled={!isFormValid()}
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-      </Form>
-
-
-    </div>
+          <button
+            className={`contractor-form-input submit-button ${!isFormValid() ? "btn btn-secondary" : ""
+              }`}
+            disabled={!isFormValid()}
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </Form>
+      </div>
+    </HelmetProvider>
   )
 }

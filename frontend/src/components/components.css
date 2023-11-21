@@ -32,7 +32,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    max-width: 50vw;
+    min-height: 50vh;
+    margin: 7rem 0;
   }
 .radio-buttons {
     margin-top: 10px;
@@ -50,19 +52,22 @@
     color:#1d5591;
     font-size: 2rem;
     font-weight: 600;
+    margin-bottom: 4rem;
 }  
 
 .question-form {
     display: flex;
     flex-direction: column;
+    align-self: center;
     justify-content: space-between;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
-    width: 100vw;
-    height: 80vh;
+    min-height: 70vh;
+    min-width: 60vw;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transform: translateX(40%);
   }
 .contact-info {
     display: flex;
@@ -84,6 +89,7 @@
   .question-answer {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-direction: column;
     width: 100%
   }
@@ -124,10 +130,9 @@
   }
   
 .landing {
-  background-color: rgb(54, 163, 200);
   padding-top: 1rem;
-
 }
+
   /* HERO */
 
   .hero-section {
@@ -136,7 +141,7 @@
     color: black;
     padding: 100px 0;
     text-align: center;
-
+    margin-top: 3rem;
   }
   
   .hero-section h1 {
@@ -154,6 +159,11 @@
     max-width: 100%;
     height: auto;
   }
+
+  .heroParagraph {
+    width: 70%;
+    margin-top: 5rem;
+  }
   
   .intro {
     transform: translateY(13%)
@@ -161,7 +171,7 @@
   /* FOOTER  */
 
   .footer {
-  background-color:#697fbaa9;
+  background-color:#9BBEC8;
   bottom: 0 !important;
   padding-top: 10px !important;
   padding-bottom: 8px !important ;
@@ -247,7 +257,7 @@
 }
 
 .sticky {
-  background-color: #697fbaa9 !important;
+  background-color: #9BBEC8 !important;
   transition: all 0.3s ease-out 0s !important;
   box-shadow: 0px 10px 10px 0px rgba(49, 140, 245, 0.171) !important;
   backdrop-filter: blur(15px) !important;
@@ -257,7 +267,8 @@
   position: fixed !important;
   transition: all 0.3s ease-out 0s !important;
   padding: 0.3rem 2rem !important;
-  font-size: 1.2rem !important;
+  font-size: .9rem !important;
+
 }
 
 .navbar-toggler {
@@ -268,7 +279,7 @@
 
 .navbar-toggler span {
   display: block !important;
-  background-color: black !important;
+  background-color: #164863 !important;
   height: 4px !important;
   width: 27px !important;
   margin-top: 5px !important;
@@ -315,7 +326,7 @@
   .navbar {
     padding: 1rem 2rem !important;
     font-size: 1.4rem !important;
-    background-color: #697fbaa9 !important;
+    background-color: #9BBEC8 !important;
   }
   .navbar-nav .nav-item a::after {
     display: none !important;
@@ -326,7 +337,7 @@
   }
 }
 .navbar-brand {
-  color: black !important;
+  color: #164863 !important;
   margin-left: -1rem;
 }
 
@@ -455,3 +466,80 @@ margin: 5rem 0
   text-align: left;
   transform: translateY(-140%);
 }
+
+.typewriter {
+  text-align: left;
+  z-index: 4;
+}
+
+.typewriter h1 {
+  font-size: 3rem;
+}
+
+.hero {
+  padding-bottom: 4rem;
+}
+
+.heroDescription {
+  margin-top: -18rem;
+  background-color: white;
+}
+
+.heroImg {
+  position: relative;
+  width: 200px;
+  height: 100vh;
+  transform: translateY(7%);
+}
+
+.heroImg img {
+  width: 400px;
+  height: auto;
+}
+
+@media only screen and (max-width: 390px) {
+  .typewriter {
+    transform: translateY(-10%);
+  }
+  .typewriter h1 {
+    font-size: 2.5rem;
+  }
+  .typewriter h2 {
+    font-size: 1.5rem;
+  }
+  .heroImg img{
+    width: 150px;
+    height: auto;
+    margin-top: -20rem;
+    margin-left: 8rem;
+    opacity: 60%;
+  }
+  .heroDescription {
+    margin-top: -42rem;
+  }
+}
+
+@media only screen and (min-width: 1679px) {
+  .typewriter h1 {
+    font-size: 5rem;
+  }
+  .heroImgComponent img {
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+  .heroDescription {
+    margin-top: -10rem;
+  }
+  .hero-section {
+    margin-top: 4rem;
+  }
+}
+
+.descriptionBlock {
+  padding: 1rem;
+  padding-top: 2rem;
+  box-shadow: 0px 1px 2px #164863;
+  background-color: white;
+}
+

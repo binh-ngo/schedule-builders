@@ -1,22 +1,24 @@
 import { AdminTabs } from '../components/AdminTabs';
 import { Header } from '../components/Header';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export const Admin = () => {
 
   return (
-    <div className='admin-page'>
-      <Helmet>
-        <title>Estimation Process Control</title>
-        <meta
-          name="description"
-          content="Take control of the estimation process. Manage estimates, project assignments, and monitoring from a single admin interface."
-        />
-      </Helmet>
-      <Header />
-      <div className='tab'>
-        <AdminTabs />
+    <HelmetProvider>
+      <div className='admin-page'>
+        <Helmet>
+          <title>Estimation Process Control</title>
+          <meta
+            name="description"
+            content="Take control of the estimation process. Manage estimates, project assignments, and monitoring from a single admin interface."
+          />
+        </Helmet>
+        <Header />
+        <div className='tab'>
+          <AdminTabs />
+        </div>
       </div>
-    </div>
+    </HelmetProvider>
   )
 }

@@ -2,21 +2,24 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './components.css'; 
 // @ts-ignore
-import hero from '../assets/hero.webp'
+import Type from './Type';
+import { HeroImg } from './HeroImg';
 
 const Hero = () => {
     return (
-        <Container className='hero-section mt-3'>
+        <Container className='hero-section'>
           <Row>
-            <Col className="intro" lg={6}>
-              <h1>Kalan's Estimates for Deck Repair & Remodeling Services</h1>
-              <p> I am Kalan Dumadag, a dedicated professional located in the Seattle area, committed to providing top-quality services to our local community. If you're seeking to enhance your outdoor living space, we specialize in deck repair and remodeling. For a prompt estimate and to initiate the journey toward transforming your outdoor area, please complete the form below. When you're ready, schedule an appointment with us to experience our expert services.
-              </p>
-              <Button className="mx-2" href="/create-project" variant="success" size="lg">Get an Estimate</Button>
-              <Button className="mx-2" href="/schedule-appointment" variant="primary" size="lg">Schedule an Appointment</Button>
+            <Col className="intro typewriter" sm={7}>
+              <h1><Type /></h1>
+              <h2>ready when you are.</h2>
+              <p className='heroParagraph'>Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!</p>
+              <div className='mt-5'>
+              <Button className="mx-2" style={{ backgroundColor: '#427D9D' }} href="/create-project" variant="primary" size="lg">Sign up</Button>
+              <Button className="mx-2" style={{ backgroundColor: '#9BBEC8' }} href="/schedule-appointment" variant="secondary" size="lg">Try it out!</Button>
+              </div>
             </Col>
-            <Col lg={6} className="pt-5">
-              <img src={hero} alt="default" />
+            <Col sm={5} className="heroImg">
+              <HeroImg />
             </Col>
           </Row>
           {/* <Row>

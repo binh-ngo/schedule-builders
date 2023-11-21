@@ -70,90 +70,90 @@ export const Header = () => {
           <span></span>
         </Navbar.Toggle>
 
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ms-auto" defaultActiveKey="#home">
-            <Nav.Item>
-              <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
-                <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
-              </Nav.Link>
-            </Nav.Item>
-{ username === 'admin' &&
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/admin"
-                disabled={!isAdmin}
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
-              </Nav.Link>
-            </Nav.Item>}
-
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/contractor"
-                disabled={!isContractor}
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> Contractor
-              </Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/project"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineFundProjectionScreen
-                  style={{ marginBottom: "2px" }}
-                />{" "}
-                Projects
-              </Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/contact"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlinePhone style={{ marginBottom: "2px" }} /> Contact
-              </Nav.Link>
-            </Nav.Item>
-
-            {!loggedInUser &&
-              <>
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="ms-auto" defaultActiveKey="#home">
+              <Nav.Item>
+                <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
+                  <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
+                </Nav.Link>
+              </Nav.Item>
+              {username === 'admin' &&
                 <Nav.Item>
                   <Nav.Link
                     as={Link}
-                    to="/login"
+                    to="/admin"
+                    disabled={!isAdmin}
                     onClick={() => updateExpanded(false)}
                   >
-                    <BiLogInCircle style={{ marginBottom: "2px" }} /> Login
+                    <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
                   </Nav.Link>
-                </Nav.Item>
+                </Nav.Item>}
 
-                <Nav.Item>
-                  <Nav.Link
-                    as={Link}
-                    to="/create-contractor"
-                    onClick={() => updateExpanded(false)}
-                  >
-                    <BsFillClipboardCheckFill style={{ marginBottom: "2px" }} /> Signup
-                  </Nav.Link>
-                </Nav.Item>
-              </>
-            }
+              <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/contractor"
+                  disabled={!isContractor}
+                  onClick={() => updateExpanded(false)}
+                >
+                  <AiOutlineUser style={{ marginBottom: "2px" }} /> Contractor
+                </Nav.Link>
+              </Nav.Item>
 
-            {loggedInUser &&
-              <div className="login-header">
-                <Login />
-              </div>
-            }
-          </Nav>
-        </Navbar.Collapse>
+              <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/project"
+                  onClick={() => updateExpanded(false)}
+                >
+                  <AiOutlineFundProjectionScreen
+                    style={{ marginBottom: "2px" }}
+                  />{" "}
+                  Projects
+                </Nav.Link>
+              </Nav.Item>
+
+              <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/contact"
+                  onClick={() => updateExpanded(false)}
+                >
+                  <AiOutlinePhone style={{ marginBottom: "2px" }} /> Contact
+                </Nav.Link>
+              </Nav.Item>
+
+              {!loggedInUser &&
+                <>
+                  <Nav.Item>
+                    <Nav.Link
+                      as={Link}
+                      to="/login"
+                      onClick={() => updateExpanded(false)}
+                    >
+                      <BiLogInCircle style={{ marginBottom: "2px" }} /> Login
+                    </Nav.Link>
+                  </Nav.Item>
+
+                  <Nav.Item>
+                    <Nav.Link
+                      as={Link}
+                      to="/create-contractor"
+                      onClick={() => updateExpanded(false)}
+                    >
+                      <BsFillClipboardCheckFill style={{ marginBottom: "2px" }} /> Signup
+                    </Nav.Link>
+                  </Nav.Item>
+                </>
+              }
+
+              {loggedInUser &&
+                <div className="login-header">
+                  <Login />
+                </div>
+              }
+            </Nav>
+          </Navbar.Collapse>
       </Container>
     </Navbar>
   );

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
-import { Helmet } from 'react-helmet';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { ContractorProjectCard } from '../components/ContractorProjectCard';
 import { Header } from '../components/Header';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -57,35 +57,38 @@ export const Contractor = () => {
   }
 
   return (
-    <div className='contractor-page'>
-      <Helmet>
-        <title>View Available Projects</title>
-        <meta
-          name="description"
-          content="Browse projects estimated by our administrator. Access a variety of available projects as a registered contractor."
+    <HelmetProvider>
 
-        />
-      </Helmet>
-      <Header />
-      <div className="tab">
-        <Tabs
-          defaultActiveKey="availableProjects"
-          transition={false}
-          id="noanim-tab-example"
-          className="mb-3"
-        >
-          <Tab eventKey="availableProjects" title="Available Projects">
-            {loading ? (
-              <div className="text-center">
-                <p>Loading...</p>
-                <LoadingSpinner />
-              </div>
-            ) : (
-              renderProjectTab(projectsWithEstimates)
-            )}
-          </Tab>
-        </Tabs>
+      <div className='contractor-page'>
+        <Helmet>
+          <title>View Available Projects</title>
+          <meta
+            name="description"
+            content="Browse projects estimated by our administrator. Access a variety of available projects as a registered contractor."
+
+          />
+        </Helmet>
+        <Header />
+        <div className="tab">
+          <Tabs
+            defaultActiveKey="availableProjects"
+            transition={false}
+            id="noanim-tab-example"
+            className="mb-3"
+          >
+            <Tab eventKey="availableProjects" title="Available Projects">
+              {loading ? (
+                <div className="text-center">
+                  <p>Loading...</p>
+                  <LoadingSpinner />
+                </div>
+              ) : (
+                renderProjectTab(projectsWithEstimates)
+              )}
+            </Tab>
+          </Tabs>
+        </div>
       </div>
-    </div>
+    </HelmetProvider>
   )
 }

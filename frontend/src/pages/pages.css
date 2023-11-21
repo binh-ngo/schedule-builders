@@ -1,3 +1,11 @@
+body {
+    background-color: #DDF2FD;
+}
+
+h1, h2, h3, p {
+    color: #164863;
+}
+
 .request-login {
     min-width: 100vw;
     min-height: 100vh;
@@ -6,10 +14,6 @@
 
 .login-header { 
     color: rgb(54, 163, 200);
-}
-
-.hero {
-    padding-bottom: 11.3rem;
 }
 
 .contractor-form-header {
@@ -63,7 +67,6 @@
 .contact-page {
     width: 100vw;
     height: 94vh;
-    background-color: rgb(54, 163, 200);
 }
 
 .contact-content {
