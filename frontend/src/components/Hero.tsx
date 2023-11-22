@@ -1,9 +1,9 @@
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './components.css'; 
-// @ts-ignore
 import Type from './Type';
-import { HeroImg } from './HeroImg';
+// @ts-ignore
+import hero2 from '../assets/hero2.webp'
 
 const Hero = () => {
     return (
@@ -14,12 +14,12 @@ const Hero = () => {
               <h2>ready when you are.</h2>
               <p className='heroParagraph'>Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!</p>
               <div className='mt-5'>
-              <Button className="mx-2" style={{ backgroundColor: '#427D9D' }} href="/create-project" variant="primary" size="lg">Sign up</Button>
-              <Button className="mx-2" style={{ backgroundColor: '#9BBEC8' }} href="/schedule-appointment" variant="secondary" size="lg">Try it out!</Button>
+              <Button className="mx-2" style={{ backgroundColor: '#164863' }} href="/create-contractor" variant="primary" size="lg">Sign up</Button>
+              <Button className="mx-2" style={{ backgroundColor: '#427D9D' }} href="/create-form" variant="secondary" size="lg">Try it out!</Button>
               </div>
             </Col>
             <Col sm={5} className="heroImg">
-              <HeroImg />
+              <img src={hero2} alt="hero home"/>
             </Col>
           </Row>
           {/* <Row>

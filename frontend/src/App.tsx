@@ -20,6 +20,7 @@ import { Contractor } from "./pages/Contractor";
 import { RequireContractorAuth } from "./RequireContractorAuth";
 import { ContactPage } from "./pages/Contact";
 import { RequestLogin } from "./pages/RequestLogin";
+import { CreateForm } from "./components/CreateForm";
 
 
 Amplify.configure(awsconfig);
@@ -38,6 +39,7 @@ function App() {
             <Route path="/contractor" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
             <Route path="/create-project" element={<ProjectForm />} />
             <Route path="/create-contractor" element={<CreateContractor />} />
+            <Route path="/create-form" element={<CreateForm />} />
             <Route path="/schedule-appointment" element={<ProjectFormCompleted />} />
           </Routes>
         </Account>

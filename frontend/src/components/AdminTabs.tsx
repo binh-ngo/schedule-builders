@@ -189,18 +189,6 @@ export const AdminTabs = () => {
           </div>
         )}
       </Tab>
-      <Tab eventKey="Create Form" title="Create Form">
-        {loading ? (
-          <div className="text-center">
-            <p>Loading...</p>
-            <LoadingSpinner />
-          </div>
-        ) : (
-          <div>
-            <CreateForm />
-          </div>
-        )}
-      </Tab>
     </Tabs>
   );
 }

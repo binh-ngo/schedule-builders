@@ -6,9 +6,13 @@ function Type() {
     <Typewriter
       options={{
         strings: [
-          "Home repairs,",
-          "Home upgrades,",
-          "Home cleanings,",
+          "Deck Builders,",
+          "Plumbers,",
+          "Handymen,",
+          "Roofers,",
+          "Landscapers,",
+          "Electricians,",
+          "Contractors,",
         ],
         autoStart: true,
         loop: true,

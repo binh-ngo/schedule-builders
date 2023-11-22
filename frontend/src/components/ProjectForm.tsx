@@ -20,6 +20,8 @@ const ProjectForm = () => {
     const [city, setCity] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [slideRight, setSlideRight] = useState(false);
+    const [slideLeft, setSlideLeft] = useState(false);
 
     const contactInfo = {
         name,
@@ -59,18 +61,25 @@ const ProjectForm = () => {
     };
 
     const handleNextQuestion = () => {
+        setSlideLeft(true);
         if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
-        console.log(answers)
-    };
+        setTimeout(() => {
+          setSlideLeft(false);
+        }, 0);
+        console.log(answers);
+      };
     
     const handlePreviousQuestion = () => {
+        setSlideRight(true);
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
+        setTimeout(() => {
+            setSlideRight(false);
+          }, 0);
         console.log(answers)
-
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -282,34 +291,35 @@ const ProjectForm = () => {
     };
 
     return (
-        <div className="question-form-container">
-            <div className="question-form">
-                <div className="progress-bar" style={{ width: calculateProgress() }}></div>
-                <div className="question-answer">
-                    {renderInput(questions[currentQuestionIndex], answers[currentQuestionIndex], currentQuestionIndex)}
-                </div>
-                <div className="button-container">
-                    <button
-                        className="prev-button"
-                        onClick={handlePreviousQuestion}
-                        disabled={currentQuestionIndex === 0}
-                    >
-                        Previous
-                    </button>
-                    {currentQuestionIndex < questions.length - 1 ? (
-                        <button className="next-button" onClick={handleNextQuestion}>
-                            Next
-                        </button>
-                    ) : (
-                        <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()}
-                        onClick={handleSubmit}>
-                            Submit
-                        </button>
-                    )}
-                </div>
+        <div className={`question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+          <div className={`question-form ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+            <div className={`progress-bar ${currentQuestionIndex === questions.length? 'full-width' : ''}`} style={{ width: calculateProgress() }}></div>
+            {currentQuestionIndex !== questions.length && (
+              <div className="question-answer">
+                {renderInput(questions[currentQuestionIndex], answers[currentQuestionIndex], currentQuestionIndex)}
+              </div>
+            )}
+            <div className="button-container">
+              <button
+                className="prev-button"
+                onClick={handlePreviousQuestion}
+                disabled={currentQuestionIndex === 0}
+              >
+                Previous
+              </button>
+              {currentQuestionIndex < questions.length - 1 ? (
+                <button className="next-button" onClick={handleNextQuestion}>
+                  Next
+                </button>
+              ) : (
+                <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
+                  Submit
+                </button>
+              )}
             </div>
+          </div>
         </div>
-    );
-};
+      );
+    };
 
 export default ProjectForm;
