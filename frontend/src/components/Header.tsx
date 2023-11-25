@@ -92,7 +92,7 @@ export const Header = () => {
               <Nav.Item>
                 <Nav.Link
                   as={Link}
-                  to="/contractor"
+                  to="/contractor/admin"
                   disabled={!isContractor}
                   onClick={() => updateExpanded(false)}
                 >
@@ -116,7 +116,7 @@ export const Header = () => {
               <Nav.Item>
                 <Nav.Link
                   as={Link}
-                  to="/contact"
+                  to="/contractor/contact"
                   onClick={() => updateExpanded(false)}
                 >
                   <AiOutlinePhone style={{ marginBottom: "2px" }} /> Contact

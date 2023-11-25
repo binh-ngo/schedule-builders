@@ -58,6 +58,9 @@
 .question-form {
     display: flex;
     flex-direction: column;
+    max-height: 500px; 
+    overflow-y: auto;
+    overflow-x: hidden;
     align-self: center;
     justify-content: space-between;
     background-color: #fff;
@@ -378,10 +381,9 @@ margin: 5rem 0
 .createForm {
   display: flex;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  /* background-color: #569fed; */
+  align-items: center;
   padding-top: 2rem;
+  overflow-x: hidden;
 }
 
 .removeBtn {
@@ -512,7 +514,7 @@ margin: 5rem 0
     width: 150px;
     height: auto;
     margin-top: -40rem;
-    margin-left: 13rem;
+    margin-left: 13.8rem;
   }
   .heroDescription {
     margin-top: -12rem;
@@ -568,3 +570,28 @@ margin: 5rem 0
   transform: translateX(180%); /* Use transform for the slide animation */
 }
   
+.formName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  min-height: 50vh;
+}
+
+.formInput.form-control {
+  width: 105%;
+}
+
+@media only screen and (min-width: 1679px) {
+  .formInput.form-control {
+    width: 80%;
+  }
+  
+  .heroImg img{
+    margin-bottom: -2rem;
+  }
+}
+
+.cardBody {
+  min-height: 10rem;
+}

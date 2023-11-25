@@ -2,24 +2,33 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './components.css'; 
 import Type from './Type';
-// @ts-ignore
-import hero2 from '../assets/hero2.webp'
 
-const Hero = () => {
-    return (
+type HeroProps = {
+  h2: string;
+  paragraph: string;
+  img: string;
+  button1Href: string;
+  button1Text: string;
+  button2Href?: string;
+  button2Text?: string;
+}
+
+const Hero = (props: HeroProps) => {
+
+  return (
         <Container className='hero-section'>
           <Row>
-            <Col className="intro typewriter" sm={7}>
+            <Col className="intro typewriter mt-5" sm={7}>
               <h1><Type /></h1>
-              <h2>ready when you are.</h2>
-              <p className='heroParagraph'>Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!</p>
+              <h2>{props.h2}</h2>
+              <p className='heroParagraph'>{props.paragraph}</p>
               <div className='mt-5'>
-              <Button className="mx-2" style={{ backgroundColor: '#164863' }} href="/create-contractor" variant="primary" size="lg">Sign up</Button>
-              <Button className="mx-2" style={{ backgroundColor: '#427D9D' }} href="/create-form" variant="secondary" size="lg">Try it out!</Button>
+              <Button className="mx-2" style={{ backgroundColor: '#164863' }} href={props.button1Href} size="lg">{props.button1Text}</Button>
+              <Button className="mx-2" style={{ backgroundColor: '#427D9D' }} href={props.button2Href} size="lg">{props.button2Text}</Button>
               </div>
             </Col>
             <Col sm={5} className="heroImg">
-              <img src={hero2} alt="hero home"/>
+              <img src={`assets/${props.img}`} alt="hero home"/>
             </Col>
           </Row>
           {/* <Row>
