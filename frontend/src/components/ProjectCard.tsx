@@ -7,31 +7,8 @@ import Form from 'react-bootstrap/Form';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ddbUpdateProject } from '../graphql/projects';
 import { ddbGetAllContractors } from '../graphql/contractors';
-import { ddbGetAllQueryResponse } from '../types/types';
+import { ddbGetAllQueryResponse, ProjectProps } from '../types/types';
 
-type ProjectProps = {
-  clientName: string;
-  projectId?: string;
-  clientPhone: string;
-  email: string;
-  address: string;
-  city: string;
-  description: string;
-  material: string;
-  projectSize: string;
-  projectType: string;
-  propertyType: string;
-  desiredCompletionTime: string;
-  imageUrls?: string[];
-  estimate?: number;
-  startDate?: string;
-  endDate?: string;
-  clientCost?: number;
-  contractorId?: string;
-  contractorName?: string;
-  createdAt: string;
-  updatedAt?: string;
-}
 
 interface FormData {
   imageUrls: File[] | null;

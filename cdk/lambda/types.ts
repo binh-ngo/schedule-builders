@@ -44,6 +44,7 @@ export type Client = {
     clientId: string;
     clientName: string
     clientPhone: string;
+    username: string;
     address: string
     email:string;
     city: string
@@ -55,6 +56,7 @@ export type ClientInput = {
     clientName: string;
     email: string;
     phone: string;
+    username: string;
     address: string;
     city: string;
 }
@@ -96,6 +98,7 @@ export type Project = {
     clientName: string;
     clientId: string;
     clientPhone: string;
+    email: string;
     address: string;
     city: string;
     projectId: string;

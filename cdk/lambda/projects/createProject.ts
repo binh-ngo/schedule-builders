@@ -13,10 +13,22 @@ const createProject = async (projectInput: ProjectInput) => {
 
     const formattedName = projectInput.clientName ? projectInput.clientName.trim().replace(/\s+/g, "") : "";
 
+    function extractUsernameFromEmail(email: string) {
+        const emailParts = email.split('@');
+        if (emailParts.length !== 2) {
+            console.error('Invalid email format');
+            return null;
+        }
+    
+        const username = emailParts[0];
+        return username;
+    }
+
     const client: Client = {
         clientId,
         clientName: formattedName,
         clientPhone: projectInput.clientPhone,
+        username: extractUsernameFromEmail(projectInput.email)!,
         address: projectInput.address,
         city: projectInput.city,
         email: projectInput.email,
@@ -31,6 +43,7 @@ const createProject = async (projectInput: ProjectInput) => {
         clientId,
         clientName: formattedName,
         clientPhone: projectInput.clientPhone,
+        email: projectInput.email,
         address: projectInput.address,
         city: projectInput.city,
         projectId,
@@ -80,7 +93,7 @@ const createProject = async (projectInput: ProjectInput) => {
                 {
                     PutRequest: {
                         Item: {
-                            PK: `CLIENT#${project.clientName}`,
+                            PK: `CLIENT#${client.username}`,
                             SK: `PROJECT#${projectId}`,
                             type: 'project',
                             ...project,
@@ -91,7 +104,7 @@ const createProject = async (projectInput: ProjectInput) => {
                     PutRequest: {
                         Item: {
                             PK: `CLIENTS`,
-                            SK: `CLIENT#${formattedName}`,
+                            SK: `CLIENT#${client.username}`,
                             type: 'client',
                             ...client,
                         },
@@ -100,7 +113,7 @@ const createProject = async (projectInput: ProjectInput) => {
                 {
                     PutRequest: {
                         Item: {
-                            PK: `CLIENT#${project.clientName}`,
+                            PK: `CLIENT#${client.username}`,
                             SK: `CLIENT#${clientId}`,
                             type: 'client',
                             ...client,

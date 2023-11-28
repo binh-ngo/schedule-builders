@@ -57,7 +57,7 @@ export const Header = () => {
     >
       <Container>
         <Navbar.Brand href="/" className="d-flex">
-          <strong className="brand">Kalan's Estimates</strong>
+          <strong className="brand">Schedule.builders</strong>
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="responsive-navbar-nav"
@@ -81,11 +81,11 @@ export const Header = () => {
               <Nav.Item>
                 <Nav.Link
                   as={Link}
-                  to="/contractor"
+                  to="/pro"
                   disabled={!isContractor}
                   onClick={() => updateExpanded(false)}
                 >
-                  <TbHammer style={{'marginBottom': "2px"}}/> Contractor
+                  <TbHammer style={{'marginBottom': "2px"}}/> Pro
                 </Nav.Link>
               </Nav.Item>
 

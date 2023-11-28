@@ -61,7 +61,7 @@ export const ddbGetClientById = async (clientName: string, clientId: string) => 
         address
         city
         email
-        phone
+        clientPhone
         createdAt
         updatedAt
       }

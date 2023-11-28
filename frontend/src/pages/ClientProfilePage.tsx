@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Button, Card } from 'react-bootstrap'
 import { useParams } from 'react-router-dom';
-import { ddbGetAllClients } from '../graphql/clients';
+import { ddbGetProjectById } from '../graphql/projects';
+import { ProjectProps } from '../types/types';
 
 export const ClientProfilePage = () => {
-  const { clientName } = useParams();
 
-  const [clientId, setClientId] = useState("");
+  const { projectId } = useParams();
 
-  // useEffect(() => {
-  //   const fetchClient = async () => {
-  //     const response = await ddbGetAllClients();
-  //     for(let i=0; i < response.length; i++) {
-  //       if (clientName === response[i].clientName) {
-  //         setClientId(response[i].clientId);
-  //       }
-  //     }
-  //   }
-  //   fetchClient();
-  // }, [clientName]);
+  const [project, setProject] = useState<ProjectProps>();
+  useEffect(() => {
+    const fetchClient = async () => {
+      const response = await ddbGetProjectById(projectId ?? "");
+        if (response) {
+          console.log('API Response:', response);
+          setProject(response);
+        }
+    };
+    fetchClient();
+  }, [projectId]);
 
   return (
     <Container className='hero-section'>
@@ -35,30 +35,29 @@ export const ClientProfilePage = () => {
       <Col sm={5} className="mt-5">
       <Card>
       <Card.Body>
-        <Card.Title>Example Name</Card.Title>
-        {/* <Card.Title>{clientName}</Card.Title> */}
-        <Card.Subtitle className="mb-2 text-muted">Client Phone: 123-123-1234</Card.Subtitle>
-        <Card.Subtitle className="mb-2 text-muted">Email: example@email.com</Card.Subtitle>
-        <Card.Subtitle className="mb-2 text-muted">Address: 123 North Street</Card.Subtitle>
-        <Card.Subtitle className="mb-2 text-muted">City: Seattle</Card.Subtitle>
+        <Card.Title>{project?.clientName}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">Client Phone: {project?.clientPhone}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">Email: {project?.email}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">Address: {project?.address}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">City: {project?.city}</Card.Subtitle>
 
         <Card.Text>
-          <strong>Description:</strong> I want to reconstruct my deck!
+          <strong>Description:</strong> {project?.description}
         </Card.Text>
         <Card.Text>
-          <strong>Material:</strong> Cedar
+          <strong>Material:</strong> {project?.material}
         </Card.Text>
         <Card.Text>
-          <strong>Project Size:</strong> Large: 400 sq ft
+          <strong>Project Size:</strong> {project?.projectSize} sq ft
         </Card.Text>
         <Card.Text>
-          <strong>Project Type:</strong> Residential
+          <strong>Project Type:</strong> {project?.projectType}
         </Card.Text>
         <Card.Text>
-          <strong>Desired Completion Time:</strong> 2 Weeks
+          <strong>Desired Completion Time:</strong> {project?.desiredCompletionTime}
         </Card.Text>
         <Card.Text>
-          <strong>Created At:</strong> 11/21/23
+          <strong>Created At:</strong> {project?.createdAt}
         </Card.Text>
       </Card.Body>
     </Card>

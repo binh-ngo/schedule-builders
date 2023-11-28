@@ -93,8 +93,8 @@ return resp;
 // ==============
 
 const getProjectByIdQuery = `
-    query getProjectById($clientName: String!, $projectId: String!) {
-      getProjectById(clientName: $clientName, projectId: $projectId) {
+    query getProjectById($projectId: String!) {
+      getProjectById(projectId: $projectId) {
         address
         city
         clientCost
@@ -125,11 +125,10 @@ const getProjectByIdQuery = `
     }
   `;
 
-export const ddbGetProjectById = async (clientName: string, projectId: string) => {
+export const ddbGetProjectById = async (projectId: string) => {
   const resp = await API.graphql({
     query: getProjectByIdQuery,
     variables: {
-      clientName,
       projectId,
     },
     authMode: "API_KEY"

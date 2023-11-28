@@ -1,9 +1,22 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
 import './components.css';
 import { ddbCreateProject } from '../graphql/projects';
 import { useNavigate } from 'react-router-dom';
 import { Col, Form, Row } from 'react-bootstrap';
 import moment from 'moment';
+import { ddbGetAllClients } from '../graphql/clients';
+import { AccountContext } from '../Accounts';
+import { ulid } from 'ulid';
+import { Auth } from 'aws-amplify';
+
+const config = {
+  SignUpConfig: {
+    autoConfirmUser: true,
+    autoVerifyEmail: true,
+  },
+};
+
+Auth.configure(config);
 
 const ProjectForm = () => {
     const questions: string[] = [
@@ -25,6 +38,8 @@ const ProjectForm = () => {
     const [endDate, setEndDate] = useState('');
     const [slideRight, setSlideRight] = useState(false);
     const [slideLeft, setSlideLeft] = useState(false);
+
+    const { signIn, signUp } = useContext(AccountContext);
 
     const contactInfo = {
         name,
@@ -107,10 +122,36 @@ const ProjectForm = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (name && address && city && phone && email !== '' && answers !== null)
+        if (!name || !address || !city || !phone || !email || !answers) {
+            console.log("Form data is not valid");
+            return;
+        }
+        console.log("Form data is valid. Checking if client exists now.")
+        // Check if a contractor with the same name already exists
+        const clientExists = await ddbGetAllClients();
+        const doesClientExist = clientExists.some(
+            (existingClient: any) =>
+                existingClient.email === email
+        );
+        //  Contractor doesn't exist, create account
+        if (doesClientExist) {
+            console.log("Contractor with the same username already exists.");
+            return;
+        } else {
+            console.log('Username is available!')
+            const tempPassword = ulid();
+            try {
+                const newUser = await signUp(name, email, tempPassword);
+                console.log("Account created.", newUser);
+                // Now, log in the newly created user
+                const loggedInNewUser = await signIn(email, tempPassword);
+                console.log("Logged in.", loggedInNewUser);
+            } catch (signupError) {
+                console.error("Error creating account.", signupError);
+            }
             console.log('Form data submitted:', answers);
-        console.log('With this contact information:', contactInfo);
-
+            console.log('With this contact information:', contactInfo);
+        };
         const project = {
             projectType: answers[0],
             description: answers[1],

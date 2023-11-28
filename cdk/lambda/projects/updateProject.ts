@@ -26,6 +26,7 @@ const updateProject = async (
         clientName: retrievedProject.clientName,
         clientId: retrievedProject.clientId,
         projectId: retrievedProject.projectId,
+        email: projectInput.email ? projectInput.email : retrievedProject.email,
         clientPhone: projectInput.clientPhone ? projectInput.clientPhone : retrievedProject.clientPhone,
         address: projectInput.address ? projectInput.address : retrievedProject.address,
         city: projectInput.city ? projectInput.city : retrievedProject.city,
