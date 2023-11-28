@@ -87,7 +87,7 @@ input ProjectInput {
     description: String
     material: String
     projectType: String
-    projectSize: String
+    projectSize: Int
     propertyType: String
     desiredCompletionTime: String
     imageUrls: [String]
@@ -156,11 +156,12 @@ type Project @aws_api_key @aws_cognito_user_pools {
     projectType: String
     description: String
     material: String
-    projectSize: String
+    projectSize: Int
     propertyType: String
     imageUrls: [String]
     contractorName: String
     contractorId: String
+    earlyEstimate: String
     estimate: Float
     startDate: String
     endDate: String
@@ -192,6 +193,7 @@ type Contractor @aws_api_key @aws_cognito_user_pools {
     phone: String
     email: String
     imageUrl: String
+    rating: Float
     createdAt: String
     updatedAt: String
 }

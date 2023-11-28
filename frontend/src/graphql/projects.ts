@@ -18,6 +18,7 @@ export type SaveProjectProps = {
     propertyType?: string;
     desiredCompletionTime?: string;
     imageUrls?: File[];
+    earlyEstimate?: number;
     estimate?: number;
     startDate?: string;
     endDate?: string;
@@ -29,27 +30,32 @@ export type SaveProjectProps = {
 const createProjectQuery = `
   mutation createProject($projectInput: ProjectInput!) {
     createProject(projectInput: $projectInput) {
-        projectId
-        address
-        city
-        description
-        material
-        projectSize
-        propertyType
-        projectType
-        desiredCompletionTime
-        imageUrls
-        clientCost
-        clientPhone
-        clientId
-        clientName
-        contractorName
-        contractorId
-        startDate
-        endDate
-        estimate
-        createdAt
-        updatedAt
+      address
+      city
+      clientCost
+      clientId
+      clientName
+      clientPhone
+      contractorId
+      contractorName
+      createdAt
+      customAttributes {
+        name
+        value
+      }
+      description
+      desiredCompletionTime
+      earlyEstimate
+      endDate
+      estimate
+      imageUrls
+      material
+      projectId
+      projectSize
+      projectType
+      propertyType
+      startDate
+      updatedAt
     }
   }
 `;
@@ -71,6 +77,8 @@ const resp = await API.graphql({
       city: projectInput.city,
       clientPhone: projectInput.clientPhone,
       email: projectInput.email,
+      startDate: projectInput.startDate,
+      endDate: projectInput.endDate,
     },
   },
   authMode: "API_KEY",
@@ -87,26 +95,31 @@ return resp;
 const getProjectByIdQuery = `
     query getProjectById($clientName: String!, $projectId: String!) {
       getProjectById(clientName: $clientName, projectId: $projectId) {
-        projectId
         address
         city
-        description
-        material
-        projectSize
-        propertyType
-        projectType
-        desiredCompletionTime
-        imageUrls
         clientCost
-        clientPhone
         clientId
         clientName
-        contractorName
+        clientPhone
         contractorId
-        startDate
+        contractorName
+        createdAt
+        customAttributes {
+          name
+          value
+        }
+        description
+        desiredCompletionTime
+        earlyEstimate
         endDate
         estimate
-        createdAt
+        imageUrls
+        material
+        projectId
+        projectSize
+        projectType
+        propertyType
+        startDate
         updatedAt
       }
     }
@@ -134,26 +147,31 @@ export const ddbGetProjectById = async (clientName: string, projectId: string) =
 const getAllProjectsQuery = `
 query getAllProjects($clientName: String!) {
   getAllProjects(clientName: $clientName) {
-    projectId
     address
     city
-    description
-    material
-    projectSize
-    propertyType
-    projectType
-    desiredCompletionTime
-    imageUrls
     clientCost
-    clientPhone
     clientId
     clientName
-    contractorName
+    clientPhone
     contractorId
-    startDate
+    contractorName
+    createdAt
+    customAttributes {
+      name
+      value
+    }
+    description
+    desiredCompletionTime
+    earlyEstimate
     endDate
     estimate
-    createdAt
+    imageUrls
+    material
+    projectId
+    projectSize
+    projectType
+    propertyType
+    startDate
     updatedAt
   }
 }
@@ -175,26 +193,31 @@ export const ddbGetAllProjects = async (clientName: string) => {
 const getAllProjectsFromAllClientsQuery = `
 query getAllProjectsFromAllClients {
   getAllProjectsFromAllClients {
-    projectId
     address
     city
-    description
-    material
-    projectSize
-    propertyType
-    projectType
-    desiredCompletionTime
-    imageUrls
     clientCost
-    clientPhone
     clientId
     clientName
-    contractorName
+    clientPhone
     contractorId
-    startDate
+    contractorName
+    createdAt
+    customAttributes {
+      name
+      value
+    }
+    description
+    desiredCompletionTime
+    earlyEstimate
     endDate
     estimate
-    createdAt
+    imageUrls
+    material
+    projectId
+    projectSize
+    projectType
+    propertyType
+    startDate
     updatedAt
   }
 }
@@ -214,26 +237,31 @@ export const ddbGetAllProjectsFromAllClients = async () => {
 const getAllProjectsWithEstimatesQuery = `
 query getAllProjectsWithEstimates {
   getAllProjectsWithEstimates {
-    projectId
     address
     city
-    description
-    material
-    projectSize
-    propertyType
-    projectType
-    desiredCompletionTime
-    imageUrls
     clientCost
-    clientPhone
     clientId
     clientName
-    contractorName
+    clientPhone
     contractorId
-    startDate
+    contractorName
+    createdAt
+    customAttributes {
+      name
+      value
+    }
+    description
+    desiredCompletionTime
+    earlyEstimate
     endDate
     estimate
-    createdAt
+    imageUrls
+    material
+    projectId
+    projectSize
+    projectType
+    propertyType
+    startDate
     updatedAt
   }
 }
@@ -252,26 +280,31 @@ export const ddbGetAllProjectsWithEstimates = async () => {
 const getAllProjectsWithEstimatesAndContractorsQuery = `
 query getAllProjectsWithEstimatesAndContractors {
   getAllProjectsWithEstimatesAndContractors {
-    projectId
     address
     city
-    description
-    material
-    projectSize
-    propertyType
-    projectType
-    desiredCompletionTime
-    imageUrls
     clientCost
-    clientPhone
     clientId
     clientName
-    contractorName
+    clientPhone
     contractorId
-    startDate
+    contractorName
+    createdAt
+    customAttributes {
+      name
+      value
+    }
+    description
+    desiredCompletionTime
+    earlyEstimate
     endDate
     estimate
-    createdAt
+    imageUrls
+    material
+    projectId
+    projectSize
+    projectType
+    propertyType
+    startDate
     updatedAt
   }
 }
@@ -290,26 +323,31 @@ export const ddbGetAllProjectsWithEstimatesAndContractors = async () => {
 const getAllProjectsWithoutEstimatesQuery = `
 query getAllProjectsWithoutEstimates {
   getAllProjectsWithoutEstimates {
-    projectId
     address
     city
-    description
-    material
-    projectSize
-    propertyType
-    projectType
-    desiredCompletionTime
-    imageUrls
     clientCost
-    clientPhone
     clientId
     clientName
-    contractorName
+    clientPhone
     contractorId
-    startDate
+    contractorName
+    createdAt
+    customAttributes {
+      name
+      value
+    }
+    description
+    desiredCompletionTime
+    earlyEstimate
     endDate
     estimate
-    createdAt
+    imageUrls
+    material
+    projectId
+    projectSize
+    projectType
+    propertyType
+    startDate
     updatedAt
   }
 }
@@ -372,6 +410,7 @@ export const ddbUpdateProject = async (projectInput: SaveProjectProps) => {
         propertyType: projectInput.propertyType,
         desiredCompletionTime: projectInput.desiredCompletionTime,
         estimate: projectInput.estimate,
+        earlyEstimate: projectInput.earlyEstimate,
         startDate: projectInput.startDate,
         endDate: projectInput.endDate,
         clientCost: projectInput.clientCost,

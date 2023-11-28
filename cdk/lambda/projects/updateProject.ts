@@ -37,6 +37,7 @@ const updateProject = async (
         imageUrls: projectInput.imageUrls ? projectInput.imageUrls : retrievedProject.imageUrls,
         contractorId: projectInput.contractorId ? projectInput.contractorId : retrievedProject.contractorId,
         contractorName: projectInput.contractorName ? projectInput.contractorName : retrievedProject.contractorName,
+        earlyEstimate: retrievedProject.earlyEstimate,
         estimate: projectInput.estimate ? projectInput.estimate : retrievedProject.estimate,
         startDate: projectInput.startDate ? projectInput.startDate : retrievedProject.startDate,
         endDate: projectInput.endDate ? projectInput.endDate : retrievedProject.endDate,

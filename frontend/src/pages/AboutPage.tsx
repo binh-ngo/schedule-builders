@@ -60,27 +60,27 @@ export const AboutPage = () => {
         {/* Panel 1 */}
         <Col md={4} className="text-center descriptionBlock">
           <img src={form} alt='form icon' style={{"width": "100px", "height": "auto"}}/>
-          <h3>Submit Project</h3>
+          <h3>Submit Project Details</h3>
           <p>
-            Create a project so we can get you in contact with potential contractors!
+            Describe your project so we can get you in contact with potential contractors!
           </p>
         </Col>
 
         {/* Panel 2 */}
         <Col md={4} className="text-center descriptionBlock">
           <img src={choose} alt='choose contractor icon' style={{"width": "100px", "height": "auto"}}/>
-          <h3>Choose a Contractor</h3>
+          <h3>Receive Bids</h3>
           <p>
-            We will tailor prospective contractors to your needs in an effort to create a streamlined process.
+            We will tailor prospective contractors to your needs whenever you're ready and they will give competitive prices for your job.
           </p>
         </Col>
 
         {/* Panel 3 */}
         <Col md={4} className="text-center descriptionBlock">
           <img src={money} alt='give money icon' style={{"width": "100px", "height": "auto"}} />
-          <h3>Be Rewarded</h3>
+          <h3>Select Contractor</h3>
           <p>
-            After we receive our fee from the contractor, we will give you half of our fee, just like that.
+            After analyzing all the prospects, you can choose a contractor who will be ready to work during the time period you choose.
           </p>
         </Col>
       </Row>

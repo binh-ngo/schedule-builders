@@ -29,6 +29,7 @@ const updateContractor = async (
             email: contractorInput.email ? contractorInput.email : retrievedContractor.email,
             imageUrl: contractorInput.imageUrl ? contractorInput.imageUrl : retrievedContractor.imageUrl,
             phone: contractorInput.phone ? contractorInput.phone : retrievedContractor.phone,
+            rating: retrievedContractor.rating,
             createdAt: retrievedContractor.createdAt,
             updatedAt: new Date().toISOString(),
         };

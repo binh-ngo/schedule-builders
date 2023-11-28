@@ -7,7 +7,7 @@ import { Amplify } from "aws-amplify"
 import { awsconfig } from "./aws-exports";
 import ProjectForm from './components/ProjectForm';
 import { Account } from "./Accounts";
-import { ProjectFormCompleted } from "./pages/ProjectFormCompleted";
+// import { ProjectFormCompleted } from "./pages/ProjectFormCompleted";
 import { Admin } from "./pages/Admin";
 // import RequireAuth from "./RequireAuth";
 import { ContractorLandingPage } from "./pages/ContractorLandingPage";
@@ -23,6 +23,8 @@ import { RequestLogin } from "./pages/RequestLogin";
 import { CreateForm } from "./components/CreateForm";
 import { LandingPage } from "./pages/LandingPage";
 import { AboutPage } from "./pages/AboutPage";
+import { Page1 } from "./pages/templates/landingPages/Page1";
+import { ClientProfilePage } from "./pages/ClientProfilePage";
 
 
 Amplify.configure(awsconfig);
@@ -34,17 +36,20 @@ function App() {
         <Account>
           <Header />
           <Routes>
+            <Route path="/test" element={<ClientProfilePage />} />
             <Route path="/" element={<LandingPage />} />
+            <Route path="/:projectId" element={<ClientProfilePage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/contractor" element={<ContractorLandingPage />} />
+            <Route path="/pro" element={<ContractorLandingPage />} />
+            <Route path="/pro/:contractorName" element={<Page1 />} />
             <Route path="/login" element={<RequestLogin />} />
-            <Route path="/contractor/contact" element={<ContactPage />} />
+            <Route path="/pro/contact" element={<ContactPage />} />
             <Route path="/admin" element={<RequireAdminAuth><Admin /></RequireAdminAuth>} />
-            <Route path="/contractor/admin" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
-            <Route path="/contractor/create-form" element={<CreateForm />} />
+            <Route path="/contrproactor/admin" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
+            <Route path="/pro/create-form" element={<CreateForm />} />
             <Route path="/create-contractor" element={<CreateContractor />} />
             <Route path="/create-project" element={<ProjectForm />} />
-            <Route path="/schedule-appointment" element={<ProjectFormCompleted />} />
+            {/* <Route path="/schedule-appointment" element={<ProjectFormCompleted />} /> */}
           </Routes>
         </Account>
       </Router>

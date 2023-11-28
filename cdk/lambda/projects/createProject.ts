@@ -2,6 +2,7 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
 import { Client, Project, ProjectInput } from "../types";
+import { calculateProjectEstimate } from "./costEstimator";
 require("dotenv").config({ path: ".env" });
 
 // TODO: as of right now, clients don't need to sign in, so they have to fill out the 
@@ -23,6 +24,9 @@ const createProject = async (projectInput: ProjectInput) => {
         updatedAt: new Date().toISOString(),
     };
 
+    // Patios 10-20 / sqft
+    // https://www.bankrate.com/homeownership/how-much-does-it-cost-to-build-a-deck/#how-much-it-costs
+
     const project: Project = {
         clientId,
         clientName: formattedName,
@@ -38,6 +42,7 @@ const createProject = async (projectInput: ProjectInput) => {
         propertyType: projectInput.propertyType,
         contractorName: '',
         contractorId: '',
+        earlyEstimate: calculateProjectEstimate(projectInput.material, projectInput.projectType, projectInput.projectSize),
         estimate: 0,
         startDate: '',
         endDate: '',
@@ -48,7 +53,7 @@ const createProject = async (projectInput: ProjectInput) => {
         updatedAt: new Date().toISOString(),
     };
 
-    // Store Contractor data in DynamoDB
+    // Store Project and Client data in DynamoDB
     const params = {
         RequestItems: {
             "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB": [
@@ -108,7 +113,6 @@ const createProject = async (projectInput: ProjectInput) => {
     };
     
     try {
-
         await docClient.batchWrite(params).promise();
         console.log(`Created project: ${JSON.stringify(project, null, 2)}`);
         console.log(`Created client: ${JSON.stringify(client, null, 2)}`);

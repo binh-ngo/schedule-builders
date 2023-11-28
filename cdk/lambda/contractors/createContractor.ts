@@ -29,6 +29,7 @@ const createContractor = async (contractorInput: ContractorInput) => {
         email: contractorInput.email,
         imageUrl,
         phone: contractorInput.phone,
+        rating: 0,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     };

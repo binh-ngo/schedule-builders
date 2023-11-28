@@ -73,6 +73,7 @@ export type Contractor = {
     email: string;
     imageUrl: string;
     phone: string;
+    rating: number;
     createdAt: string;
     updatedAt: string;
 }
@@ -102,9 +103,10 @@ export type Project = {
     imageUrls: string[];
     contractorName: string;
     contractorId: string;
+    earlyEstimate: string;
     estimate: number;
     material: string;
-    projectSize: string;
+    projectSize: number;
     projectType: string;
     propertyType: string;
     startDate: string;
@@ -129,7 +131,7 @@ export type ProjectInput = {
     material: string;
     propertyType: string;
     projectType: string;
-    projectSize: string;
+    projectSize: number;
     startDate: string;
     endDate: string;
     clientCost: number;

@@ -2,15 +2,6 @@
     font-size: 1.5rem;
 }
 
-.calendar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  width: 100vw;
-  height: 80vh;
-}
-
 .login-header {
   margin: 0 3rem;
   margin-right: -6rem;
@@ -36,16 +27,49 @@
     min-height: 50vh;
     margin: 7rem 0;
   }
+
 .radio-buttons {
     margin-top: 10px;
     font-size: 1.3rem;
     display: flex;
-    align-items: center; /* Align items vertically */
-    margin-bottom: 10px; /* Add margin between radio buttons */
+    flex-wrap: wrap;
+    align-items: center; 
+    margin-bottom: 10px; 
 }
 
-.radio-button-text {
-  margin-right: 8px; /* Adjust the margin as needed */
+.radio-button-container {
+  flex-basis: 50%; 
+  padding: 5px;
+}
+
+.radio-button {
+  display: none; 
+}
+
+.custom-radio-button {
+  display: inline-block;
+  width: 20px; 
+  height: 20px;
+  background-color: #fff; 
+  border: 2px solid #3498db; 
+  border-radius: 50%; 
+  cursor: pointer;
+  margin-right: .4rem;
+}
+
+.custom-radio-button.checked {
+  background-color: #3498db; 
+  border-color: #3498db; /* Change border color when checked */
+  border: 2px solid #3498db;
+  border-radius: 50%; 
+  padding: 5px;
+}
+
+.custom-radio-button-label {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px; 
+  cursor: pointer;
 }
 
 .question-header {
@@ -97,11 +121,15 @@
     width: 100%
   }
 
-  .progress-bar {
+  .progressBar {
     height: 10px;
     background-color: #007bff;
     margin-bottom: 10px;
   }
+
+  .full-width {
+  width: 100%;
+}
   
   .button-container {
     display: flex;
@@ -550,16 +578,16 @@ margin: 5rem 0
 .question-form-container {
   position: absolute;
   transform: translateX(0%);
-  transition: transform .6s ease-in-out; /* Use transform for the entire container */
+  transition: transform .5s ease-in-out; /* Use transform for the entire container */
 }
 
 .question-form-container.slideRight {
-  transition: left .6s ease-in-out; 
-  left: -.500%;
+  transition: left .5s ease-in-out; 
+  left: -100%;
 }
 
 .question-form-container.slideLeft {
-  transition: right .6s ease-in-out; 
+  transition: right .5s ease-in-out; 
   right: -100%;
 }
 

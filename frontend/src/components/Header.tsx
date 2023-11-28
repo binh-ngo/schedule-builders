@@ -7,8 +7,8 @@ import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
   AiOutlineUser,
-  AiOutlinePhone,
 } from "react-icons/ai";
+import { TbHammer } from "react-icons/tb";
 import { BsFillClipboardCheckFill } from "react-icons/bs"
 import { BiLogInCircle } from "react-icons/bi"
 import { AccountContext } from "../Accounts";
@@ -77,6 +77,18 @@ export const Header = () => {
                   <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
                 </Nav.Link>
               </Nav.Item>
+
+              <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/contractor"
+                  disabled={!isContractor}
+                  onClick={() => updateExpanded(false)}
+                >
+                  <TbHammer style={{'marginBottom': "2px"}}/> Contractor
+                </Nav.Link>
+              </Nav.Item>
+
               {username === 'admin' &&
                 <Nav.Item>
                   <Nav.Link
@@ -92,34 +104,13 @@ export const Header = () => {
               <Nav.Item>
                 <Nav.Link
                   as={Link}
-                  to="/contractor/admin"
-                  disabled={!isContractor}
-                  onClick={() => updateExpanded(false)}
-                >
-                  <AiOutlineUser style={{ marginBottom: "2px" }} /> Contractor
-                </Nav.Link>
-              </Nav.Item>
-
-              <Nav.Item>
-                <Nav.Link
-                  as={Link}
-                  to="/project"
+                  to="/about"
                   onClick={() => updateExpanded(false)}
                 >
                   <AiOutlineFundProjectionScreen
                     style={{ marginBottom: "2px" }}
                   />{" "}
-                  Projects
-                </Nav.Link>
-              </Nav.Item>
-
-              <Nav.Item>
-                <Nav.Link
-                  as={Link}
-                  to="/contractor/contact"
-                  onClick={() => updateExpanded(false)}
-                >
-                  <AiOutlinePhone style={{ marginBottom: "2px" }} /> Contact
+                  About Us
                 </Nav.Link>
               </Nav.Item>
 
