@@ -34,10 +34,23 @@ export const CreateContractor = (props: any) => {
 
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
-  const { signIn, signUp } = useContext(AccountContext);
+  const { signIn, proSignUp } = useContext(AccountContext);
 
   let navigate = useNavigate();
   let from = props.from || "/";
+
+
+  function removeEmailDomain(email: string): string {
+    const atIndex = email.indexOf('@');
+  
+    if (atIndex !== -1) {
+      const emailWithoutDomain = email.substring(0, atIndex);
+      return emailWithoutDomain;
+    }
+  
+    // If the email doesn't contain "@", return the original email
+    return email;
+  }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -115,10 +128,10 @@ export const CreateContractor = (props: any) => {
       console.log("Contractor with the same name already exists.");
     } else {
       try {
-        const newUser = await signUp(formData.contractorName, formData.email, formData.password);
+        const newUser = await proSignUp(removeEmailDomain(formData.email), formData.email, formData.password);
         console.log("Account created.", newUser);
         // Now, log in the newly created user
-        const loggedInNewUser = await signIn(formData.email, formData.password);
+        const loggedInNewUser = await signIn(removeEmailDomain(formData.email), formData.password);
         console.log("Logged in.", loggedInNewUser);
         navigate(from, { replace: true });
       } catch (signupError) {

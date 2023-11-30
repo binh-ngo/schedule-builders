@@ -7,7 +7,8 @@ interface AccountContextType {
   resetCurrentAuthedUser: () => Promise<any>;
   signIn: (username: string, password: string) => Promise<any>;
   signOut: (callback: VoidFunction) => Promise<any>;
-  signUp: (username: string, email: string, password: string) => Promise<any>;
+  proSignUp: (username: string, email: string, password: string) => Promise<any>;
+  clientSignUp: (username: string, email: string, password: string) => Promise<any>;
 }
 
 const AccountContext = createContext<AccountContextType>(null!);
@@ -41,13 +42,29 @@ const Account = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const signUp = async (username:string, email: string, password:string) => {
+  const clientSignUp = async (username:string, email: string, password:string) => {
     try {
       await Auth.signUp({
         username,
         password,
         attributes: {
-          email, // Include the user's email as an attribute
+          email,
+          profile: "client"
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const proSignUp = async (username:string, email: string, password:string) => {
+    try {
+      await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email, 
+          profile: "pro"
         },
       });
     } catch (error) {
@@ -81,7 +98,8 @@ const Account = ({ children }: { children: ReactNode }) => {
     resetCurrentAuthedUser,
     signIn,
     signOut,
-    signUp
+    proSignUp,
+    clientSignUp
   };
 
   return (

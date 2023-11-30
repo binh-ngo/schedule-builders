@@ -13,16 +13,17 @@ const s3 = new AWS.S3({
 const createContractor = async (contractorInput: ContractorInput) => {
     const contractorId = ulid();
     const formattedName = contractorInput.contractorName ? contractorInput.contractorName.trim().replace(/\s+/g, "") : "";
+    const formattedCompanyName = contractorInput.company ? contractorInput.company.trim().replace(/\s+/g, "") : "";
     
     try {
 
-        const imageUrl = await generateUploadURL(formattedName, contractorId);
+        const imageUrl = await generateUploadURL(formattedCompanyName, contractorId);
         
         // Create the Contractor object with S3 URLs
     const contractor: Contractor = {
         contractorId,
         contractorName: formattedName,
-        company: contractorInput.company,
+        company: formattedCompanyName,
         specialty: contractorInput.specialty,
         address: contractorInput.address,
         city: contractorInput.city,
@@ -41,7 +42,7 @@ const createContractor = async (contractorInput: ContractorInput) => {
                         PutRequest: {
                             Item: {
                                 PK: `CONTRACTORS`,
-                                SK: `CONTRACTOR#${formattedName}`,
+                                SK: `CONTRACTOR#${formattedCompanyName}`,
                                 type: "contractor",
                                 ...contractor
                             },
@@ -51,7 +52,7 @@ const createContractor = async (contractorInput: ContractorInput) => {
                         PutRequest: {
                             Item: {
                                 PK: `CONTRACTOR#${contractorId}`,
-                                SK: `CONTRACTOR#${formattedName}`,
+                                SK: `CONTRACTOR#${formattedCompanyName}`,
                                 type: 'contractor',
                                 ...contractor,
                             },
@@ -62,9 +63,10 @@ const createContractor = async (contractorInput: ContractorInput) => {
             ReturnConsumedCapacity: "TOTAL",
         };
 
+        const newContractor = await docClient.batchWrite(params).promise();
 
-        await docClient.batchWrite(params).promise();
         console.log(`Created contractor: ${JSON.stringify(contractor, null, 2)}`);
+
         return contractor;
     } catch (err) {
         console.log(`Error: ${JSON.stringify(err, null, 2)}`);
@@ -72,11 +74,11 @@ const createContractor = async (contractorInput: ContractorInput) => {
     }
 };
 
-export async function generateUploadURL(contractorName:string, contractorId:string) {
+export async function generateUploadURL(company:string, contractorId:string) {
 
     const params = ({
       Bucket: process.env.BUCKET_NAME,
-      Key: `contractors/${contractorName}-${contractorId}.jpg`,
+      Key: `contractors/${company}-${contractorId}.jpg`,
     })
     
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);

@@ -22,19 +22,20 @@ export const Description = () => {
           <FaWpforms size={50} color="#427D9D" />
           <h3>Customize form</h3>
           <p>
-            Tailor your form and use the information to create a streamlined process.
+            Tailor your form to receive additional information if necessary, and bid on verified projects on our auction page.
           </p>
         </Col>
 
         {/* Panel 3 */}
         <Col md={4} className="text-center descriptionBlock">
           <LiaUsersSolid size={50} color="#9BBEC8" />
-          <h3>Sit back</h3>
+          <h3>Relax</h3>
           <p>
-            That's it! Just relax and know that we are working on increasing your presence online and in your city.
+            Do what you do best, we'll handle the rest.
           </p>
         </Col>
       </Row>
     </Container>  
     )
 }
+

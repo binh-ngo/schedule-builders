@@ -6,7 +6,7 @@ import { Col, Form, Row } from 'react-bootstrap';
 import moment from 'moment';
 import { ddbGetAllClients } from '../graphql/clients';
 import { AccountContext } from '../Accounts';
-import { ulid } from 'ulid';
+// import { ulid } from 'ulid';
 import { Auth } from 'aws-amplify';
 
 const config = {
@@ -39,7 +39,7 @@ const ProjectForm = () => {
     const [slideRight, setSlideRight] = useState(false);
     const [slideLeft, setSlideLeft] = useState(false);
 
-    const { signIn, signUp } = useContext(AccountContext);
+    const { signIn, clientSignUp } = useContext(AccountContext);
 
     const contactInfo = {
         name,
@@ -52,6 +52,18 @@ const ProjectForm = () => {
     const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     let navigate = useNavigate();
+
+    function removeEmailDomain(email: string): string {
+        const atIndex = email.indexOf('@');
+      
+        if (atIndex !== -1) {
+          const emailWithoutDomain = email.substring(0, atIndex);
+          return emailWithoutDomain;
+        }
+      
+        // If the email doesn't contain "@", return the original email
+        return email;
+      }
 
     const handleAnswerChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         let updatedAnswers = [...answers]; // Declare the variable outside the switch
@@ -139,12 +151,12 @@ const ProjectForm = () => {
             return;
         } else {
             console.log('Username is available!')
-            const tempPassword = ulid();
+            // const tempPassword = ulid();
             try {
-                const newUser = await signUp(name, email, tempPassword);
+                const newUser = await clientSignUp(removeEmailDomain(email), email, 'password');
                 console.log("Account created.", newUser);
                 // Now, log in the newly created user
-                const loggedInNewUser = await signIn(email, tempPassword);
+                const loggedInNewUser = await signIn(removeEmailDomain(email), 'password');
                 console.log("Logged in.", loggedInNewUser);
             } catch (signupError) {
                 console.error("Error creating account.", signupError);

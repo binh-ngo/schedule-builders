@@ -50,7 +50,7 @@ const resp = await API.graphql({
       imageUrl: contractorInput.imageUrl
     },
   },
-  authMode: "AMAZON_COGNITO_USER_POOLS",
+  authMode: "API_KEY",
 });
 console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
 return resp;

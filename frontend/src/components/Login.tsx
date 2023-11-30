@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 
 export const Login = (props:any) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   
@@ -19,7 +19,7 @@ export const Login = (props:any) => {
 
     try {
       // Check if the user exists
-      const existingUser = await signIn(username, password);
+      const existingUser = await signIn(email, password);
       console.log("Logged in.", existingUser);
       navigate(from, { replace: true });
     } catch (loginError) {
@@ -33,13 +33,13 @@ export const Login = (props:any) => {
       {!loggedInUser && (
         <Form onSubmit={onSubmit} className="login-form d-flex flex-column">
           <Form.Group className="mb-4">
-            <Form.Label className="login-label font-semibold px-2">Username:</Form.Label>
+            <Form.Label className="login-label font-semibold px-2">Email:</Form.Label>
             <Form.Control
               className="login mt-2 bg-transparent px-2 py-1 rounded-md"
               type="text"
               name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-4">

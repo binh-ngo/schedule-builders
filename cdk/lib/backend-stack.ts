@@ -56,6 +56,13 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       });
       contractorSiteTable.grantFullAccess(contractorSiteLambda);
   
+      const snsLambda = new LambdaFunction(this, "PreSignupLambda", {
+        runtime: Runtime.NODEJS_18_X,
+        handler: "presignupTrigger.handler",
+        code: Code.fromAsset("lambda"),
+        memorySize: 512,
+      });
+
       const api = new GraphqlApi(this, "ContractorSiteGraphQL", {
         name: "contractor-site",
         schema: Schema.fromAsset("./graphql/schema.graphql"),

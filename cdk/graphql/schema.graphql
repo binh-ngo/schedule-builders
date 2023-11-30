@@ -43,7 +43,7 @@ type Mutation {
         clientInput: ClientInput!
     ): Client @aws_cognito_user_pools
 
-    createContractor(contractorInput: ContractorInput): Contractor @aws_cognito_user_pools
+    createContractor(contractorInput: ContractorInput): Contractor @aws_cognito_user_pools @aws_api_key
     deleteContractor(contractorName: String!, contractorId: String!): String @aws_cognito_user_pools
     updateContractor(
         contractorName: String!

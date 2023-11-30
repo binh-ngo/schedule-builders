@@ -20,7 +20,7 @@ export const RequestLogin = () => {
           <Row className="justify-content-center mt-5">
             <Col xs={12} sm={8} md={6}>
               <div className="text-center">
-                <h2 className='login-header'>You must log in to view this page!</h2>
+                <h2 className='login-header'>Please log in </h2>
               </div>
             </Col>
           </Row>

@@ -3,6 +3,10 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
 import { Client, Project, ProjectInput } from "../types";
 import { calculateProjectEstimate } from "./costEstimator";
+const {SNSClient, PublishCommand} = require('@aws-sdk/client-sns');
+
+const snsClient = new SNSClient({region: 'us-east-1'});
+
 require("dotenv").config({ path: ".env" });
 
 // TODO: as of right now, clients don't need to sign in, so they have to fill out the 
@@ -125,10 +129,27 @@ const createProject = async (projectInput: ProjectInput) => {
         ReturnConsumedCapacity: "TOTAL",
     };
     
+    const snsParams = {
+        Subject: "New Project Created",
+        Message: `A new project in the ${client.city} area has entered the marketplace! Check it out: https://schedule.builders/pro/marketplace
+        `, 
+        TopicArn: process.env.TOPIC_ARN
+      };
+      console.log(process.env.TOPIC_ARN)
     try {
-        await docClient.batchWrite(params).promise();
+        const newProject = await docClient.batchWrite(params).promise();
         console.log(`Created project: ${JSON.stringify(project, null, 2)}`);
         console.log(`Created client: ${JSON.stringify(client, null, 2)}`);
+
+        if (newProject) {
+            try{
+                const snsResult = await snsClient.send(new PublishCommand(snsParams));
+                console.log(`SNS Result: ${JSON.stringify(snsResult, null, 2)}`);
+            } catch (err) {
+                console.log(`SNS Error: ${JSON.stringify(err, null, 2)}`);
+                throw err;
+            }
+        };
         return project;
     } catch (err) {
         console.log(`Error: ${JSON.stringify(err, null, 2)}`);

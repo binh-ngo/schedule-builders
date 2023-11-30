@@ -82,7 +82,6 @@ export const Header = () => {
                 <Nav.Link
                   as={Link}
                   to="/pro"
-                  disabled={!isContractor}
                   onClick={() => updateExpanded(false)}
                 >
                   <TbHammer style={{'marginBottom': "2px"}}/> Pro
