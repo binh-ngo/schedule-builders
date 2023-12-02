@@ -66,7 +66,8 @@ const ProjectForm = () => {
       }
 
     const handleAnswerChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
-        let updatedAnswers = [...answers]; // Declare the variable outside the switch
+        let updatedAnswers = [...answers];
+        let selectedStartDate: string | null = null;
         switch (event.target.name) {
             case 'Name':
                 setName(event.target.value);
@@ -84,7 +85,13 @@ const ProjectForm = () => {
                 setEmail(event.target.value);
                 break;
             case 'startDate':
-                setStartDate(event.target.value);
+                selectedStartDate = event.target.value; 
+                setStartDate(selectedStartDate as string); 
+                setEndDate('');
+                const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
+                if (endDateInput) {
+                  endDateInput.min = selectedStartDate || '';
+                }
                 break;
             case 'endDate':
                 setEndDate(event.target.value);
@@ -290,8 +297,9 @@ const ProjectForm = () => {
                 <>
                     <Row>
                         <Col className='mx-2'>
-                            <h3>Start Date</h3>
+                            <h2>Start Date</h2>
                             <input
+                                className="date"
                                 type="date"
                                 id="startDate"
                                 name="startDate"
@@ -301,8 +309,9 @@ const ProjectForm = () => {
                         </Col>
 
                         <Col className='mx-2'>
-                            <h3>End Date</h3>
+                            <h2>End Date</h2>
                             <input
+                                className='date'
                                 type="date"
                                 id="endDate"
                                 name="endDate"

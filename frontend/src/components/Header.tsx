@@ -9,7 +9,7 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { TbHammer } from "react-icons/tb";
-import { BsFillClipboardCheckFill } from "react-icons/bs"
+import { BsBuildings, BsFillClipboardCheckFill } from "react-icons/bs"
 import { BiLogInCircle } from "react-icons/bi"
 import { AccountContext } from "../Accounts";
 import { Login } from "./Login";
@@ -19,6 +19,7 @@ export const Header = () => {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
   const [username, setUsername] = useState('');
+  const [profile, setProfile] = useState('');
 
   const { loggedInUser } = useContext(AccountContext);
 
@@ -27,7 +28,9 @@ export const Header = () => {
       try {
         const user = await Auth.currentAuthenticatedUser();
         console.log(`Cognito username: ${user.username}`);
-        setUsername(user.username)
+        console.log(`Cognito profile: ${user.profile}`);
+        setUsername(user.username);
+        setProfile(user.attributes.profile);
           ;
       } catch (error) {
         console.error('Error getting Cognito user:', error);
@@ -43,10 +46,20 @@ export const Header = () => {
       updateNavbar(false);
     }
   }
+// function that inputs client's username and finds projectID in SK
+// getProjectByName(username)
+  function getProjectId() {
+    if (!isClient) {
+      return;
+    }
+    // await ddbget
+  }
 
   window.addEventListener("scroll", scrollHandler);
-  const isAdmin = loggedInUser && username === "admin";
-  const isContractor = loggedInUser !== null;
+  
+  const isAdmin = profile === "admin";
+  const isPro = loggedInUser && (profile === "pro" || profile === "admin");
+  const isClient = loggedInUser && (profile === "client" || profile === "admin");
 
   return (
     <Navbar
@@ -88,17 +101,6 @@ export const Header = () => {
                 </Nav.Link>
               </Nav.Item>
 
-              {username === 'admin' &&
-                <Nav.Item>
-                  <Nav.Link
-                    as={Link}
-                    to="/admin"
-                    disabled={!isAdmin}
-                    onClick={() => updateExpanded(false)}
-                  >
-                    <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
-                  </Nav.Link>
-                </Nav.Item>}
 
               <Nav.Item>
                 <Nav.Link
@@ -112,6 +114,43 @@ export const Header = () => {
                   About Us
                 </Nav.Link>
               </Nav.Item>
+
+              {isAdmin &&
+              <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/admin"
+                  disabled={!isPro}
+                  onClick={() => updateExpanded(false)}
+                >
+                  <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
+                </Nav.Link>
+              </Nav.Item>
+            }
+
+            {isPro &&
+              <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/pro/marketplace"
+                  onClick={() => updateExpanded(false)}
+                >
+                  <BsBuildings style={{ marginBottom: "2px" }}/> Marketplace
+                </Nav.Link>
+              </Nav.Item>
+            }
+
+            {isClient &&
+              <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/client-dashboard"
+                  onClick={() => updateExpanded(false)}
+                >
+                  Client Dashboard
+                </Nav.Link>
+              </Nav.Item>
+            }
 
               {!loggedInUser &&
                 <>

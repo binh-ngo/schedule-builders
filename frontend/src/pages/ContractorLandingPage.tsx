@@ -18,14 +18,13 @@ export const ContractorLandingPage = () => {
         <div className='hero'>
           <Hero h2="let's work together!"
             paragraph='Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!'
-            img='hero2.webp'
             button1Href='/create-contractor'
             button1Text='Sign up!'
             button2Href='/contractor/create-form'
             button2Text='Try it out!' />
         </div>
         <div className='heroDescription mb-5'>
-          <Container className="py-5 description" style={{}}>
+          <Container className="py-5 description">
             <h3 className='mb-5'>How it works</h3>
             <Row className="justify-content-around">
               {/* Panel 1 */}

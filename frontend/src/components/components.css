@@ -86,9 +86,8 @@
     overflow-x: hidden;
     align-self: center;
     justify-content: space-between;
-    background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 15px;
     padding: 20px;
     min-height: 70vh;
     min-width: 60vw;
@@ -164,12 +163,19 @@
 
   /* HERO */
 
-  .hero-section {
+  .hero {
+    width: 100vw;
     background-size: cover;
-    background-position: center;
+    background-image: url('../assets/heropic.webp');
+    background-position: right;
+    padding-bottom: 8rem;
+  }
+
+  .hero-section {
     color: black;
-    padding: 100px 0;
+    padding: 150px 0;
     text-align: center;
+    margin-left: -2rem;
   }
   
   .hero-section h1 {
@@ -183,8 +189,8 @@
   }
   
   .hero-section img {
-    width: 100%;
-    max-width: 100%;
+    /* width: 100%; */
+    /* max-width: 100%; */
     height: auto;
   }
 
@@ -202,7 +208,6 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #9BBEC8;
     padding-top: 10px;
     padding-bottom: 8px;
   }
@@ -287,13 +292,13 @@
 }
 
 .sticky {
-  background-color: #9BBEC8 !important;
   transition: all 0.3s ease-out 0s !important;
   box-shadow: 0px 10px 10px 0px rgba(49, 140, 245, 0.171) !important;
   backdrop-filter: blur(15px) !important;
 }
 
 .navbar {
+  background-color: white;
   position: fixed !important;
   transition: all 0.3s ease-out 0s !important;
   padding: 0.3rem 2rem !important;
@@ -356,7 +361,6 @@
   .navbar {
     padding: 1rem 2rem !important;
     font-size: 1.4rem !important;
-    background-color: #9BBEC8 !important;
   }
   .navbar-nav .nav-item a::after {
     display: none !important;
@@ -367,7 +371,6 @@
   }
 }
 .navbar-brand {
-  color: #164863 !important;
   margin-left: -1rem;
 }
 
@@ -505,10 +508,6 @@ margin: 5rem 0
   font-size: 3rem;
 }
 
-.hero {
-  padding-bottom: 4rem;
-}
-
 .heroDescription {
   margin-top: -18rem;
   background-color: white;
@@ -551,6 +550,56 @@ margin: 5rem 0
   }
 }
 
+@media only screen and (min-width: 390px) and (max-width:575px) {
+  .hero-section {
+    padding-top: 0rem;
+  }
+  .hero-section .heroParagraph {
+    transform: translateX(25%);
+  }
+  .typewriter {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .intro {
+    margin-top: rem;
+  }
+  .heroImg {
+    margin-bottom: 9.5rem;
+  }
+  .create-question-form {
+    transform: translateX(40%);
+  }
+}
+
+@media only screen and (min-width: 575px) and (max-width:768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+    .intro {
+      transform: translateY(-25%);
+    }
+    .heroImg {
+      transform: translateY(-12%);
+    }
+    .heroParagraph {
+      width: 90%;
+      margin-top: 2rem;
+    }
+    .heroButtonContainer {
+      margin-top: 0rem;
+    }
+    .heroButtons {
+      margin-top: 1rem;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+  .heroDescription {
+    margin-top: 0rem;
+  }
+}
+
 @media only screen and (min-width: 1679px) {
   .typewriter h1 {
     font-size: 5rem;
@@ -565,6 +614,24 @@ margin: 5rem 0
   .hero-section {
     margin-top: -1rem;
   }
+  .heroButtons {
+    margin-bottom: 4rem;
+  }
+  .heroParagraph {
+    margin-top: 4rem;
+  }
+  .intro h1, h2 {
+    transform: translateY(-150%);
+  }
+  .heroH2 {
+    transform: translateY(-350%);
+  }
+  .heroParagraph {
+    transform: translateY(220%);
+  }
+  .heroButtonContainer {
+    transform: translateY(-10%);
+  }
 }
 
 .descriptionBlock {
@@ -572,6 +639,12 @@ margin: 5rem 0
   padding-top: 2rem;
   box-shadow: 0px 1px 2px #164863;
   background-color: white;
+}
+
+.date {
+  width: 12rem;
+  height: 3rem;
+  font-size: x-large;
 }
 
 .question-form-container {
@@ -586,6 +659,21 @@ margin: 5rem 0
 }
 
 .question-form-container.slideLeft {
+  transition: right .5s ease-in-out; 
+  right: -100%;
+}
+.create-question-form-container {
+  position: absolute;
+  transform: translateX(-18.5%);
+  transition: transform .5s ease-in-out; /* Use transform for the entire container */
+}
+
+.create-question-form-container.slideRight {
+  transition: left .5s ease-in-out; 
+  left: -100%;
+}
+
+.create-question-form-container.slideLeft {
   transition: right .5s ease-in-out; 
   right: -100%;
 }
@@ -621,4 +709,28 @@ margin: 5rem 0
 
 .cardBody {
   min-height: 10rem;
+}
+
+.create-question-form {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-self: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  min-height: 70vh;
+  min-width: 60vw;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-question-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 50vw;
+  min-height: 50vh;
 }

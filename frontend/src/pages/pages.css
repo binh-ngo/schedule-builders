@@ -1,11 +1,3 @@
-body {
-    background-color: #DDF2FD;
-}
-
-h1, h2, h3, h4, h5, h6, p {
-    color: #164863;
-}
-
 .request-login {
     min-width: 100vw;
     min-height: 100vh;

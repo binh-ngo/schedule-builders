@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { ddbCreateForm, ddbGetAllForms } from '../graphql/forms';
 
 export const CreateForm = () => {
@@ -129,8 +129,8 @@ export const CreateForm = () => {
     };
 
     return (
-        <div className={`question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
-            <div className={`question-form ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+        <div className={`create-question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+            <div className={`create-question-form ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
                 <div>
                     <Form className="createForm" onSubmit={handleSubmit}>
                         {formStep === 0 && (
@@ -145,13 +145,13 @@ export const CreateForm = () => {
                                     />
                                 </Form.Group>
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
-                                <Button className='mt-2' 
+                                <button className='mt-2'
+                                        style={{"backgroundColor": "black"}} 
                                         type="button" 
-                                        style={{ backgroundColor: formData.formName !== '' ? '#164863' : '#9BBEC8' }}
                                         disabled={formData.formName === '' ? true : false} 
                                         onClick={handleNextStep}>
                                     Next
-                                </Button>
+                                </button>
                             </div>
                         )}
                         {formStep > 0 && (
@@ -184,40 +184,39 @@ export const CreateForm = () => {
                                                 </Form.Group>
                                             </Col>
                                             <Col>
-                                                <Button className="removeBtn formInput" variant="transparent" type="button" onClick={() => handleRemoveQuestion(index)}>
+                                                <button className="removeBtn formInput" style={{"backgroundColor": "black"}} type="button" onClick={() => handleRemoveQuestion(index)}>
                                                     ❌
-                                                </Button>
+                                                </button>
                                             </Col>
                                         </Row>
                                     </div>
                                 ))}
                                 <div className='formButtons'>
-                                    <Button 
+                                    <button 
                                         type="button" 
-                                        style={{ backgroundColor: '#427D9D'}}
+                                        style={{"backgroundColor": "black"}}
                                         onClick={handleAddQuestion}>
                                         Add Question
-                                    </Button>
-                                    <Button 
+                                    </button>
+                                    <button 
                                         type="button" 
-                                        style={{ backgroundColor: '#9BBEC8'}}
+                                        style={{"backgroundColor": "black"}}
                                         onClick={handlePreviousStep}>
                                         Previous
-                                    </Button>
+                                    </button>
                                     {formStep !== 1 &&
-                                        <Button 
+                                        <button 
                                         type="button" 
-                                        style={{ backgroundColor: '#164863'}}
+                                        style={{"backgroundColor": "black"}}
                                         onClick={handleNextStep}>
                                             Next
-                                        </Button>
+                                        </button>
                                     }
-                                    <Button 
+                                    <button 
                                     type="submit"
-                                    style={{ backgroundColor: '#164863'}}
                                     >
                                         Submit
-                                    </Button>
+                                    </button>
                                 </div>
                             </div>
                         )

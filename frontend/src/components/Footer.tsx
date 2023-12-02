@@ -13,30 +13,6 @@ export const Footer = () => {
         </Col>
         <Col md="4" className="footer-copywright">
           </Col>
-        <Col md="4" className="footer-body">
-          <ul className="footer-icons">
-            <li className="social-icons">
-              <a
-                href="https://github.com/binh-ngo"
-                style={{ color: "black" }}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <AiFillGithub />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://www.linkedin.com/in/binh-nguyen-ngo/"
-                style={{ color: "black" }}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <FaLinkedinIn />
-              </a>
-            </li>
-          </ul>
-        </Col>
       </Row>
     </Container>
   );

@@ -6,7 +6,6 @@ import Type from './Type';
 type HeroProps = {
   h2: string;
   paragraph: string;
-  img: string;
   button1Href: string;
   button1Text: string;
   button2Href?: string;
@@ -20,15 +19,12 @@ const Hero = (props: HeroProps) => {
           <Row>
             <Col className="intro typewriter mt-5" sm={7}>
               <h1><Type /></h1>
-              <h2>{props.h2}</h2>
+              <h2 className='heroH2'>{props.h2}</h2>
               <p className='heroParagraph'>{props.paragraph}</p>
-              <div className='mt-5'>
-              <Button className="mx-2" style={{ backgroundColor: '#164863' }} href={props.button1Href} size="lg">{props.button1Text}</Button>
-              <Button className="mx-2" style={{ backgroundColor: '#427D9D' }} href={props.button2Href} size="lg">{props.button2Text}</Button>
+              <div className='mt-5 heroButtonContainer'>
+              <Button className="mx-2 heroButtons bg-black" href={props.button1Href} size="lg">{props.button1Text}</Button>
+              <Button className="mx-2 heroButtons bg-black" href={props.button2Href} size="lg">{props.button2Text}</Button>
               </div>
-            </Col>
-            <Col sm={5} className="heroImg">
-              <img src={`assets/${props.img}`} alt="hero home"/>
             </Col>
           </Row>
           {/* <Row>

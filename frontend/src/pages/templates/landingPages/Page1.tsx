@@ -30,7 +30,7 @@ export const Page1 = () => {
           {/* <h6 className='my-4'>{`${props.address} | ${props.city} | ${props.email} | ${props.phone}`}</h6> */}
           <p className="lh-lg">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi beatae amet, delectus molestiae, quis ab iste sint, incidunt cumque eveniet at. Ipsa optio maxime labore perferendis obcaecati commodi ullam suscipit?</p>
           {/* <p>{props.description}</p> */}
-          <Button style={{ backgroundColor: '#164863' }}>Request Estimate</Button>
+          <Button style={{"backgroundColor": "black"}}>Request Estimate</Button>
           {/* <Button href={`contractor/${contractor}/form`} style={{ backgroundColor: '#164863' }}>Request Estimate</Button> */}
         </Col>
         <Col sm="6">
@@ -45,7 +45,7 @@ export const Page1 = () => {
         </Col>
       </Row>
     </Container>  
-      <Container className="py-5 description mb-5" style={{}}>
+      <Container className="py-5 description mb-5">
       <Row className="justify-content-around">
         {/* Panel 1 */}
         <Col md={4} className="text-center descriptionBlock">

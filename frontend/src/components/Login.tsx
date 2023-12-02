@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 // import { Auth } from 'aws-amplify';
 import { AccountContext } from '../Accounts';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 export const Login = (props:any) => {
   const [email, setEmail] = useState('');
@@ -55,21 +55,22 @@ export const Login = (props:any) => {
           {errorMessage && <p className="text-danger">{errorMessage}</p>}
           <div className="d-flex justify-content-center">
             {!loggedInUser && (
-              <Button type="submit" className="btn">
+              <button type="submit" className="btn" style={{"backgroundColor": "black"}}>
                 Login
-              </Button>
+              </button>
             )}
           </div>
         </Form>
       )}
 
       {loggedInUser && (
-        <Button
+        <button
           onClick={() => signOut(() => navigate("/"))}
-          className="btn bg-transparent font-size-lg text-black"
+          className="btn bg-transparent font-size-lg"
+          style={{"backgroundColor": "black"}}
         >
           Log Out
-        </Button>
+        </button>
       )}
     </div>
   );

@@ -99,14 +99,14 @@ export const FormCard = (form: FormProps) => {
         </Modal.Body>
         <Modal.Footer>
           { !form.isSelected && 
-            <Button variant="success" onClick={handleSelectForm}>
+            <Button style={{"backgroundColor": "black"}} onClick={handleSelectForm}>
             Select
           </Button>
           }
-          <Button variant="danger" onClick={handleDeleteForm}>
+          <Button style={{"backgroundColor": "black"}} onClick={handleDeleteForm}>
             Delete
           </Button>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button style={{"backgroundColor": "black"}} onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>

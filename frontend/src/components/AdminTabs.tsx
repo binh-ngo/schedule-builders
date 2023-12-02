@@ -9,7 +9,7 @@ import { ddbGetAllForms } from '../graphql/forms';
 import { ddbGetAllFormResponse, ddbGetAllQueryResponse } from '../types/types';
 import { CreateForm } from './CreateForm';
 import { FormCard } from './FormCard';
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 export const AdminTabs = () => {
   const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);
@@ -25,36 +25,36 @@ export const AdminTabs = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      setLoading(true); 
-  
+      setLoading(true);
+
       switch (selectedTab) {
         case "projectsWithoutEstimates":
           const responseWithoutEstimates = await ddbGetAllProjectsWithoutEstimates();
           setProjectsWithoutEstimates(responseWithoutEstimates);
           break;
-  
+
         case "assignContractor":
           const responseWithEstimates = await ddbGetAllProjectsWithEstimates();
           setProjectsWithEstimates(responseWithEstimates);
           break;
-  
+
         case "manageProjects":
           const responseWithEstimatesAndContractors = await ddbGetAllProjectsWithEstimatesAndContractors();
           setProjectsWithEstimatesAndContractors(responseWithEstimatesAndContractors);
           break;
-  
+
         case "allForms":
           const fetchForms = await ddbGetAllForms();
           setForms(fetchForms);
           break;
-    
+
         default:
           break;
       }
-  
+
       setLoading(false); // Set loading to false after data is fetched
     };
-  
+
     fetchProjects();
   }, [selectedTab]);
 
@@ -85,32 +85,30 @@ export const AdminTabs = () => {
   const renderFormTab = (data: ddbGetAllFormResponse[]) => {
     // render alphabetically
     const sortedForms = data.slice().sort((a, b) => a.formName.localeCompare(b.formName));
-  
+
     const cards = sortedForms.map((form) => (
       <FormCard key={form.formId} {...form} />
     ));
-  
+
 
     return (
       <div className='container-fluid text-center'>
-      <div className='row justify-content-center'>
-        {!cards.length && (
-          <div className='col-12'>
-            <h1 className='my-5 text-black formHeader'>No Forms Yet</h1>
-          </div>
-        )}
-        {cards.map((card, index) => (
-          <div key={index} className='col-md-4 my-3 formCards'>
-            {card}
-          </div>
-        ))}
+        <div className='row justify-content-center'>
+          {!cards.length && (
+            <div className='col-12'>
+              <h1 className='my-5 text-black formHeader'>No Forms Yet</h1>
+            </div>
+          )}
+          {cards.map((card, index) => (
+            <div key={index} className='col-md-4 my-3 formCards'>
+              {card}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-    
+
     );
   }
-
-  
 
   return (
     <Tabs
@@ -168,22 +166,9 @@ export const AdminTabs = () => {
           </div>
         ) : (
           <div>
-            <Button onClick={handleShow}>
-              Hello
-            </Button>
+            <button style={{"backgroundColor": "black"}} onClick={handleShow}>Create Form</button>
             <Modal show={showModal} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Create Form</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <CreateForm />
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            
+              <CreateForm />
             </Modal>
             {renderFormTab(forms)}
           </div>

@@ -29,7 +29,7 @@ export const ClientProfilePage = () => {
         by clicking on the button below and it will expedite your project request whenever you're ready.</p>
         <div className='mt-5'>
         {/* <Button className="mx-2" style={{ backgroundColor: '#164863' }} href="#" size="lg">I'm Ready!</Button> */}
-        <Button className="mx-2" style={{ backgroundColor: '#164863' }} href="#" size="lg">Provide Information</Button>
+        <Button className="mx-2" style={{"backgroundColor": "black"}} href="#" size="lg">Provide Information</Button>
         </div>
       </Col>
       <Col sm={5} className="mt-5">

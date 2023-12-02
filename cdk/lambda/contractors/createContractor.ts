@@ -43,7 +43,7 @@ const createContractor = async (contractorInput: ContractorInput) => {
                             Item: {
                                 PK: `CONTRACTORS`,
                                 SK: `CONTRACTOR#${formattedCompanyName}`,
-                                type: "contractor",
+                                type: "pro",
                                 ...contractor
                             },
                         },
@@ -53,7 +53,7 @@ const createContractor = async (contractorInput: ContractorInput) => {
                             Item: {
                                 PK: `CONTRACTOR#${contractorId}`,
                                 SK: `CONTRACTOR#${formattedCompanyName}`,
-                                type: 'contractor',
+                                type: 'pro',
                                 ...contractor,
                             },
                         },
