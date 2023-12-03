@@ -1,8 +1,9 @@
 import React from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Button, Col, Container, Row } from 'react-bootstrap'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import Hero from '../components/Hero'
-
+import Type from '../components/Type'
+// @ts-ignore
+import contractorHero from '../assets/hero2.webp'
 export const ContractorLandingPage = () => {
 
   return (
@@ -16,14 +17,22 @@ export const ContractorLandingPage = () => {
           />
         </Helmet>
         <div className='hero'>
-          <Hero h2="let's work together!"
-            paragraph='Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!'
-            button1Href='/create-contractor'
-            button1Text='Sign up!'
-            button2Href='/contractor/create-form'
-            button2Text='Try it out!' />
+          <Container className='hero-section'>
+            <Row>
+              <Col className="intro contractorTypewriter mt-5" sm={7}>
+                <img className='contractorHeroImg' src={contractorHero} alt="contractor hero"></img>
+                <h1><Type /></h1>
+                <h2 className='contractorHeroH2'>let's work together!</h2>
+                <p className='contractorHeroParagraph'>Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!</p>
+                <div className='mt-5 heroButtonContainer'>
+                  <Button className="mx-2 heroButtons bg-black" href='/create-contractor' size="lg">Sign up!</Button>
+                  <Button className="mx-2 heroButtons bg-black" href='/contractor/create-form' size="lg">Try it out!</Button>
+                </div>
+              </Col>
+            </Row>
+          </Container>
         </div>
-        <div className='heroDescription mb-5'>
+        <div className='contractorHeroDescription mb-5'>
           <Container className="py-5 description">
             <h3 className='mb-5'>How it works</h3>
             <Row className="justify-content-around">

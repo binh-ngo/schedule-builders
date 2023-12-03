@@ -2,6 +2,8 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './components.css'; 
 import Type from './Type';
+// @ts-ignore
+import hero from '../assets/heropic.webp';
 
 type HeroProps = {
   h2: string;
@@ -18,6 +20,7 @@ const Hero = (props: HeroProps) => {
         <Container className='hero-section'>
           <Row>
             <Col className="intro typewriter mt-5" sm={7}>
+              <img className='contractorHeroImg'src={hero} alt="hero pic of home"></img>
               <h1><Type /></h1>
               <h2 className='heroH2'>{props.h2}</h2>
               <p className='heroParagraph'>{props.paragraph}</p>
