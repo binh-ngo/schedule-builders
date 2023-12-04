@@ -6,14 +6,13 @@ import { Col, Form, Row } from 'react-bootstrap';
 import moment from 'moment';
 import { ddbGetAllClients } from '../graphql/clients';
 import { AccountContext } from '../Accounts';
-// import { ulid } from 'ulid';
 import { Auth } from 'aws-amplify';
 
 const config = {
-  SignUpConfig: {
-    autoConfirmUser: true,
-    autoVerifyEmail: true,
-  },
+    SignUpConfig: {
+        autoConfirmUser: true,
+        autoVerifyEmail: true,
+    },
 };
 
 Auth.configure(config);
@@ -38,6 +37,8 @@ const ProjectForm = () => {
     const [endDate, setEndDate] = useState('');
     const [slideRight, setSlideRight] = useState(false);
     const [slideLeft, setSlideLeft] = useState(false);
+    const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
     const { signIn, clientSignUp } = useContext(AccountContext);
 
@@ -49,21 +50,19 @@ const ProjectForm = () => {
         email
     }
 
-    const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     let navigate = useNavigate();
 
     function removeEmailDomain(email: string): string {
         const atIndex = email.indexOf('@');
-      
+
         if (atIndex !== -1) {
-          const emailWithoutDomain = email.substring(0, atIndex);
-          return emailWithoutDomain;
+            const emailWithoutDomain = email.substring(0, atIndex);
+            return emailWithoutDomain;
         }
-      
+
         // If the email doesn't contain "@", return the original email
         return email;
-      }
+    }
 
     const handleAnswerChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         let updatedAnswers = [...answers];
@@ -85,12 +84,12 @@ const ProjectForm = () => {
                 setEmail(event.target.value);
                 break;
             case 'startDate':
-                selectedStartDate = event.target.value; 
-                setStartDate(selectedStartDate as string); 
+                selectedStartDate = event.target.value;
+                setStartDate(selectedStartDate as string);
                 setEndDate('');
                 const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
                 if (endDateInput) {
-                  endDateInput.min = selectedStartDate || '';
+                    endDateInput.min = selectedStartDate || '';
                 }
                 break;
             case 'endDate':
@@ -300,6 +299,7 @@ const ProjectForm = () => {
                             <h2>Start Date</h2>
                             <input
                                 className="date"
+                                placeholder='mm/dd/yyyy'
                                 type="date"
                                 id="startDate"
                                 name="startDate"
@@ -315,6 +315,7 @@ const ProjectForm = () => {
                                 type="date"
                                 id="endDate"
                                 name="endDate"
+
                                 value={endDate}
                                 onChange={handleAnswerChange}
                             />
@@ -394,7 +395,7 @@ const ProjectForm = () => {
 
     return (
         <div className={`question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
-            <div className={`question-form ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+            <div className={`question-form mb-5 ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
                 <div className={`progress-bar ${currentQuestionIndex === questions.length ? 'full-width' : ''}`} style={{ width: calculateProgress() }}></div>
                 {currentQuestionIndex !== questions.length && (
                     <div className="question-answer">

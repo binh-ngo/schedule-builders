@@ -1,16 +1,16 @@
+h1, h2, h3, h4, h5, h6, a {
+    font-family: "Raleway";
+}
+
+p, span, button, input {
+    font-family: "Lato";
+}
+
 .request-login {
     min-width: 100vw;
     min-height: 100vh;
     padding-top: 2rem;
   }
-
-.login-header { 
-    color: rgb(54, 163, 200);
-}
-
-.contractor-form-header {
-    color: rgb(54, 163, 200);
-}
 
 .admin-page {
     min-width: 100vw;
@@ -51,7 +51,6 @@
 .contractor-form-label {
     font-weight: 600;
     font-size: larger;
-    color: rgb(54, 163, 200);
     margin-right: 1rem;
 }
 

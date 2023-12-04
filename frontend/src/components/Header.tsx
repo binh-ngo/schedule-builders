@@ -3,6 +3,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
@@ -68,11 +69,12 @@ export const Header = () => {
       expand="md"
       className={navColour ? "sticky" : "navbar"}
     >
-      <Container>
+      <Container className='header'>
         <Navbar.Brand href="/" className="d-flex">
           <strong className="brand">Schedule.builders</strong>
         </Navbar.Brand>
         <Navbar.Toggle
+          style={{'color': 'black'}}
           aria-controls="responsive-navbar-nav"
           onClick={() => {
             updateExpanded(!expand);
@@ -83,7 +85,7 @@ export const Header = () => {
           <span></span>
         </Navbar.Toggle>
 
-          <Navbar.Collapse id="responsive-navbar-nav">
+          <Navbar.Collapse id="responsive-navbar-nav" style={{'color': 'black'}}>
             <Nav className="ms-auto" defaultActiveKey="#home">
               <Nav.Item>
                 <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>

@@ -1,5 +1,4 @@
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './components.css'; 
 import Type from './Type';
 // @ts-ignore

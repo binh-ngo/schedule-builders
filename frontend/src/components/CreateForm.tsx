@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { ddbCreateForm, ddbGetAllForms } from '../graphql/forms';
+import { buttonStyle, handleMouseOut, handleMouseOver } from './styles';
 
 export const CreateForm = () => {
     const [formStep, setFormStep] = useState(0);
@@ -47,7 +48,7 @@ export const CreateForm = () => {
             return;
         } setTimeout(() => {
             setSlideLeft(false);
-          }, 0);
+        }, 0);
 
         setFormStep((prevStep) => prevStep + 1);
     };
@@ -58,7 +59,7 @@ export const CreateForm = () => {
         setError(null);
         setTimeout(() => {
             setSlideRight(false);
-          }, 0);
+        }, 0);
     };
 
     const handleAddQuestion = () => {
@@ -145,17 +146,20 @@ export const CreateForm = () => {
                                     />
                                 </Form.Group>
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
-                                <button className='mt-2'
-                                        style={{"backgroundColor": "black"}} 
-                                        type="button" 
-                                        disabled={formData.formName === '' ? true : false} 
-                                        onClick={handleNextStep}>
+                                <Button className='mt-2'
+                                    style={buttonStyle}
+                                    onMouseOver={handleMouseOver}
+                                    onMouseOut={handleMouseOut}
+                                    type="button"
+                                    disabled={formData.formName === '' ? true : false}
+                                    onClick={handleNextStep}>
                                     Next
-                                </button>
+                                </Button>
                             </div>
                         )}
                         {formStep > 0 && (
                             <div>
+                                <p className='create-form-instructions'>Here, you can input all the questions you need to ask with the relevant measurement for that question.</p>
                                 {formData.questions.map((question, index) => (
                                     <div className="quesAttRow" key={index}>
                                         <Row>
@@ -163,7 +167,7 @@ export const CreateForm = () => {
                                                 <Form.Group controlId={`question${index + 1}`}>
                                                     <Form.Control
                                                         className="my-1 formInput"
-                                                        placeholder="Question"
+                                                        placeholder={`Question ${index + 1}`}
                                                         type="text"
                                                         name="question"
                                                         value={question || ''}
@@ -174,7 +178,7 @@ export const CreateForm = () => {
                                             <Col>
                                                 <Form.Group controlId={`attribute${index + 1}`}>
                                                     <Form.Control
-                                                        placeholder='Attribute (Length, Width, Weight, Etc)'
+                                                        placeholder='(Length, Width, Weight, Etc)'
                                                         className="my-1 formInput"
                                                         type="text"
                                                         name="attribute"
@@ -184,39 +188,48 @@ export const CreateForm = () => {
                                                 </Form.Group>
                                             </Col>
                                             <Col>
-                                                <button className="removeBtn formInput" style={{"backgroundColor": "black"}} type="button" onClick={() => handleRemoveQuestion(index)}>
+                                                <Button className="removeBtn formInput"
+                                                    type="button"
+                                                    style={{"backgroundColor": "transparent", "borderColor": "transparent"}}
+                                                    onClick={() => handleRemoveQuestion(index)}>
                                                     ❌
-                                                </button>
+                                                </Button>
                                             </Col>
                                         </Row>
                                     </div>
                                 ))}
-                                <div className='formButtons'>
-                                    <button 
-                                        type="button" 
-                                        style={{"backgroundColor": "black"}}
-                                        onClick={handleAddQuestion}>
+                                <div className='formButtons pb-3'>
+                                    <Button
+                                        type="button"
+                                        style={buttonStyle}
+                                        onMouseOver={handleMouseOver}
+                                        onMouseOut={handleMouseOut} onClick={handleAddQuestion}>
                                         Add Question
-                                    </button>
-                                    <button 
-                                        type="button" 
-                                        style={{"backgroundColor": "black"}}
-                                        onClick={handlePreviousStep}>
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        style={buttonStyle}
+                                        onMouseOver={handleMouseOver}
+                                        onMouseOut={handleMouseOut} onClick={handlePreviousStep}>
                                         Previous
-                                    </button>
+                                    </Button>
                                     {formStep !== 1 &&
-                                        <button 
-                                        type="button" 
-                                        style={{"backgroundColor": "black"}}
-                                        onClick={handleNextStep}>
+                                        <Button
+                                            type="button"
+                                            style={buttonStyle}
+                                            onMouseOver={handleMouseOver}
+                                            onMouseOut={handleMouseOut} onClick={handleNextStep}>
                                             Next
-                                        </button>
+                                        </Button>
                                     }
-                                    <button 
-                                    type="submit"
+                                    <Button
+                                        type="submit"
+                                        style={buttonStyle}
+                                        onMouseOver={handleMouseOver}
+                                        onMouseOut={handleMouseOut}
                                     >
                                         Submit
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         )

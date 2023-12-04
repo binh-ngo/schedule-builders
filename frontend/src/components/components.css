@@ -1,3 +1,11 @@
+input[type=date]:invalid::-webkit-datetime-edit {
+  color: #999;
+}
+
+.header {
+  color: black;
+}
+
 .dropdown {
     font-size: 1.5rem;
 }
@@ -47,19 +55,21 @@
 
 .custom-radio-button {
   display: inline-block;
-  width: 20px; 
-  height: 20px;
+  max-width: 20px; 
+  min-width: 20px;
+  max-height: 20px;
+  min-height: 20px;
   background-color: #fff; 
-  border: 2px solid #3498db; 
+  border: 2px solid black; 
   border-radius: 50%; 
   cursor: pointer;
   margin-right: .4rem;
 }
 
 .custom-radio-button.checked {
-  background-color: #3498db; 
-  border-color: #3498db; /* Change border color when checked */
-  border: 2px solid #3498db;
+  background-color: #F6E71D; 
+  border-color: #F6E71D; 
+  border: 2px solid #F6E71D;
   border-radius: 50%; 
   padding: 5px;
 }
@@ -72,7 +82,6 @@
 }
 
 .question-header {
-    color:#1d5591;
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 4rem;
@@ -314,7 +323,7 @@
 
 .sticky {
   transition: all 0.3s ease-out 0s !important;
-  box-shadow: 0px 10px 10px 0px rgba(49, 140, 245, 0.171) !important;
+  box-shadow: 0px 1px 10px 0px #F6E71D !important;
   backdrop-filter: blur(15px) !important;
 }
 
@@ -324,7 +333,24 @@
   transition: all 0.3s ease-out 0s !important;
   padding: 0.3rem 2rem !important;
   font-size: .9rem !important;
+}
 
+.navbar-nav .nav-item a::after {
+  content: "";
+  position: relative;
+  display: block;
+  height: 5px;
+  width: 0;
+  border-radius: 16px;
+  background: #F6E71D;
+  bottom: 1px;
+  left: 0;
+  z-index: -1;
+  transition: all 0.3s ease-out 0s;
+}
+
+.navbar-nav .nav-item a:hover::after {
+  width: 100%;
 }
 
 .navbar-toggler {
@@ -335,7 +361,7 @@
 
 .navbar-toggler span {
   display: block !important;
-  background-color: #164863 !important;
+  background-color: black !important;
   height: 4px !important;
   width: 27px !important;
   margin-top: 5px !important;
@@ -435,6 +461,11 @@ margin: 5rem 0
   align-items: center;
   padding-top: 2rem;
   overflow-x: hidden;
+}
+
+.create-form-instructions {
+  font-size: small;
+  transform: translateX(20.5%);
 }
 
 .removeBtn {
@@ -648,7 +679,7 @@ margin: 5rem 0
     }
     .clientHeroImg {
       width: 150%;
-      margin-left: -40%;
+      margin-left: -30%;
     }
     .contractorHeroImg {
       transform: translateY(-20%);
@@ -758,6 +789,7 @@ margin: 5rem 0
   .clientHeroImg {
     width: 150%;
     margin-left: -30%;
+    margin-top: -2rem;
   }
   .contractorHeroImg {
     margin-bottom: -2rem;
@@ -787,6 +819,10 @@ margin: 5rem 0
   background-color: white;
 }
 
+.descriptionBlock p {
+  text-align: center;
+}
+
 .date {
   width: 12rem;
   height: 3rem;
@@ -808,9 +844,28 @@ margin: 5rem 0
   transition: right .5s ease-in-out; 
   right: -100%;
 }
+
+.create-question-form {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-self: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  padding: 20px;
+  min-height: 70vh;
+  min-width: 70vw;
+  max-width: 70vw;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
 .create-question-form-container {
   position: absolute;
-  transform: translateX(-18.5%);
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+  transform: translateX(20%);
   transition: transform .5s ease-in-out; /* Use transform for the entire container */
 }
 
@@ -825,10 +880,10 @@ margin: 5rem 0
 }
 
 .slideRight {
-  transform: translateX(-180%); /* Use transform for the slide animation */
+  transform: translateX(-180%);
 }
 .slideLeft {
-  transform: translateX(180%); /* Use transform for the slide animation */
+  transform: translateX(180%);
 }
   
 .formName {
@@ -857,26 +912,4 @@ margin: 5rem 0
   min-height: 10rem;
 }
 
-.create-question-form {
-  display: flex;
-  flex-direction: column;
-  max-height: 500px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  align-self: center;
-  justify-content: space-between;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  min-height: 70vh;
-  min-width: 60vw;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
 
-.create-question-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 50vw;
-  min-height: 50vh;
-}

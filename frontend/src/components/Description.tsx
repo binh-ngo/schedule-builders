@@ -11,27 +11,27 @@ export const Description = () => {
         {/* Panel 1 */}
         <Col md={4} className="text-center descriptionBlock">
           <FaRegUserCircle size={50}/>
-          <h3>Submit info</h3>
+          <h3 className='my-3'>Submit info</h3>
           <p>
-            Create a profile so we can get you in contact with potential clients!
+            Create a project with your desired timeframe so we can get you in contact with potential contractors!
           </p>
         </Col>
 
         {/* Panel 2 */}
         <Col md={4} className="text-center descriptionBlock">
           <FaWpforms size={50}/>
-          <h3>Customize form</h3>
+          <h3 className='my-3'>Post to Workshop</h3>
           <p>
-            Tailor your form to receive additional information if necessary, and bid on verified projects on our auction page.
+            If you're ready, your project will be available in the contractor Marketplace. You also have the option to answer additional questions to receive a more exact estimate.
           </p>
         </Col>
 
         {/* Panel 3 */}
         <Col md={4} className="text-center descriptionBlock">
           <LiaUsersSolid size={50}/>
-          <h3>Relax</h3>
+          <h3 className='my-3'>Choose Your Contractor</h3>
           <p>
-            Do what you do best, we'll handle the rest.
+            After viewing all the bids on your project, make the executive decision and choose the right contractor for you.
           </p>
         </Col>
       </Row>

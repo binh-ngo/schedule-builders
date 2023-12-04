@@ -4,6 +4,9 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 import Type from '../components/Type'
 // @ts-ignore
 import contractorHero from '../assets/hero2.webp'
+import { BsBuildings } from 'react-icons/bs'
+import { FaRegUserCircle } from 'react-icons/fa'
+import { CiSearch } from "react-icons/ci";
 export const ContractorLandingPage = () => {
 
   return (
@@ -26,7 +29,7 @@ export const ContractorLandingPage = () => {
                 <p className='contractorHeroParagraph'>Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!</p>
                 <div className='mt-5 heroButtonContainer'>
                   <Button className="mx-2 heroButtons bg-black" href='/create-contractor' size="lg">Sign up!</Button>
-                  <Button className="mx-2 heroButtons bg-black" href='/contractor/create-form' size="lg">Try it out!</Button>
+                  <Button className="mx-2 heroButtons bg-black" href='/pro/create-form' size="lg">Try it out!</Button>
                 </div>
               </Col>
             </Row>
@@ -38,7 +41,7 @@ export const ContractorLandingPage = () => {
             <Row className="justify-content-around">
               {/* Panel 1 */}
               <Col md={4} className="text-center descriptionBlock">
-                {/* <FaRegUserCircle size={50} color="#164863" /> */}
+                <FaRegUserCircle size={50} color="#164863" />
                 <h3>Submit info</h3>
                 <p>
                   Create a profile so we can get you in contact with potential clients!
@@ -47,23 +50,24 @@ export const ContractorLandingPage = () => {
 
               {/* Panel 2 */}
               <Col md={4} className="text-center descriptionBlock">
-                {/* <FaWpforms size={50} color="#427D9D" /> */}
+                <BsBuildings size={50} color="#427D9D" />
                 <h3>Customize form</h3>
                 <p>
-                  Tailor your form to receive additional information if necessary, and bid on verified projects on our auction page.
+                  Tailor your form to receive additional information if necessary, and bid on verified projects in our Workshop.
                 </p>
               </Col>
 
               {/* Panel 3 */}
               <Col md={4} className="text-center descriptionBlock">
-                {/* <LiaUsersSolid size={50} color="#9BBEC8" /> */}
+                <CiSearch size={50} color="#9BBEC8" />
                 <h3>Relax</h3>
                 <p>
-                  Do what you do best, we'll handle the rest.
+                  We know that running your business and marketing can be a lot to handle. Do what you do best, we'll handle the rest.
                 </p>
               </Col>
             </Row>
-          </Container>          </div>
+          </Container>          
+          </div>
       </div>
     </HelmetProvider>
   )
