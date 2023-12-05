@@ -4,13 +4,24 @@ export const buttonStyle = {
   backgroundColor: 'black',
   borderColor: 'transparent',
   transition: 'box-shadow 0.3s',
-  fontFamily: 'Lato'
+  fontFamily: 'Lato',
+  border: '2px solid white'
+}
+
+export const iconBarCaptionStyle = {
+  textDecoration: 'none',
+  color: 'inherit',
 }
 
 export const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
-  e.currentTarget.style.boxShadow = '0px 1px 15px #F6E71D';
+  e.currentTarget.style.backgroundColor = '#F6E71D';
+  e.currentTarget.style.color = 'black';
+  e.currentTarget.style.border = '2px solid black';
 };
 
 export const handleMouseOut = (e: MouseEvent<HTMLButtonElement>) => {
-  e.currentTarget.style.boxShadow = 'none';
+  e.currentTarget.style.backgroundColor = 'black';
+  e.currentTarget.style.color = 'white';
+  e.currentTarget.style.border = '2px solid white';
+
 };

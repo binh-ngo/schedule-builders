@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import { Amplify } from "aws-amplify"
 import { awsconfig } from "./aws-exports";
-import ProjectForm from './components/ProjectForm';
 import { Account } from "./Accounts";
 // import { ProjectFormCompleted } from "./pages/ProjectFormCompleted";
 import { Admin } from "./pages/Admin";
@@ -25,6 +24,13 @@ import { LandingPage } from "./pages/LandingPage";
 import { AboutPage } from "./pages/AboutPage";
 import { Page1 } from "./pages/templates/landingPages/Page1";
 import { ClientProfilePage } from "./pages/ClientProfilePage";
+import DeckForm from "./components/forms/DeckForm";
+import HandypersonForm from "./components/forms/HandypersonForm";
+import RoofingForm from "./components/forms/RoofingForm";
+import ElectricalForm from "./components/forms/ElectricalForm";
+import PlumbingForm from "./components/forms/PlumbingForm";
+import LandscapingForm from "./components/forms/LandscapingForm";
+import RemodelForm from "./components/forms/RemodelForm";
 
 
 Amplify.configure(awsconfig);
@@ -48,7 +54,14 @@ function App() {
             <Route path="/contrproactor/admin" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
             <Route path="/pro/create-form" element={<CreateForm />} />
             <Route path="/create-contractor" element={<CreateContractor />} />
-            <Route path="/create-project" element={<ProjectForm />} />
+            {/* <Route path="/create-project" element={<ProjectForm />} /> */}
+            <Route path="/create-project/deck" element={<DeckForm />} />
+            <Route path="/create-project/handyperson" element={<HandypersonForm />} />
+            <Route path="/create-project/roofing" element={<RoofingForm />} />
+            <Route path="/create-project/electrical" element={<ElectricalForm />} />
+            <Route path="/create-project/plumbing" element={<PlumbingForm />} />
+            <Route path="/create-project/landscaping" element={<LandscapingForm />} />
+            <Route path="/create-project/remodel" element={<RemodelForm />} />
             {/* <Route path="/schedule-appointment" element={<ProjectFormCompleted />} /> */}
           </Routes>
         </Account>

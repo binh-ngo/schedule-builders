@@ -18,6 +18,10 @@ interface FormData {
   confirmPassword: string;
 }
 
+type ChangeEventType = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
+
+const specialtyOptions: string[] = ['Handyperson', 'Landcaping', 'Plumbing', 'Electrical', 'Deck Building', 'Remodeling', 'Roofing'];
+
 export const CreateContractor = (props: any) => {
   const [formData, setFormData] = useState<FormData>({
     contractorName: '',
@@ -42,22 +46,27 @@ export const CreateContractor = (props: any) => {
 
   function removeEmailDomain(email: string): string {
     const atIndex = email.indexOf('@');
-  
+
     if (atIndex !== -1) {
       const emailWithoutDomain = email.substring(0, atIndex);
       return emailWithoutDomain;
     }
-  
+
     // If the email doesn't contain "@", return the original email
     return email;
   }
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: ChangeEventType) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleSelectChange = (e: ChangeEventType) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -178,7 +187,6 @@ export const CreateContractor = (props: any) => {
   };
   return (
     <HelmetProvider>
-
       <div className="contractor-form">
         <Helmet>
           <title>Contractor Signup</title>
@@ -259,14 +267,18 @@ export const CreateContractor = (props: any) => {
 
           <Form.Group className="contractor-form-input" controlId="specialty">
             <Form.Label className="contractor-form-label">Specialty</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Specialty"
+            <Form.Select
+              aria-label="Select Specialty"
               name="specialty"
               value={formData.specialty}
               required
-              onChange={handleInputChange}
-            />
+              onChange={handleSelectChange}
+            >
+              <option value="" disabled>Select Specialty</option>
+              {specialtyOptions.map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group className="contractor-form-input" controlId="address">

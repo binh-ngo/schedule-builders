@@ -1,31 +1,19 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
-import './components.css';
-import { ddbCreateProject } from '../graphql/projects';
+import '../components.css';
+import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import moment from 'moment';
-import { ddbGetAllClients } from '../graphql/clients';
-import { AccountContext } from '../Accounts';
-import { Auth } from 'aws-amplify';
+import { ddbGetAllClients } from '../../graphql/clients';
+import { AccountContext } from '../../Accounts';
 
-const config = {
-    SignUpConfig: {
-        autoConfirmUser: true,
-        autoVerifyEmail: true,
-    },
-};
-
-Auth.configure(config);
-
-const ProjectForm = () => {
+const HandypersonForm = () => {
     const questions: string[] = [
-        'What type of decking or patio project is this?',
+        'What do you need help with?',
         'Please provide a detailed description of what you want us to do.',
-        'What material do you want to build the deck with?',
-        'What is the approximate size of this project in square footage?',
         'What is your timeframe?',
         'What type of property is it?',
-        'Please provide your contact information and we will reach out to you shortly.',
+        'Please provide your contact information and we will reach out to you shortly.'
     ];
 
     const [name, setName] = useState('');
@@ -173,10 +161,8 @@ const ProjectForm = () => {
         const project = {
             projectType: answers[0],
             description: answers[1],
-            material: answers[2],
-            projectSize: answers[3],
-            desiredCompletionTime: answers[4],
-            propertyType: answers[5],
+            desiredCompletionTime: answers[2],
+            propertyType: answers[3],
             clientName: contactInfo.name,
             address: contactInfo.address,
             city: contactInfo.city,
@@ -215,8 +201,7 @@ const ProjectForm = () => {
         return isTextInputsValid && isQuestionsValid && isNumber;
     };
 
-    const projectTypes = ['Build or Replace Deck', 'Repair Deck', 'Clean and Seal Deck', 'Patio', 'Paint a Deck'];
-    const woodTypes = ['Cedar', 'Redwood', 'Ipewood', 'Tigerwood', 'Mahogany', 'Bamboo', 'Pressure-treated Wood', 'Trex (recycled composite)', 'Aluminum', 'Cement', 'Composite (Fiberglass, Vinyl, PVC)'];
+    const projectTypes = ['General handyperson', 'Carpentry', 'Doors', 'Electrical', 'Plumbing', 'Appliances', 'Furniture Assembly', 'Drywall', 'Windows', 'Landscaping', 'Air conditioning system', 'Interior painting', 'Exterior painting', 'Siding', 'Other'];
     const propertyTypes = ['Residential', 'Business'];
 
     const renderInput = (question: string, answer: string, index: number) => {
@@ -224,36 +209,8 @@ const ProjectForm = () => {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
-                    <div className="radio-buttons">
-                        {projectTypes.map((type: string) => (
-                            <div className='radio-button-container'>
-                                <input
-                                    className='radio-button'
-                                    key={type}
-                                    type="radio"
-                                    id={type}
-                                    name="projectType"
-                                    value={type}
-                                    checked={answer === type}
-                                    onChange={handleAnswerChange}
-                                />
-                                <label htmlFor={type} className='custom-radio-button-label'>
-                                    <div
-                                        className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
-                                        onClick={() => handleAnswerChange}
-                                    ></div>
-                                    {type}
-                                </label>                                 </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        } else if (index === 2) {
-            return (
-                <div>
-                    <h3 className='question-header'>{question}</h3>
                     <div className='radio-buttons'>
-                        {woodTypes.map((type: string) => (
+                        {projectTypes.map((type: string) => (
                             <div key={type} className='radio-button-container'>
                                 <input
                                     key={type}
@@ -277,23 +234,11 @@ const ProjectForm = () => {
                     </div>
                 </div>
             );
-        } else if (index === 3) {
-            const isNumber = !isNaN(Number(answer));
-            return (
-                <div>
-                    <h3 className='question-header'>{question}</h3>
-                    <input className={`text-input ${!isNumber ? 'error' : ''}`}
-                        placeholder="Example: 150" type="text"
-                        value={answer}
-                        onChange={handleAnswerChange}
-                    />
-                    {!isNumber && <p className="error-message">Please enter a valid number.</p>}
-                </div>
-            );
-        } else if (index === 4) {
+        } else if (index === 2) {
             answer = getTimePassed(startDate, endDate);
             return (
                 <>
+                <h3 className='question-header'>{question}</h3>
                     <Row>
                         <Col className='mx-2'>
                             <h2>Start Date</h2>
@@ -323,7 +268,7 @@ const ProjectForm = () => {
                     </Row>
                 </>
             );
-        } else if (index === 5) {
+        } else if (index === 3) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
@@ -353,7 +298,7 @@ const ProjectForm = () => {
                 </div>
             );
         }
-        else if (index === 6) {
+        else if (index === 4) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
@@ -403,21 +348,21 @@ const ProjectForm = () => {
                     </div>
                 )}
                 <div className="button-container">
-                    <button
+                    <Button
                         className="prev-button"
                         onClick={handlePreviousQuestion}
                         disabled={currentQuestionIndex === 0}
                     >
                         Previous
-                    </button>
+                    </Button>
                     {currentQuestionIndex < questions.length - 1 ? (
-                        <button className="next-button" onClick={handleNextQuestion}>
+                        <Button className="next-button" onClick={handleNextQuestion}>
                             Next
-                        </button>
+                        </Button>
                     ) : (
-                        <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
+                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
                             Submit
-                        </button>
+                        </Button>
                     )}
                 </div>
             </div>
@@ -425,4 +370,4 @@ const ProjectForm = () => {
     );
 };
 
-export default ProjectForm;
+export default HandypersonForm;

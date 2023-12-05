@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import './components.css';
-import { ddbCreateProject } from '../graphql/projects';
+import '../components.css';
+import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { ddbGetSelectedForm } from '../graphql/forms';
+import { ddbGetSelectedForm } from '../../graphql/forms';
 
 type Question = {
     question: string;

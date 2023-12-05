@@ -7,6 +7,7 @@ import contractorHero from '../assets/hero2.webp'
 import { BsBuildings } from 'react-icons/bs'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { CiSearch } from "react-icons/ci";
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../components/styles'
 export const ContractorLandingPage = () => {
 
   return (
@@ -28,8 +29,18 @@ export const ContractorLandingPage = () => {
                 <h2 className='contractorHeroH2'>let's work together!</h2>
                 <p className='contractorHeroParagraph'>Looking to get more jobs? Sign up or create your own customizable form above and we will work on getting you noticed!</p>
                 <div className='mt-5 heroButtonContainer'>
-                  <Button className="mx-2 heroButtons bg-black" href='/create-contractor' size="lg">Sign up!</Button>
-                  <Button className="mx-2 heroButtons bg-black" href='/pro/create-form' size="lg">Try it out!</Button>
+                  <Button className="mx-2 heroButtons"
+                          style={buttonStyle}
+                          onMouseOver={handleMouseOver}
+                          onMouseOut={handleMouseOut}
+                          href='/create-contractor' 
+                          size="lg">Sign up!</Button>
+                  <Button className="mx-2 heroButtons"
+                          style={buttonStyle}
+                          onMouseOver={handleMouseOver}
+                          onMouseOut={handleMouseOut}
+                          href='/pro/create-form' 
+                          size="lg">Try it out!</Button>
                 </div>
               </Col>
             </Row>

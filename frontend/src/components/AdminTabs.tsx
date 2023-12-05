@@ -120,7 +120,7 @@ export const AdminTabs = () => {
     >
       <Tab eventKey="projectsWithoutEstimates" title="Projects to Estimate">
         {loading ? (
-          <div className="text-center">
+          <div className="text-center spinner">
             <p>Loading...</p>
             <LoadingSpinner />
           </div>
