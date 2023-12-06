@@ -1,6 +1,8 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
-import { ddbCreateForm, ddbGetAllForms } from '../graphql/forms';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';import { ddbCreateForm, ddbGetAllForms } from '../graphql/forms';
 import { buttonStyle, handleMouseOut, handleMouseOver } from './styles';
 
 export const CreateForm = () => {

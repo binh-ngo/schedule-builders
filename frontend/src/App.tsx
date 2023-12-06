@@ -6,11 +6,8 @@ import {
 import { Amplify } from "aws-amplify"
 import { awsconfig } from "./aws-exports";
 import { Account } from "./Accounts";
-// import { ProjectFormCompleted } from "./pages/ProjectFormCompleted";
 import { Admin } from "./pages/Admin";
-// import RequireAuth from "./RequireAuth";
 import { ContractorLandingPage } from "./pages/ContractorLandingPage";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { RequireAdminAuth } from "./RequireAdminAuth";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
@@ -22,7 +19,6 @@ import { RequestLogin } from "./pages/RequestLogin";
 import { CreateForm } from "./components/CreateForm";
 import { LandingPage } from "./pages/LandingPage";
 import { AboutPage } from "./pages/AboutPage";
-import { Page1 } from "./pages/templates/landingPages/Page1";
 import { ClientProfilePage } from "./pages/ClientProfilePage";
 import DeckForm from "./components/forms/DeckForm";
 import HandypersonForm from "./components/forms/HandypersonForm";
@@ -31,6 +27,8 @@ import ElectricalForm from "./components/forms/ElectricalForm";
 import PlumbingForm from "./components/forms/PlumbingForm";
 import LandscapingForm from "./components/forms/LandscapingForm";
 import RemodelForm from "./components/forms/RemodelForm";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Page1 } from "./pages/Page1";
 
 
 Amplify.configure(awsconfig);

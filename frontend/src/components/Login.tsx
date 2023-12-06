@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
-// import { Auth } from 'aws-amplify';
 import { AccountContext } from '../Accounts';
 import { useNavigate } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
 
 export const Login = (props:any) => {
   const [email, setEmail] = useState('');

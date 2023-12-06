@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import { Form } from 'react-bootstrap'
+import Form from 'react-bootstrap/Form'
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../Accounts';

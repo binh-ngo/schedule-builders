@@ -1,5 +1,7 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { Login } from '../components/Login';
 import './pages.css'

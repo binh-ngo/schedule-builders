@@ -1,8 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import { useState, ChangeEvent, FormEvent, useContext } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
-import { useNavigate } from 'react-router-dom';
-import { Col, Form, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom/';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
 import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';

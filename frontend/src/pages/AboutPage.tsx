@@ -1,5 +1,8 @@
 import React from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Card from 'react-bootstrap/Card';
 import { HelmetProvider, Helmet } from 'react-helmet-async'
 // @ts-ignore
 import about1 from '../assets/about1.webp'

@@ -1,21 +1,47 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import { useState, ChangeEvent, FormEvent, useContext } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
-import { Col, Form, Row } from 'react-bootstrap';
-import moment from 'moment';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form'; import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 
 const ElectricalForm = () => {
-  const questions: string[] = [
-    'What do you need help with?',
-    'What services do you need?',
-    'What is your timeframe?',
-    'What type of property is it?',
-    'Please provide your contact information and we will reach out to you shortly.',
-  ];
 
+  let formQuestions = {
+    question1: {
+      question: 'What do you need help with?',
+      options: ['Lights, outlets, or switches', 'Electrical for addition/remodel', 'Upgrade electrical wiring/panel', 'More options']
+    }
+  }
+  const conditionalQuestions = {
+    question2: {
+      question: 'What services do you need?',
+      options: ['Repair or install new switches, fixtures, or outlets', 'Repair electrical problem', 'Move switches, fixtures, or outlets']
+    },
+    question3: {
+      question: 'Why is your electrical system in need of an upgrade?',
+      options: ['As part of remodel or addition', 'Fuses blow often', "Appliances don't operate at full power", 'Flickering lights', 'Not sure/other']
+    },
+    question4: {
+      question: 'What kind of electrical work do you need help with?',
+      options: ['Generator', 'Electric vehicle station installation', "Fan", 'Smart home system', 'Telephone', 'Lightning rod/lightning protection']
+    }
+  }
+
+  const questions = Object.values(conditionalQuestions).map((questionObject) => {
+    return questionObject.question;
+  });
+  const additionalQuestions = [
+    'What kind of location is this?',
+    'When would you like this request to be completed?',
+    'Please provide a detailed description of what you want us to do.',
+    'Please provide your contact information and we will reach out to you shortly.',
+  ]
+
+  questions.push(...additionalQuestions);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -25,7 +51,7 @@ const ElectricalForm = () => {
   const [endDate, setEndDate] = useState('');
   const [slideRight, setSlideRight] = useState(false);
   const [slideLeft, setSlideLeft] = useState(false);
-  const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
+  const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 2)).fill(''));
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const { signIn, clientSignUp } = useContext(AccountContext);
@@ -89,8 +115,7 @@ const ElectricalForm = () => {
         updatedAnswers[currentQuestionIndex] = event.target.value;
         break;
     }
-    setAnswers(updatedAnswers); // Update the state outside the switch
-
+    setAnswers(updatedAnswers);
   };
 
   const getTimePassed = (startDate: string, endDate: string): string => {
@@ -109,8 +134,7 @@ const ElectricalForm = () => {
       setSlideLeft(false);
     }, 0);
     console.log(answers);
-    console.log(`START DATE ----${startDate}`)
-    console.log(`END DATE ----${endDate}`)
+    console.log(currentQuestionIndex);
   };
 
   const handlePreviousQuestion = () => {
@@ -122,12 +146,14 @@ const ElectricalForm = () => {
       setSlideRight(false);
     }, 0);
     console.log(answers)
-    console.log(`START DATE ----${startDate}`)
-    console.log(`END DATE ----${endDate}`)
+    console.log(currentQuestionIndex)
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (answers.length === 5) {
+      answers.splice(1, 0, 'N/A');
+    }
     if (!name || !address || !city || !phone || !email || !answers) {
       console.log("Form data is not valid");
       return;
@@ -159,12 +185,10 @@ const ElectricalForm = () => {
       console.log('With this contact information:', contactInfo);
     };
     const project = {
-      projectType: answers[0],
-      description: answers[1],
-      material: answers[2],
-      projectSize: answers[3],
-      desiredCompletionTime: answers[4],
-      propertyType: answers[5],
+      projectType: `${answers[0]} -> ${answers[1]}`,
+      description: answers[4],
+      desiredCompletionTime: answers[3],
+      propertyType: answers[2],
       clientName: contactInfo.name,
       address: contactInfo.address,
       city: contactInfo.city,
@@ -199,12 +223,9 @@ const ElectricalForm = () => {
 
     const isQuestionsValid = answers.every(answer => answer !== '');
 
-    const isNumber = !isNaN(Number(answers[3]));
-    return isTextInputsValid && isQuestionsValid && isNumber;
+    return isTextInputsValid && isQuestionsValid;
   };
 
-  const projectTypes = ['Build or Replace Deck', 'Repair Deck', 'Clean and Seal Deck', 'Patio', 'Paint a Deck'];
-  const woodTypes = ['Cedar', 'Redwood', 'Ipewood', 'Tigerwood', 'Mahogany', 'Bamboo', 'Pressure-treated Wood', 'Trex (recycled composite)', 'Aluminum', 'Cement', 'Composite (Fiberglass, Vinyl, PVC)'];
   const propertyTypes = ['Residential', 'Business'];
 
   const renderInput = (question: string, answer: string, index: number) => {
@@ -213,7 +234,7 @@ const ElectricalForm = () => {
         <div>
           <h3 className='question-header'>{question}</h3>
           <div className="radio-buttons">
-            {projectTypes.map((type: string) => (
+            {formQuestions.question1.options.map((type: string) => (
               <div className='radio-button-container'>
                 <input
                   className='radio-button'
@@ -231,17 +252,18 @@ const ElectricalForm = () => {
                     onClick={() => handleAnswerChange}
                   ></div>
                   {type}
-                </label>                                 </div>
+                </label>
+              </div>
             ))}
           </div>
         </div>
       );
-    } else if (index === 2) {
+    } else if (index === 1 && answers[0] === 'Lights, outlets, or switches') {
       return (
         <div>
-          <h3 className='question-header'>{question}</h3>
+          <h3 className='question-header'>{conditionalQuestions.question2.question}</h3>
           <div className='radio-buttons'>
-            {woodTypes.map((type: string) => (
+            {conditionalQuestions.question2.options.map((type: string) => (
               <div key={type} className='radio-button-container'>
                 <input
                   key={type}
@@ -265,23 +287,111 @@ const ElectricalForm = () => {
           </div>
         </div>
       );
-    } else if (index === 3) {
+    }
+    else if (index === 1 && answers[0] === 'Upgrade electrical wiring/panel') {
+      return (
+        <div>
+          <h3 className='question-header'>{conditionalQuestions.question3.question}</h3>
+          <div className='radio-buttons'>
+            {conditionalQuestions.question3.options.map((type: string) => (
+              <div key={type} className='radio-button-container'>
+                <input
+                  key={type}
+                  className='radio-button'
+                  type="radio"
+                  id={type}
+                  name="material"
+                  value={type}
+                  checked={answer === type}
+                  onChange={handleAnswerChange}
+                />
+                <label htmlFor={type} className='custom-radio-button-label'>
+                  <div
+                    className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
+                    onClick={() => handleAnswerChange}
+                  ></div>
+                  {type}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    else if (index === 1 && answers[0] === 'More options') {
+      return (
+        <div>
+          <h3 className='question-header'>{conditionalQuestions.question4.question}</h3>
+          <div className='radio-buttons'>
+            {conditionalQuestions.question4.options.map((type: string) => (
+              <div key={type} className='radio-button-container'>
+                <input
+                  key={type}
+                  className='radio-button'
+                  type="radio"
+                  id={type}
+                  name="material"
+                  value={type}
+                  checked={answer === type}
+                  onChange={handleAnswerChange}
+                />
+                <label htmlFor={type} className='custom-radio-button-label'>
+                  <div
+                    className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
+                    onClick={() => handleAnswerChange}
+                  ></div>
+                  {type}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    else if (index === 1 && answers[0] === 'Electrical for addition/remodel') {
       const isNumber = !isNaN(Number(answer));
       return (
         <div>
-          <h3 className='question-header'>{question}</h3>
-          <input className={`text-input ${!isNumber ? 'error' : ''}`}
-            placeholder="Example: 150" type="text"
-            value={answer}
-            onChange={handleAnswerChange}
-          />
+          <h3 className='question-header'>How big is the project area in sq ft?</h3>
+          <input className='text-input' type="text" value={answer} onChange={handleAnswerChange} />
           {!isNumber && <p className="error-message">Please enter a valid number.</p>}
         </div>
       );
-    } else if (index === 4) {
+    }
+    else if (index === 2) {
+      return (
+        <div>
+          <h3 className='question-header'>{questions[3]}</h3>
+          <div className='radio-buttons'>
+            {propertyTypes.map((type: string) => (
+              <div key={type} className='radio-button-container'>
+                <input
+                  key={type}
+                  type="radio"
+                  className='radio-button'
+                  id={type}
+                  name="propertyType"
+                  value={type}
+                  checked={answer === type}
+                  onChange={handleAnswerChange}
+                />
+                <label htmlFor={type} className='custom-radio-button-label'>
+                  <div
+                    className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
+                    onClick={() => handleAnswerChange}
+                  ></div>
+                  {type}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    } else if (index === 3) {
       answer = getTimePassed(startDate, endDate);
       return (
         <>
+          <h2>{questions[4]}</h2>
           <Row>
             <Col className='mx-2'>
               <h2>Start Date</h2>
@@ -311,40 +421,17 @@ const ElectricalForm = () => {
           </Row>
         </>
       );
+    } else if (index === 4) {
+      return (
+        <div>
+          <h3 className='question-header'>{questions[5]}</h3>
+          <input className='text-input' type="text" value={answer} onChange={handleAnswerChange} />
+        </div>
+      )
     } else if (index === 5) {
       return (
         <div>
-          <h3 className='question-header'>{question}</h3>
-          <div className='radio-buttons'>
-            {propertyTypes.map((type: string) => (
-              <div key={type} className='radio-button-container'>
-                <input
-                  key={type}
-                  type="radio"
-                  className='radio-button'
-                  id={type}
-                  name="propertyType"
-                  value={type}
-                  checked={answer === type}
-                  onChange={handleAnswerChange}
-                />
-                <label htmlFor={type} className='custom-radio-button-label'>
-                  <div
-                    className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
-                    onClick={() => handleAnswerChange}
-                  ></div>
-                  {type}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-    else if (index === 6) {
-      return (
-        <div>
-          <h3 className='question-header'>{question}</h3>
+          <h3 className='question-header'>{questions[6]}</h3>
           <div className="user-details-form">
             <Form>
               <Form.Group className="mts-5" controlId="name">
@@ -367,15 +454,7 @@ const ElectricalForm = () => {
                 <Form.Control type="email" placeholder="Email" name="Email" value={email} required onChange={(e: any) => setEmail(e.target.value)} />
               </Form.Group>
             </Form>
-
           </div>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <h3 className='question-header'>{question}</h3>
-          <input className='text-input' type="text" value={answer} onChange={handleAnswerChange} />
         </div>
       );
     }
@@ -398,7 +477,7 @@ const ElectricalForm = () => {
           >
             Previous
           </button>
-          {currentQuestionIndex < questions.length - 1 ? (
+          {(currentQuestionIndex < questions.length - 2) ? (
             <button className="next-button" onClick={handleNextQuestion}>
               Next
             </button>

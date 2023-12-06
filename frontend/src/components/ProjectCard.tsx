@@ -2,7 +2,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 // @ts-ignore
 import defaultImage from '../assets/defaultimage.jpg'
-import { Carousel } from 'react-bootstrap';
+import Carousel from 'react-bootstrap/Carousel';
 import Form from 'react-bootstrap/Form';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ddbUpdateProject } from '../graphql/projects';

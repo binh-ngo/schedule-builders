@@ -1,5 +1,7 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 import { FaRegUserCircle, FaWpforms } from "react-icons/fa";
 import { LiaUsersSolid } from "react-icons/lia";
 

@@ -1,5 +1,7 @@
-import React from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import  Row  from 'react-bootstrap/Row';
 import { HiOutlineTrophy } from "react-icons/hi2";
 import { RxStar } from "react-icons/rx";
 import { PiMedal } from "react-icons/pi";

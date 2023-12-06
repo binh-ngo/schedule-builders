@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { GiLockedChest } from "react-icons/gi";
 import { PiTreeEvergreenBold } from "react-icons/pi";

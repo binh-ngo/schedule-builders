@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Button, Card } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Card from 'react-bootstrap/Card';
 import { useParams } from 'react-router-dom';
 import { ddbGetProjectById } from '../graphql/projects';
 import { ProjectProps } from '../types/types';

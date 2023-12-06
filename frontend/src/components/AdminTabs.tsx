@@ -1,15 +1,15 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import  Modal  from 'react-bootstrap/Modal';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { ddbGetAllProjectsWithEstimates, ddbGetAllProjectsWithEstimatesAndContractors, ddbGetAllProjectsWithoutEstimates } from '../graphql/projects';
-import moment from 'moment';
 import { ProjectCard } from '../components/ProjectCard';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ddbGetAllForms } from '../graphql/forms';
 import { ddbGetAllFormResponse, ddbGetAllQueryResponse } from '../types/types';
 import { CreateForm } from './CreateForm';
 import { FormCard } from './FormCard';
-import { Modal } from 'react-bootstrap';
 
 export const AdminTabs = () => {
   const [projectsWithEstimates, setProjectsWithEstimates] = useState<ddbGetAllQueryResponse[]>([]);
@@ -120,7 +120,7 @@ export const AdminTabs = () => {
     >
       <Tab eventKey="projectsWithoutEstimates" title="Projects to Estimate">
         {loading ? (
-          <div className="text-center spinner">
+          <div className="text-center">
             <p>Loading...</p>
             <LoadingSpinner />
           </div>

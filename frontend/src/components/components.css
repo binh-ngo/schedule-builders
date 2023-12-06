@@ -130,6 +130,10 @@
     width: 100%
   }
 
+  .error-message {
+    color: red;
+  }
+
   .progress-bar {
     height: 10px;
     background-color: #F6E71D !important;
