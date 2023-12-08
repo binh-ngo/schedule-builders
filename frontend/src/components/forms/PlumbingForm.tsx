@@ -7,12 +7,17 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
+import { Button } from 'react-bootstrap';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
 
 const PlumbingForm = () => {
+
     const questions: string[] = [
       'What plumbing do you need help with?',
-      'What plumbing issues are you having?',
-      'What needs to be installed/replaced?'
+      'Please provide a detailed description of what you want us to do.',
+      'What kind of location is this?',
+      'When would you like this request to be completed?',
+      'Please provide your contact information and we will reach out to you shortly.'
     ];
 
     const [name, setName] = useState('');
@@ -198,12 +203,9 @@ const PlumbingForm = () => {
 
         const isQuestionsValid = answers.every(answer => answer !== '');
 
-        const isNumber = !isNaN(Number(answers[3]));
-        return isTextInputsValid && isQuestionsValid && isNumber;
+        return isTextInputsValid && isQuestionsValid;
     };
-
-    const projectTypes = ['Build or Replace Deck', 'Repair Deck', 'Clean and Seal Deck', 'Patio', 'Paint a Deck'];
-    const woodTypes = ['Cedar', 'Redwood', 'Ipewood', 'Tigerwood', 'Mahogany', 'Bamboo', 'Pressure-treated Wood', 'Trex (recycled composite)', 'Aluminum', 'Cement', 'Composite (Fiberglass, Vinyl, PVC)'];
+    const options = ['Faucets, fixtures, drains, or pipes', 'Water heater', 'Septic system, sewer or water main', 'Other']
     const propertyTypes = ['Residential', 'Business'];
 
     const renderInput = (question: string, answer: string, index: number) => {
@@ -212,7 +214,7 @@ const PlumbingForm = () => {
                 <div>
                     <h3 className='question-header'>{question}</h3>
                     <div className="radio-buttons">
-                        {projectTypes.map((type: string) => (
+                        {options.map((type: string) => (
                             <div className='radio-button-container'>
                                 <input
                                     className='radio-button'
@@ -236,48 +238,6 @@ const PlumbingForm = () => {
                 </div>
             );
         } else if (index === 2) {
-            return (
-                <div>
-                    <h3 className='question-header'>{question}</h3>
-                    <div className='radio-buttons'>
-                        {woodTypes.map((type: string) => (
-                            <div key={type} className='radio-button-container'>
-                                <input
-                                    key={type}
-                                    className='radio-button'
-                                    type="radio"
-                                    id={type}
-                                    name="material"
-                                    value={type}
-                                    checked={answer === type}
-                                    onChange={handleAnswerChange}
-                                />
-                                <label htmlFor={type} className='custom-radio-button-label'>
-                                    <div
-                                        className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
-                                        onClick={() => handleAnswerChange}
-                                    ></div>
-                                    {type}
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        } else if (index === 3) {
-            const isNumber = !isNaN(Number(answer));
-            return (
-                <div>
-                    <h3 className='question-header'>{question}</h3>
-                    <input className={`text-input ${!isNumber ? 'error' : ''}`}
-                        placeholder="Example: 150" type="text"
-                        value={answer}
-                        onChange={handleAnswerChange}
-                    />
-                    {!isNumber && <p className="error-message">Please enter a valid number.</p>}
-                </div>
-            );
-        } else if (index === 4) {
             answer = getTimePassed(startDate, endDate);
             return (
                 <>
@@ -310,7 +270,7 @@ const PlumbingForm = () => {
                     </Row>
                 </>
             );
-        } else if (index === 5) {
+        } else if (index === 3) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
@@ -340,7 +300,7 @@ const PlumbingForm = () => {
                 </div>
             );
         }
-        else if (index === 6) {
+        else if (index === 4) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
@@ -390,21 +350,33 @@ const PlumbingForm = () => {
                     </div>
                 )}
                 <div className="button-container">
-                    <button
+                <Button
                         className="prev-button"
+                        style={buttonStyle}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
                         onClick={handlePreviousQuestion}
                         disabled={currentQuestionIndex === 0}
                     >
                         Previous
-                    </button>
+                    </Button>
                     {currentQuestionIndex < questions.length - 1 ? (
-                        <button className="next-button" onClick={handleNextQuestion}>
+                        <Button className="next-button" 
+                                onClick={handleNextQuestion}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
                             Next
-                        </button>
+                        </Button>
                     ) : (
-                        <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
+                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} 
+                                disabled={!isFormValid()} 
+                                onClick={handleSubmit}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
                             Submit
-                        </button>
+                        </Button>
                     )}
                 </div>
             </div>

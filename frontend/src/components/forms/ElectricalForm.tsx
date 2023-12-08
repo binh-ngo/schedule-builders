@@ -7,6 +7,9 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form'; import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
+import { Button } from 'react-bootstrap';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
+
 
 const ElectricalForm = () => {
 
@@ -222,7 +225,6 @@ const ElectricalForm = () => {
       name !== '' && address !== '' && city !== '' && phone !== '' && email !== '';
 
     const isQuestionsValid = answers.every(answer => answer !== '');
-
     return isTextInputsValid && isQuestionsValid;
   };
 
@@ -470,21 +472,33 @@ const ElectricalForm = () => {
           </div>
         )}
         <div className="button-container">
-          <button
-            className="prev-button"
-            onClick={handlePreviousQuestion}
-            disabled={currentQuestionIndex === 0}
-          >
-            Previous
-          </button>
-          {(currentQuestionIndex < questions.length - 2) ? (
-            <button className="next-button" onClick={handleNextQuestion}>
-              Next
-            </button>
-          ) : (
-            <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
-              Submit
-            </button>
+        <Button
+                        className="prev-button"
+                        style={buttonStyle}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
+                        onClick={handlePreviousQuestion}
+                        disabled={currentQuestionIndex === 0}
+                    >
+                        Previous
+                    </Button>
+                    {currentQuestionIndex < questions.length - 2 ? (
+                        <Button className="next-button" 
+                                onClick={handleNextQuestion}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
+                            Next
+                        </Button>
+                    ) : (
+                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} 
+                                disabled={!isFormValid()} 
+                                onClick={handleSubmit}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
+                            Submit
+                        </Button>
           )}
         </div>
       </div>

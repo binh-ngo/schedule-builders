@@ -37,7 +37,9 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center; 
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
+    text-align: left; 
+    transform: translateX(10%);
 }
 
 .radio-button-container {
@@ -455,7 +457,7 @@ margin: 5rem 0
   width: 100px; 
   height: 100px; 
   margin-top: 20px;
-  transform: translate(-55px, -60px);
+  transform: translate(-52px, -60px);
 }
 
 .spinner {

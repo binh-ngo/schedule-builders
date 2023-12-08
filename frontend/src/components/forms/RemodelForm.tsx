@@ -7,15 +7,17 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
+import { Button } from 'react-bootstrap';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
 
 const RemodelForm = () => {
     const questions: string[] = [
       'What do you need help with?',
-      'Are you considering changing the floorplan of your bathroom?',
-      'Which of the following will you need moved or installed in your bathroom remodel? (Check all that apply)',
-      'What kind of countertops would you like installed?',
-      'Have you already purchased the materials for this project?',
-      'Is this request covered by an insurance claim?'
+      'Conditional Question Here',
+      'Please provide a detailed description of what you want us to do.',
+      'When would you like this request to be completed?',
+      'What kind of location is this?',
+      'Please provide your contact information and we will reach out to you shortly.'
     ];
 
     const [name, setName] = useState('');
@@ -111,8 +113,6 @@ const RemodelForm = () => {
             setSlideLeft(false);
         }, 0);
         console.log(answers);
-        console.log(`START DATE ----${startDate}`)
-        console.log(`END DATE ----${endDate}`)
     };
 
     const handlePreviousQuestion = () => {
@@ -124,8 +124,6 @@ const RemodelForm = () => {
             setSlideRight(false);
         }, 0);
         console.log(answers)
-        console.log(`START DATE ----${startDate}`)
-        console.log(`END DATE ----${endDate}`)
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -161,12 +159,10 @@ const RemodelForm = () => {
             console.log('With this contact information:', contactInfo);
         };
         const project = {
-            projectType: answers[0],
-            description: answers[1],
-            material: answers[2],
-            projectSize: answers[3],
-            desiredCompletionTime: answers[4],
-            propertyType: answers[5],
+            projectType: `${answers[0]} -> ${answers[1]}`,
+            description: answers[2],
+            desiredCompletionTime: answers[3],
+            propertyType: answers[4],
             clientName: contactInfo.name,
             address: contactInfo.address,
             city: contactInfo.city,
@@ -201,14 +197,21 @@ const RemodelForm = () => {
 
         const isQuestionsValid = answers.every(answer => answer !== '');
 
-        const isNumber = !isNaN(Number(answers[3]));
-        return isTextInputsValid && isQuestionsValid && isNumber;
+        return isTextInputsValid && isQuestionsValid;
     };
 
-    const projectTypes = ['Build or Replace Deck', 'Repair Deck', 'Clean and Seal Deck', 'Patio', 'Paint a Deck'];
-    const woodTypes = ['Cedar', 'Redwood', 'Ipewood', 'Tigerwood', 'Mahogany', 'Bamboo', 'Pressure-treated Wood', 'Trex (recycled composite)', 'Aluminum', 'Cement', 'Composite (Fiberglass, Vinyl, PVC)'];
+    const projectTypes = ['Bathroom remodel', 'Kitchen remodel', 'Other remodeling projects'];
+    const kitchenObjects = ['Countertops', 'Cabinets', 'Sinks', 'Flooring', 'Appliances', 'Electrical'];
+    const bathroomObjects = ['Shower/Bath', 'Flooring', 'Toilet', 'Cabinets/Vanity', 'Countertops', 'Sinks'];
+    const remodelAreas = ['Multiple rooms', 'Major home repairs', 'Garage', 'Basement', 'Living room', 'Bedroom', 'Sunroom/Patio', 'Disability Accommodation']
     const propertyTypes = ['Residential', 'Business'];
 
+
+    const conditionalQuestions = [
+        'Which of the following will you need moved or installed in your bathroom remodel?',
+        'Which of the following will you need moved or installed in your kitchen remodel?',
+        'Which areas are you remodeling?'
+    ]
     const renderInput = (question: string, answer: string, index: number) => {
         if (index === 0) {
             return (
@@ -233,17 +236,18 @@ const RemodelForm = () => {
                                         onClick={() => handleAnswerChange}
                                     ></div>
                                     {type}
-                                </label>                                 </div>
+                                </label>                                 
+                            </div>
                         ))}
                     </div>
                 </div>
             );
-        } else if (index === 2) {
+        } else if (index === 1 && answers[0] === 'Bathroom remodel') {
             return (
                 <div>
-                    <h3 className='question-header'>{question}</h3>
+                    <h3 className='question-header'>{conditionalQuestions[0]}</h3>
                     <div className='radio-buttons'>
-                        {woodTypes.map((type: string) => (
+                        {bathroomObjects.map((type: string) => (
                             <div key={type} className='radio-button-container'>
                                 <input
                                     key={type}
@@ -267,23 +271,76 @@ const RemodelForm = () => {
                     </div>
                 </div>
             );
-        } else if (index === 3) {
-            const isNumber = !isNaN(Number(answer));
+        } else if (index === 1 && (answers[0] === 'Kitchen remodel')) {
+            return (
+                <div>
+                    <h3 className='question-header'>{conditionalQuestions[1]}</h3>
+                    <div className='radio-buttons'>
+                        {kitchenObjects.map((type: string) => (
+                            <div key={type} className='radio-button-container'>
+                                <input
+                                    key={type}
+                                    className='radio-button'
+                                    type="radio"
+                                    id={type}
+                                    name="material"
+                                    value={type}
+                                    checked={answer === type}
+                                    onChange={handleAnswerChange}
+                                />
+                                <label htmlFor={type} className='custom-radio-button-label'>
+                                    <div
+                                        className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
+                                        onClick={() => handleAnswerChange}
+                                    ></div>
+                                    {type}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        } else if (index === 1 && (answers[0] === 'Other remodeling projects')) {
+            return (
+                <div>
+                    <h3 className='question-header'>{conditionalQuestions[2]}</h3>
+                    <div className='radio-buttons'>
+                        {remodelAreas.map((type: string) => (
+                            <div key={type} className='radio-button-container'>
+                                <input
+                                    key={type}
+                                    className='radio-button'
+                                    type="radio"
+                                    id={type}
+                                    name="material"
+                                    value={type}
+                                    checked={answer === type}
+                                    onChange={handleAnswerChange}
+                                />
+                                <label htmlFor={type} className='custom-radio-button-label'>
+                                    <div
+                                        className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
+                                        onClick={() => handleAnswerChange}
+                                    ></div>
+                                    {type}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        } else if (index === 2) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
-                    <input className={`text-input ${!isNumber ? 'error' : ''}`}
-                        placeholder="Example: 150" type="text"
-                        value={answer}
-                        onChange={handleAnswerChange}
-                    />
-                    {!isNumber && <p className="error-message">Please enter a valid number.</p>}
+                    <input className='text-input' type="text" value={answer} onChange={handleAnswerChange} />
                 </div>
             );
-        } else if (index === 4) {
+        } else if (index === 3) {
             answer = getTimePassed(startDate, endDate);
             return (
                 <>
+                    <h3 className='question-header'>{question}</h3>
                     <Row>
                         <Col className='mx-2'>
                             <h2>Start Date</h2>
@@ -313,7 +370,7 @@ const RemodelForm = () => {
                     </Row>
                 </>
             );
-        } else if (index === 5) {
+        } else if (index === 4) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
@@ -343,7 +400,7 @@ const RemodelForm = () => {
                 </div>
             );
         }
-        else if (index === 6) {
+        else if (index === 5) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
@@ -373,13 +430,6 @@ const RemodelForm = () => {
                     </div>
                 </div>
             );
-        } else {
-            return (
-                <div>
-                    <h3 className='question-header'>{question}</h3>
-                    <input className='text-input' type="text" value={answer} onChange={handleAnswerChange} />
-                </div>
-            );
         }
     };
 
@@ -393,21 +443,33 @@ const RemodelForm = () => {
                     </div>
                 )}
                 <div className="button-container">
-                    <button
+                <Button
                         className="prev-button"
+                        style={buttonStyle}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
                         onClick={handlePreviousQuestion}
                         disabled={currentQuestionIndex === 0}
                     >
                         Previous
-                    </button>
+                    </Button>
                     {currentQuestionIndex < questions.length - 1 ? (
-                        <button className="next-button" onClick={handleNextQuestion}>
+                        <Button className="next-button" 
+                                onClick={handleNextQuestion}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
                             Next
-                        </button>
+                        </Button>
                     ) : (
-                        <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
+                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} 
+                                disabled={!isFormValid()} 
+                                onClick={handleSubmit}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
                             Submit
-                        </button>
+                        </Button>
                     )}
                 </div>
             </div>

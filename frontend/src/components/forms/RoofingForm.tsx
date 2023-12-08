@@ -4,16 +4,21 @@ import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';import moment from 'moment';
+import Form from 'react-bootstrap/Form'; import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
+import { Button } from 'react-bootstrap';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
 
 const RoofingForm = () => {
   const questions: string[] = [
     'What do you need help with?',
-    'What type of project is this?',
-    'What roofing material do you want?',
-    'How tall is your building?'
+    'Please provide a detailed description of what you want us to do.',
+    'What material makes up your roof?',
+    'How tall is your building (in feet)?',
+    'When would you like this request to be completed?',
+    'What kind of location is this?',
+    'Please provide your contact information and we will reach out to you shortly.'
   ];
 
   const [name, setName] = useState('');
@@ -203,8 +208,8 @@ const RoofingForm = () => {
     return isTextInputsValid && isQuestionsValid && isNumber;
   };
 
-  const projectTypes = ['Build or Replace Deck', 'Repair Deck', 'Clean and Seal Deck', 'Patio', 'Paint a Deck'];
-  const woodTypes = ['Cedar', 'Redwood', 'Ipewood', 'Tigerwood', 'Mahogany', 'Bamboo', 'Pressure-treated Wood', 'Trex (recycled composite)', 'Aluminum', 'Cement', 'Composite (Fiberglass, Vinyl, PVC)'];
+  const projectTypes = ['Install or repair roof', 'Install or replace gutters', 'Siding', 'Clean roof/gutters', 'Other'];
+  const material = ['Asphalt shingle', 'Metal', 'Wood or Composite shingle', 'Tile', 'Flat/foam/single ply', 'Natural slate'];
   const propertyTypes = ['Residential', 'Business'];
 
   const renderInput = (question: string, answer: string, index: number) => {
@@ -241,7 +246,7 @@ const RoofingForm = () => {
         <div>
           <h3 className='question-header'>{question}</h3>
           <div className='radio-buttons'>
-            {woodTypes.map((type: string) => (
+            {material.map((type: string) => (
               <div key={type} className='radio-button-container'>
                 <input
                   key={type}
@@ -268,20 +273,21 @@ const RoofingForm = () => {
     } else if (index === 3) {
       const isNumber = !isNaN(Number(answer));
       return (
-        <div>
-          <h3 className='question-header'>{question}</h3>
-          <input className={`text-input ${!isNumber ? 'error' : ''}`}
-            placeholder="Example: 150" type="text"
-            value={answer}
-            onChange={handleAnswerChange}
-          />
-          {!isNumber && <p className="error-message">Please enter a valid number.</p>}
-        </div>
+          <div>
+              <h3 className='question-header'>{question}</h3>
+              <input className={`text-input ${!isNumber ? 'error' : ''}`}
+                  placeholder="Example: 150" type="text"
+                  value={answer}
+                  onChange={handleAnswerChange}
+              />
+              {!isNumber && <p className="error-message">Please enter a valid number.</p>}
+          </div>
       );
-    } else if (index === 4) {
+  }else if (index === 4) {
       answer = getTimePassed(startDate, endDate);
       return (
         <>
+          <h3 className='mb-5'>{questions[4]}</h3>
           <Row>
             <Col className='mx-2'>
               <h2>Start Date</h2>
@@ -391,21 +397,33 @@ const RoofingForm = () => {
           </div>
         )}
         <div className="button-container">
-          <button
+          <Button
             className="prev-button"
+            style={buttonStyle}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
             onClick={handlePreviousQuestion}
             disabled={currentQuestionIndex === 0}
           >
             Previous
-          </button>
+          </Button>
           {currentQuestionIndex < questions.length - 1 ? (
-            <button className="next-button" onClick={handleNextQuestion}>
+            <Button className="next-button"
+              onClick={handleNextQuestion}
+              style={buttonStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}>
               Next
-            </button>
+            </Button>
           ) : (
-            <button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
+            <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`}
+              disabled={!isFormValid()}
+              onClick={handleSubmit}
+              style={buttonStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}>
               Submit
-            </button>
+            </Button>
           )}
         </div>
       </div>
