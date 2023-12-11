@@ -51,7 +51,6 @@ const RemodelForm = () => {
             const emailWithoutDomain = email.substring(0, atIndex);
             return emailWithoutDomain;
         }
-
         // If the email doesn't contain "@", return the original email
         return email;
     }
@@ -75,20 +74,23 @@ const RemodelForm = () => {
             case 'Email':
                 setEmail(event.target.value);
                 break;
-            case 'startDate':
-                selectedStartDate = event.target.value;
-                setStartDate(selectedStartDate as string);
-                setEndDate('');
-                const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
-                if (endDateInput) {
-                    endDateInput.min = selectedStartDate || '';
-                }
-                break;
-            case 'endDate':
-                setEndDate(event.target.value);
-                const timeFrameAnswer = getTimePassed(startDate, event.target.value);
-                updatedAnswers[currentQuestionIndex] = timeFrameAnswer;
-                break;
+                case 'startDate':
+                    selectedStartDate = event.target.value;
+                    setStartDate(selectedStartDate);
+                    setEndDate('');
+                    const startDateInput = event.target as HTMLInputElement;
+                    const today = new Date().toISOString().split('T')[0];
+                    startDateInput.min = today;
+                    const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
+                    if (endDateInput) {
+                        endDateInput.min = selectedStartDate;
+                    }
+                    break;
+                case 'endDate':
+                    setEndDate(event.target.value);
+                    const duration = getTimePassed(startDate, event.target.value);
+                    updatedAnswers[currentQuestionIndex] = duration;
+                    break;
             default:
                 updatedAnswers[currentQuestionIndex] = event.target.value;
                 break;
@@ -168,8 +170,8 @@ const RemodelForm = () => {
             city: contactInfo.city,
             clientPhone: contactInfo.phone,
             email: contactInfo.email,
-            startDate,
-            endDate
+            startDate: new Date(startDate).toISOString(),
+            endDate: new Date(endDate).toISOString()
         }
 
         let createdProject = null;
@@ -181,7 +183,7 @@ const RemodelForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/${createdProject.projectId}`);
+            navigate(`/projects/${createdProject.clientName}`);
         } else {
             console.log("onSave called but title or children are empty");
         }

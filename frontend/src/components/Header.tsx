@@ -14,6 +14,7 @@ import { BiLogInCircle } from "react-icons/bi"
 import { AccountContext } from "../Accounts";
 import { Login } from "./Login";
 import { Auth } from "aws-amplify";
+import { ddbGetAllProjects } from "../graphql/projects";
 
 export const Header = () => {
   const [expand, updateExpanded] = useState(false);
@@ -28,10 +29,9 @@ export const Header = () => {
       try {
         const user = await Auth.currentAuthenticatedUser();
         console.log(`Cognito username: ${user.username}`);
-        console.log(`Cognito profile: ${user.profile}`);
+        console.log(`Cognito profile: ${user.attributes.profile}`);
         setUsername(user.username);
         setProfile(user.attributes.profile);
-          ;
       } catch (error) {
         console.error('Error getting Cognito user:', error);
       }
@@ -46,20 +46,12 @@ export const Header = () => {
       updateNavbar(false);
     }
   }
-// function that inputs client's username and finds projectID in SK
-// getProjectByName(username)
-  function getProjectId() {
-    if (!isClient) {
-      return;
-    }
-    // await ddbget
-  }
 
   window.addEventListener("scroll", scrollHandler);
   
   const isAdmin = profile === "admin";
-  const isPro = loggedInUser && (profile === "pro" || profile === "admin");
-  const isClient = loggedInUser && (profile === "client" || profile === "admin");
+  const isPro = (profile === "pro" || profile === "admin");
+  const isClient = (profile === "client" || profile === "admin");
 
   return (
     <Navbar
@@ -133,10 +125,10 @@ export const Header = () => {
               <Nav.Item>
                 <Nav.Link
                   as={Link}
-                  to="/pro/marketplace"
+                  to="/pro/workshop"
                   onClick={() => updateExpanded(false)}
                 >
-                  <BsBuildings style={{ marginBottom: "2px" }}/> Marketplace
+                  <BsBuildings style={{ marginBottom: "2px" }}/> Workshop
                 </Nav.Link>
               </Nav.Item>
             }
@@ -145,10 +137,10 @@ export const Header = () => {
               <Nav.Item>
                 <Nav.Link
                   as={Link}
-                  to="/client-dashboard"
+                  to="/projects"
                   onClick={() => updateExpanded(false)}
                 >
-                  Client Dashboard
+                  My Projects
                 </Nav.Link>
               </Nav.Item>
             }

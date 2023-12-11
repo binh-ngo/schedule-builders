@@ -7,7 +7,7 @@ export type ddbGetAllQueryResponse = {
   city: string;
   description: string;
   material: string;
-  projectSize: string;
+  projectSize: number;
   projectType: string;
   propertyType: string;
   desiredCompletionTime: string;
@@ -20,6 +20,7 @@ export type ddbGetAllQueryResponse = {
   contractorName?: string;
   createdAt: string;
   updatedAt?: string;
+  earlyEstimate?: string;
 }
 
 export type ddbGetAllFormResponse = {
@@ -46,12 +47,12 @@ export type ProjectProps = {
   city: string;
   description: string;
   material: string;
-  projectSize: string;
+  projectSize: number;
   projectType: string;
   propertyType: string;
   desiredCompletionTime: string;
   imageUrls?: string[];
-  earlyEstimate?: number;
+  earlyEstimate?: string;
   estimate?: number;
   startDate?: string;
   endDate?: string;

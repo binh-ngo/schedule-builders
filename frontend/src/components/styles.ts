@@ -5,12 +5,21 @@ export const buttonStyle = {
   borderColor: 'transparent',
   transition: 'box-shadow 0.3s',
   fontFamily: 'Lato',
-  border: '2px solid white'
+  border: '2px solid white',
+  color: 'white'
 }
 
 export const iconBarCaptionStyle = {
   textDecoration: 'none',
   color: 'inherit',
+}
+
+export const iconMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
+  e.currentTarget.style.backgroundColor = '#ffffbf';
+}
+
+export const iconMouseOut = (e: MouseEvent<HTMLButtonElement>) => {
+  e.currentTarget.style.backgroundColor = 'white';
 }
 
 export const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {

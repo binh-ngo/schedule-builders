@@ -65,7 +65,7 @@ export const LandingPage = () => {
                           style={buttonStyle} 
                           onMouseOver={handleMouseOver}
                           onMouseOut={handleMouseOut}
-                          href='/create-project' 
+                          href='#projects' 
                           size="lg">Submit Project</Button>
                   <Button className="mx-2 clientHeroButtons"
                           onMouseOver={handleMouseOver}
@@ -84,7 +84,7 @@ export const LandingPage = () => {
             </Row>
           </Container>
         </div>
-        <div>
+        <div id="projects">
           <IconBar />
         </div>
         <div className='clientHeroDescription mb-5'>

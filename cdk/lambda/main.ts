@@ -23,6 +23,9 @@ import getAllProjectsWithEstimates from "./projects/getAllProjectsWithEstimates"
 import getAllProjectsWithEstimatesAndContractors from "./projects/getAllProjectsWithEstimatesAndContractors";
 import getAllProjectsWithoutEstimates from "./projects/getAllProjectsWithoutEstimates";
 import getProjectById from "./projects/getProjectById";
+import getPublishedProjects from "./projects/getPublishedProjects";
+import getUnpublishedProjects from "./projects/getUnpublishedProjects";
+import publishProject from "./projects/publishProject";
 import updateProject from "./projects/updateProject";
 
 import { ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, ProjectAppsyncEvent } from "./types";
@@ -54,7 +57,10 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" 
     case "getAllProjectsWithEstimates":
     case "getAllProjectsWithEstimatesAndContractors":
     case "getAllProjectsWithoutEstimates":
+    case "getPublishedProjects":
+    case "getUnpublishedProjects":
     case "getProjectById":
+    case "publishProject":
     case "createProject":
     case "deleteProject":
     case "updateProject":
@@ -118,6 +124,12 @@ function handleProjectEvent(event: ProjectAppsyncEvent) {
       return getAllProjectsWithEstimatesAndContractors();
     case "getAllProjectsWithoutEstimates":
       return getAllProjectsWithoutEstimates();
+    case "getPublishedProjects":
+      return getPublishedProjects();
+    case "getUnpublishedProjects":
+      return getUnpublishedProjects();
+    case "publishProject":
+      return publishProject(event.arguments.projectId!, event.arguments.published!);
     case "createProject":
       return createProject(event.arguments.projectInput!);
     case "updateProject":

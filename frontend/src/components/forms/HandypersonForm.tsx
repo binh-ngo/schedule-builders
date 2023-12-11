@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
 
 const HandypersonForm = () => {
     const questions: string[] = [
@@ -76,17 +77,20 @@ const HandypersonForm = () => {
                 break;
             case 'startDate':
                 selectedStartDate = event.target.value;
-                setStartDate(selectedStartDate as string);
+                setStartDate(selectedStartDate);
                 setEndDate('');
+                const startDateInput = event.target as HTMLInputElement;
+                const today = new Date().toISOString().split('T')[0];
+                startDateInput.min = today;
                 const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
                 if (endDateInput) {
-                    endDateInput.min = selectedStartDate || '';
+                    endDateInput.min = selectedStartDate;
                 }
                 break;
             case 'endDate':
                 setEndDate(event.target.value);
-                const timeFrameAnswer = getTimePassed(startDate, event.target.value);
-                updatedAnswers[currentQuestionIndex] = timeFrameAnswer;
+                const duration = getTimePassed(startDate, event.target.value);
+                updatedAnswers[currentQuestionIndex] = duration;
                 break;
             default:
                 updatedAnswers[currentQuestionIndex] = event.target.value;
@@ -100,8 +104,14 @@ const HandypersonForm = () => {
         const start = moment(startDate);
         const end = moment(endDate);
         const duration = moment.duration(end.diff(start));
-        return duration.humanize();
-    };
+        if (duration.asDays() <= 1) {
+            // If the project is scheduled for exactly 1 day, return the specific date
+            return start.format('MM/DD/YYYY');
+        } else {
+            // Otherwise, return the humanized duration
+            return duration.humanize();
+        };
+    }
 
     const handleNextQuestion = () => {
         setSlideLeft(true);
@@ -171,8 +181,8 @@ const HandypersonForm = () => {
             city: contactInfo.city,
             clientPhone: contactInfo.phone,
             email: contactInfo.email,
-            startDate,
-            endDate
+            startDate: new Date(startDate).toISOString(),
+            endDate: new Date(endDate).toISOString()
         }
 
         let createdProject = null;
@@ -184,7 +194,7 @@ const HandypersonForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/${createdProject.projectId}`);
+            navigate(`/projects/${createdProject.clientName}`);
         } else {
             console.log("onSave called but title or children are empty");
         }
@@ -200,8 +210,7 @@ const HandypersonForm = () => {
 
         const isQuestionsValid = answers.every(answer => answer !== '');
 
-        const isNumber = !isNaN(Number(answers[3]));
-        return isTextInputsValid && isQuestionsValid && isNumber;
+        return isTextInputsValid && isQuestionsValid;
     };
 
     const projectTypes = ['General handyperson', 'Carpentry', 'Doors', 'Electrical', 'Plumbing', 'Appliances', 'Furniture Assembly', 'Drywall', 'Windows', 'Landscaping', 'Air conditioning system', 'Interior painting', 'Exterior painting', 'Siding', 'Other'];
@@ -241,7 +250,7 @@ const HandypersonForm = () => {
             answer = getTimePassed(startDate, endDate);
             return (
                 <>
-                <h3 className='question-header'>{question}</h3>
+                    <h3 className='question-header'>{question}</h3>
                     <Row>
                         <Col className='mx-2'>
                             <h2>Start Date</h2>
@@ -355,15 +364,27 @@ const HandypersonForm = () => {
                         className="prev-button"
                         onClick={handlePreviousQuestion}
                         disabled={currentQuestionIndex === 0}
+                        style={buttonStyle}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
                     >
                         Previous
                     </Button>
                     {currentQuestionIndex < questions.length - 1 ? (
-                        <Button className="next-button" onClick={handleNextQuestion}>
+                        <Button className="next-button"
+                            onClick={handleNextQuestion}
+                            style={buttonStyle}
+                            onMouseOver={handleMouseOver}
+                            onMouseOut={handleMouseOut}
+                        >
                             Next
                         </Button>
                     ) : (
-                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} disabled={!isFormValid()} onClick={handleSubmit}>
+                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`}
+                            disabled={!isFormValid()} onClick={handleSubmit}
+                            style={buttonStyle}
+                            onMouseOver={handleMouseOver}
+                            onMouseOut={handleMouseOut}>
                             Submit
                         </Button>
                     )}

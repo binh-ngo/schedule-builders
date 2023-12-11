@@ -38,12 +38,12 @@ export const ContractorLandingPage = () => {
                           onMouseOut={handleMouseOut}
                           href='/create-contractor' 
                           size="lg">Sign up!</Button>
-                  <Button className="mx-2 heroButtons"
+                  {/* <Button className="mx-2 heroButtons"
                           style={buttonStyle}
                           onMouseOver={handleMouseOver}
                           onMouseOut={handleMouseOut}
                           href='/pro/create-form' 
-                          size="lg">Try it out!</Button>
+                          size="lg">Try it out!</Button> */}
                 </div>
               </Col>
             </Row>

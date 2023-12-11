@@ -61,11 +61,14 @@ const createProject = async (projectInput: ProjectInput) => {
         contractorId: '',
         earlyEstimate: calculateProjectEstimate(projectInput.material, projectInput.projectType, projectInput.projectSize),
         estimate: 0,
-        startDate: '',
-        endDate: '',
+        startDate: projectInput.startDate,
+        endDate: projectInput.endDate,
         desiredCompletionTime: projectInput.desiredCompletionTime,
         clientCost: 0,
         customAttributes: projectInput.customAttributes,
+        isCompleted: false,
+        isPublished: false,
+        publishDate: '',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     };
@@ -131,7 +134,7 @@ const createProject = async (projectInput: ProjectInput) => {
     
     const snsParams = {
         Subject: "New Project Created",
-        Message: `A new project in the ${client.city} area has entered the marketplace! Check it out: https://schedule.builders/pro/marketplace
+        Message: `A new project in the ${client.city} area has entered the Workshop! Check it out: https://schedule.builders/pro/workshop
         `, 
         TopicArn: process.env.TOPIC_ARN
       };

@@ -18,7 +18,7 @@ export type SaveProjectProps = {
     propertyType?: string;
     desiredCompletionTime?: string;
     imageUrls?: File[];
-    earlyEstimate?: number;
+    earlyEstimate?: string;
     estimate?: number;
     startDate?: string;
     endDate?: string;
@@ -46,6 +46,7 @@ const createProjectQuery = `
       description
       desiredCompletionTime
       earlyEstimate
+      email
       endDate
       estimate
       imageUrls
@@ -111,6 +112,7 @@ const getProjectByIdQuery = `
         description
         desiredCompletionTime
         earlyEstimate
+        email
         endDate
         estimate
         imageUrls
@@ -162,6 +164,7 @@ query getAllProjects($clientName: String!) {
     description
     desiredCompletionTime
     earlyEstimate
+    email
     endDate
     estimate
     imageUrls
@@ -208,6 +211,7 @@ query getAllProjectsFromAllClients {
     description
     desiredCompletionTime
     earlyEstimate
+    email
     endDate
     estimate
     imageUrls
@@ -252,6 +256,7 @@ query getAllProjectsWithEstimates {
     description
     desiredCompletionTime
     earlyEstimate
+    email
     endDate
     estimate
     imageUrls
@@ -295,6 +300,7 @@ query getAllProjectsWithEstimatesAndContractors {
     description
     desiredCompletionTime
     earlyEstimate
+    email
     endDate
     estimate
     imageUrls
@@ -338,6 +344,7 @@ query getAllProjectsWithoutEstimates {
     description
     desiredCompletionTime
     earlyEstimate
+    email
     endDate
     estimate
     imageUrls
@@ -367,26 +374,32 @@ export const ddbGetAllProjectsWithoutEstimates = async () => {
 const updateProjectQuery = `
     mutation updateProject($projectId: String!, $projectInput: ProjectInput!) {
       updateProject(projectId: $projectId, projectInput: $projectInput) {
-        projectId
         address
         city
-        description
-        material
-        projectSize
-        propertyType
-        projectType
-        desiredCompletionTime
-        imageUrls
         clientCost
-        clientPhone
         clientId
         clientName
-        contractorName
+        clientPhone
         contractorId
-        startDate
+        contractorName
+        createdAt
+        customAttributes {
+          name
+          value
+        }
+        description
+        desiredCompletionTime
+        earlyEstimate
+        email
         endDate
         estimate
-        createdAt
+        imageUrls
+        material
+        projectId
+        projectSize
+        projectType
+        propertyType
+        startDate
         updatedAt
       }
     }
@@ -448,4 +461,137 @@ export const ddbDeleteProject = async (projectId: string, clientName: string) =>
   // @ts-ignore
   console.log(`successfully deleted: ${resp.data.deleteProject}`);
 };
+// REMOVED CLIENT NAME FROM PARAMS
+const publishProjectQuery = `
+  mutation publishProject($projectId: String!, $isPublished: Boolean!) {
+    publishProject(projectId: $projectId, isPublished: $isPublished) {
+      address
+      city
+      clientCost
+      clientId
+      clientName
+      clientPhone
+      contractorId
+      contractorName
+      createdAt
+      customAttributes {
+        name
+        value
+      }
+      description
+      desiredCompletionTime
+      earlyEstimate
+      email
+      endDate
+      estimate
+      imageUrls
+      material
+      projectId
+      projectSize
+      projectType
+      propertyType
+      startDate
+      updatedAt
+    }
+  }
+`
+export const ddbPublishProject = async (projectId: string) => {
+  console.log(`Post getting ready to be published with projectId: ${projectId}`);
+  const resp = await API.graphql({
+    query: publishProjectQuery,
+    variables: {
+      projectId,
+      isPublished: true
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  console.log(`project ${projectId} successfully published: ${resp.data.publishProject}`);
+}
 
+const getPublishedProjectsQuery = `
+query getPublishedProjects {
+  getPublishedProjects {
+    address
+    city
+    clientCost
+    clientId
+    clientName
+    clientPhone
+    contractorId
+    contractorName
+    createdAt
+    customAttributes {
+      name
+      value
+    }
+    description
+    desiredCompletionTime
+    earlyEstimate
+    email
+    endDate
+    estimate
+    imageUrls
+    material
+    projectId
+    projectSize
+    projectType
+    propertyType
+    startDate
+    updatedAt
+  }
+}
+`;
+export const ddbGetPublishedProjects = async () => {
+  const resp = await API.graphql({ 
+    query: getPublishedProjectsQuery,
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  return resp.data.getPublishedProjects;
+};
+
+const getUnpublishedProjectsQuery = `
+query getUnpublishedProjects {
+  getUnpublishedProjects {
+    address
+    city
+    clientCost
+    clientId
+    clientName
+    clientPhone
+    contractorId
+    contractorName
+    createdAt
+    customAttributes {
+      name
+      value
+    }
+    description
+    desiredCompletionTime
+    earlyEstimate
+    email
+    endDate
+    estimate
+    imageUrls
+    material
+    projectId
+    projectSize
+    projectType
+    propertyType
+    startDate
+    updatedAt
+  }
+}
+`;
+export const ddbGetUnpublishedProjects = async () => {
+  const resp = await API.graphql({ 
+    query: getUnpublishedProjectsQuery,
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  return resp.data.getUnpublishedProjects;
+};

@@ -4,7 +4,7 @@ import { AccountContext } from "./Accounts";
 import { RequestLogin } from "./pages/RequestLogin";
 
 export const RequireAdminAuth = ({ children }: { children: JSX.Element }) => {
-  const [username, setUsername] = useState('');
+  const [profile, setProfile] = useState('');
   const { loggedInUser } = useContext(AccountContext);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export const RequireAdminAuth = ({ children }: { children: JSX.Element }) => {
         try {
             const user = await Auth.currentAuthenticatedUser();
             console.log(`Cognito username: ${user.username}`);
-            setUsername(user.username)
+            setProfile(user.attributes.profile);
             ;
         } catch (error) {
             console.error('Error getting Cognito user:', error);
@@ -21,7 +21,9 @@ export const RequireAdminAuth = ({ children }: { children: JSX.Element }) => {
     fetchUserData();
 }, []);
 
-  if (!loggedInUser || username !== 'admin') {
+const isPro = loggedInUser && (profile === "pro" || profile === "admin");
+
+  if (!isPro) {
     console.log(`status: not authed, redirecting to login...`);
     return <RequestLogin />;
   } else {

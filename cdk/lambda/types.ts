@@ -116,9 +116,12 @@ export type Project = {
     endDate: string;
     desiredCompletionTime: string;
     clientCost: number;
+    publishDate: string;
     createdAt: string;
     updatedAt: string;
     customAttributes: CustomAttributes[];
+    isCompleted: boolean;
+    isPublished: boolean;
 }
 
 export type ProjectInput = {
@@ -141,6 +144,9 @@ export type ProjectInput = {
     contractorId: string;
     contractorName: string;
     customAttributes: CustomAttributes[];
+    isCompleted: boolean;
+    isPublished: boolean;
+    publishDate: string;
 }
 //~~~~~~~~~~~~~~~~~~~~~~  //
 //  Messages Event Types  //
@@ -205,6 +211,7 @@ export type ProjectAppsyncEvent = {
         projectId?: string;
         clientName?: string;
         projectInput?: ProjectInput;
+        published?: boolean
       };
 }
 

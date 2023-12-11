@@ -19,7 +19,6 @@ const updateProject = async (
     if (!projectInput || !projectId) {
         return { statusCode: 400, body: 'Invalid request, missing parameters' };
     }
-
     const retrievedProject = await getProjectById(projectId);
 
     const project: Project = {
@@ -45,6 +44,9 @@ const updateProject = async (
         desiredCompletionTime: projectInput.desiredCompletionTime ? projectInput.desiredCompletionTime : retrievedProject.desiredCompletionTime,
         clientCost: projectInput.clientCost ? projectInput.clientCost : retrievedProject.clientCost,
         customAttributes: projectInput.customAttributes ? projectInput.customAttributes : retrievedProject.customAttributes,
+        isCompleted: projectInput.isCompleted ? projectInput.isCompleted : retrievedProject.isCompleted,
+        isPublished: projectInput.isPublished ? projectInput.isPublished : retrievedProject.isPublished,
+        publishDate: projectInput.publishDate ? projectInput.publishDate : retrievedProject.publishDate,
         createdAt: retrievedProject.createdAt,
         updatedAt: new Date().toISOString(),
     };
@@ -55,11 +57,13 @@ const updateProject = async (
     //     ...projectInput,   // Spread the updated properties
     //     updatedAt: new Date().toISOString(),
     // };
+    const username = project.email ? project.email.split("@")[0] : '';
+
     try {
 
         if (projectInput.imageUrls) {
             const imageUrls = await Promise.all(projectInput.imageUrls.map(async (imageUrl: string) => {
-                return await generateUploadURL(retrievedProject.clientName, projectId);
+                return await generateUploadURL(retrievedProject.username, projectId);
             }));
             project.imageUrls = imageUrls;
         }
@@ -72,7 +76,7 @@ const updateProject = async (
 
         const params = {
             RequestItems: {
-                "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB": // batchWriteRequests
+                "ContractorSiteContractorBackendStackC9C337A3-ContractorSiteTableEFCEEB4B-DSY0RC8FT3VB":
                     [
                         {
                             PutRequest: {
@@ -97,7 +101,7 @@ const updateProject = async (
                         {
                             PutRequest: {
                                 Item: {
-                                    PK: `CLIENT#${project.clientName}`,
+                                    PK: `CLIENT#${username}`,
                                     SK: `PROJECT#${projectId}`,
                                     type: 'project',
                                     ...project,
@@ -124,11 +128,11 @@ const updateProject = async (
     }
 };
 
-export async function generateUploadURL(clientName: string, projectId: string) {
+export async function generateUploadURL(username: string, projectId: string) {
     const imageId = ulid().slice(-5);
     const params = ({
         Bucket: process.env.BUCKET_NAME,
-        Key: `clients/${clientName}/${projectId}-${imageId}.jpg`,
+        Key: `clients/${username}/${projectId}-${imageId}.jpg`,
         Expires: 120
     })
 

@@ -29,6 +29,7 @@ import LandscapingForm from "./components/forms/LandscapingForm";
 import RemodelForm from "./components/forms/RemodelForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Page1 } from "./pages/Page1";
+import { Workshop } from "./pages/Workshop";
 
 
 Amplify.configure(awsconfig);
@@ -42,14 +43,15 @@ function App() {
           <Routes>
             <Route path="/test" element={<ClientProfilePage />} />
             <Route path="/" element={<LandingPage />} />
-            <Route path="/:projectId" element={<ClientProfilePage />} />
+            <Route path="/projects" element={<ClientProfilePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/pro" element={<ContractorLandingPage />} />
             <Route path="/pro/:contractorName" element={<Page1 />} />
             <Route path="/login" element={<RequestLogin />} />
             <Route path="/pro/contact" element={<ContactPage />} />
             <Route path="/admin" element={<RequireAdminAuth><Admin /></RequireAdminAuth>} />
-            <Route path="/contrproactor/admin" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
+            <Route path="/pro/admin" element={<RequireContractorAuth><Contractor /></RequireContractorAuth>} />
+            <Route path="/pro/workshop" element={<RequireContractorAuth><Workshop /></RequireContractorAuth>} />
             <Route path="/pro/create-form" element={<CreateForm />} />
             <Route path="/create-contractor" element={<CreateContractor />} />
             {/* <Route path="/create-project" element={<ProjectForm />} /> */}

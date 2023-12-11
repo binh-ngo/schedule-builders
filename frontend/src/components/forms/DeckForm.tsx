@@ -79,17 +79,20 @@ const DeckForm = () => {
                 break;
             case 'startDate':
                 selectedStartDate = event.target.value;
-                setStartDate(selectedStartDate as string);
+                setStartDate(selectedStartDate);
                 setEndDate('');
+                const startDateInput = event.target as HTMLInputElement;
+                const today = new Date().toISOString().split('T')[0];
+                startDateInput.min = today;
                 const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
                 if (endDateInput) {
-                    endDateInput.min = selectedStartDate || '';
+                    endDateInput.min = selectedStartDate;
                 }
                 break;
             case 'endDate':
                 setEndDate(event.target.value);
-                const timeFrameAnswer = getTimePassed(startDate, event.target.value);
-                updatedAnswers[currentQuestionIndex] = timeFrameAnswer;
+                const duration = getTimePassed(startDate, event.target.value);
+                updatedAnswers[currentQuestionIndex] = duration;
                 break;
             default:
                 updatedAnswers[currentQuestionIndex] = event.target.value;
@@ -164,6 +167,8 @@ const DeckForm = () => {
             console.log('Form data submitted:', answers);
             console.log('With this contact information:', contactInfo);
         };
+        console.log(`START DATE PREISO ----- ${startDate}`)
+        console.log(`ENDDATE PREISO ----- ${endDate}`)
         const project = {
             projectType: answers[0],
             description: answers[1],
@@ -176,12 +181,13 @@ const DeckForm = () => {
             city: contactInfo.city,
             clientPhone: contactInfo.phone,
             email: contactInfo.email,
-            startDate,
-            endDate
+            startDate: new Date(startDate).toISOString(),
+            endDate: new Date(endDate).toISOString()
         }
+        console.log(`PROJECT-------${JSON.stringify(project)}`)
 
         let createdProject = null;
-        const response = await ddbCreateProject(project)
+        const response = await ddbCreateProject(project);
         if ('data' in response) {
             createdProject = response.data.createProject;
             console.log(`Response from DynamoDB: ${JSON.stringify(createdProject)}`);
@@ -189,7 +195,7 @@ const DeckForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/${createdProject.projectId}`);
+            navigate(`/projects`);
         } else {
             console.log("onSave called but title or children are empty");
         }
@@ -288,7 +294,7 @@ const DeckForm = () => {
             answer = getTimePassed(startDate, endDate);
             return (
                 <>
-                <h3>{questions[4]}</h3>
+                    <h3>{questions[4]}</h3>
                     <Row>
                         <Col className='mx-2'>
                             <h2>Start Date</h2>
@@ -409,20 +415,20 @@ const DeckForm = () => {
                         Previous
                     </Button>
                     {currentQuestionIndex < questions.length - 1 ? (
-                        <Button className="next-button" 
-                                onClick={handleNextQuestion}
-                                style={buttonStyle}
-                                onMouseOver={handleMouseOver}
-                                onMouseOut={handleMouseOut}>
+                        <Button className="next-button"
+                            onClick={handleNextQuestion}
+                            style={buttonStyle}
+                            onMouseOver={handleMouseOver}
+                            onMouseOut={handleMouseOut}>
                             Next
                         </Button>
                     ) : (
-                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} 
-                                disabled={!isFormValid()} 
-                                onClick={handleSubmit}
-                                style={buttonStyle}
-                                onMouseOver={handleMouseOver}
-                                onMouseOut={handleMouseOut}>
+                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`}
+                            disabled={!isFormValid()}
+                            onClick={handleSubmit}
+                            style={buttonStyle}
+                            onMouseOver={handleMouseOver}
+                            onMouseOut={handleMouseOut}>
                             Submit
                         </Button>
                     )}

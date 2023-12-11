@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { AccountContext } from '../Accounts';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../components/styles'
 
 export const Login = (props:any) => {
   const [email, setEmail] = useState('');
@@ -42,7 +44,7 @@ export const Login = (props:any) => {
             />
           </Form.Group>
           <Form.Group className="mb-4">
-            <Form.Label className="login-label font-semibold px-2">Password:</Form.Label>
+            <Form.Label className="login-label px-2">Password:</Form.Label>
             <Form.Control
               className="login mt-2 bg-transparent px-2 py-1 rounded-md"
               type="password"
@@ -54,9 +56,12 @@ export const Login = (props:any) => {
           {errorMessage && <p className="text-danger">{errorMessage}</p>}
           <div className="d-flex justify-content-center">
             {!loggedInUser && (
-              <button type="submit" className="btn" style={{"backgroundColor": "black"}}>
+              <Button type="submit" className="btn"      
+                      style={buttonStyle} 
+                      onMouseOver={handleMouseOver}
+                      onMouseOut={handleMouseOut}>
                 Login
-              </button>
+              </Button>
             )}
           </div>
         </Form>
@@ -65,9 +70,10 @@ export const Login = (props:any) => {
       {loggedInUser && (
         <button
           onClick={() => signOut(() => navigate("/"))}
-          className="btn bg-transparent font-size-lg"
-          style={{"backgroundColor": "black"}}
-        >
+          className="btn font-size-lg"
+          style={buttonStyle} 
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}        >
           Log Out
         </button>
       )}

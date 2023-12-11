@@ -8,7 +8,7 @@ type ContractorProjectProps = {
     description: string;
     projectType: string;
     propertyType: string;
-    projectSize: string;
+    projectSize: number;
     city: string;
     imageUrls: string[] | undefined;
 }
