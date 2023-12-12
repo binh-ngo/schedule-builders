@@ -161,6 +161,14 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         fieldName: "getUnpublishedProjects",
       })
       contractorSiteDataSource.createResolver({
+        typeName: "Query",
+        fieldName: "getAllPublishedProjectsFromAllClients",
+      })
+      contractorSiteDataSource.createResolver({
+        typeName: "Query",
+        fieldName: "getAllUnpublishedProjectsFromAllClients",
+      })
+      contractorSiteDataSource.createResolver({
         typeName: "Mutation",
         fieldName: "publishProject",
       })

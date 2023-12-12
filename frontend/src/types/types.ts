@@ -61,4 +61,5 @@ export type ProjectProps = {
   contractorName?: string;
   createdAt: string;
   updatedAt?: string;
+  isPublished?: boolean
 }

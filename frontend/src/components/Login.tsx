@@ -34,7 +34,7 @@ export const Login = (props:any) => {
       {!loggedInUser && (
         <Form onSubmit={onSubmit} className="login-form d-flex flex-column">
           <Form.Group className="mb-4">
-            <Form.Label className="login-label font-semibold px-2">Email:</Form.Label>
+            <Form.Label className="login-label font-semibold px-2">Username:</Form.Label>
             <Form.Control
               className="login mt-2 bg-transparent px-2 py-1 rounded-md"
               type="text"

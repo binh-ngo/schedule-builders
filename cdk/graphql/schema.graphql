@@ -10,8 +10,10 @@ type Query {
     getAllProjectsWithEstimatesAndContractors: [Project]
     getAllProjectsWithoutEstimates: [Project]
     getProjectById(projectId: String!): Project
-    getPublishedProjects: [Project]
-    getUnpublishedProjects: [Project]
+    getPublishedProjects(clientName: String!): [Project] @aws_cognito_user_pools
+    getUnpublishedProjects(clientName: String!): [Project] @aws_cognito_user_pools
+    getAllPublishedProjectsFromAllClients: [Project] @aws_cognito_user_pools
+    getAllUnpublishedProjectsFromAllClients: [Project] @aws_cognito_user_pools
 
     getAllClients: [Client]
     getClientById(clientName: String!, clientId: String!): Client
@@ -37,7 +39,7 @@ type Mutation {
         projectId: String!
         projectInput: ProjectInput!
     ): Project @aws_cognito_user_pools
-    publishProject(projectId: String!, published: Boolean!): Project @aws_cognito_user_pools
+    publishProject(projectId: String!, isPublished: Boolean!): Project @aws_cognito_user_pools
 
     deleteClient(clientName: String!, clientId: String!): String @aws_cognito_user_pools
     updateClient(

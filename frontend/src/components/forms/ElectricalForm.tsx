@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { Button } from 'react-bootstrap';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
+import { Auth } from 'aws-amplify';
 
 
 const ElectricalForm = () => {
@@ -38,9 +39,9 @@ const ElectricalForm = () => {
     return questionObject.question;
   });
   const additionalQuestions = [
+    'Please provide a detailed description of what you want us to do.',
     'What kind of location is this?',
     'When would you like this request to be completed?',
-    'Please provide a detailed description of what you want us to do.',
     'Please provide your contact information and we will reach out to you shortly.',
   ]
 
@@ -66,6 +67,19 @@ const ElectricalForm = () => {
     phone,
     email
   }
+
+  useEffect(() => {
+    async function fetchUserData() {
+      const user = await Auth.currentAuthenticatedUser();
+      console.log(`Cognito username: ${user.username}`);
+      console.log(`Cognito profile: ${user.attributes.profile}`);
+      if (user) {
+        setName(user.username);
+        setEmail(user.attributes.email);
+      }
+    }
+    fetchUserData();
+  }, []);
 
   let navigate = useNavigate();
 
@@ -100,23 +114,23 @@ const ElectricalForm = () => {
       case 'Email':
         setEmail(event.target.value);
         break;
-        case 'startDate':
-          selectedStartDate = event.target.value;
-          setStartDate(selectedStartDate);
-          setEndDate('');
-          const startDateInput = event.target as HTMLInputElement;
-          const today = new Date().toISOString().split('T')[0];
-          startDateInput.min = today;
-          const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
-          if (endDateInput) {
-              endDateInput.min = selectedStartDate;
-          }
-          break;
+      case 'startDate':
+        selectedStartDate = event.target.value;
+        setStartDate(selectedStartDate);
+        setEndDate('');
+        const startDateInput = event.target as HTMLInputElement;
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.min = today;
+        const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
+        if (endDateInput) {
+          endDateInput.min = selectedStartDate;
+        }
+        break;
       case 'endDate':
-          setEndDate(event.target.value);
-          const duration = getTimePassed(startDate, event.target.value);
-          updatedAnswers[currentQuestionIndex] = duration;
-          break;
+        setEndDate(event.target.value);
+        const duration = getTimePassed(startDate, event.target.value);
+        updatedAnswers[currentQuestionIndex] = duration;
+        break;
       default:
         updatedAnswers[currentQuestionIndex] = event.target.value;
         break;
@@ -157,9 +171,9 @@ const ElectricalForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (answers.length === 5) {
-      answers.splice(1, 0, 'N/A');
-    }
+    // if (answers.length === 5) {
+    //   answers.splice(1, 0, 'N/A');
+    // }
     if (!name || !address || !city || !phone || !email || !answers) {
       console.log("Form data is not valid");
       return;
@@ -192,9 +206,9 @@ const ElectricalForm = () => {
     };
     const project = {
       projectType: `${answers[0]} -> ${answers[1]}`,
-      description: answers[4],
-      desiredCompletionTime: answers[3],
-      propertyType: answers[2],
+      description: answers[2],
+      propertyType: answers[3],
+      desiredCompletionTime: answers[4],
       clientName: contactInfo.name,
       address: contactInfo.address,
       city: contactInfo.city,
@@ -213,7 +227,7 @@ const ElectricalForm = () => {
       console.error('Response is not a GraphQL result:', response);
     } if (createdProject) {
       console.log("Project successfully created")
-      navigate(`/projects/${createdProject.clientName}`);
+      navigate(`/projects`);
     } else {
       console.log("onSave called but title or children are empty");
     }
@@ -237,7 +251,7 @@ const ElectricalForm = () => {
     if (index === 0) {
       return (
         <div>
-          <h3 className='question-header'>{question}</h3>
+          <h3 className='question-header'>{formQuestions.question1.question}</h3>
           <div className="radio-buttons">
             {formQuestions.question1.options.map((type: string) => (
               <div className='radio-button-container'>
@@ -362,11 +376,17 @@ const ElectricalForm = () => {
           {!isNumber && <p className="error-message">Please enter a valid number.</p>}
         </div>
       );
-    }
-    else if (index === 2) {
+    } else if (index === 2) {
       return (
         <div>
           <h3 className='question-header'>{questions[3]}</h3>
+          <input className='text-input' type="text" value={answer} onChange={handleAnswerChange} />
+        </div>
+      )
+    } else if (index === 3) {
+      return (
+        <div>
+          <h3 className='question-header'>{questions[4]}</h3>
           <div className='radio-buttons'>
             {propertyTypes.map((type: string) => (
               <div key={type} className='radio-button-container'>
@@ -392,11 +412,11 @@ const ElectricalForm = () => {
           </div>
         </div>
       );
-    } else if (index === 3) {
+    } else if (index === 4) {
       answer = getTimePassed(startDate, endDate);
       return (
         <>
-          <h2>{questions[4]}</h2>
+          <h2>{questions[5]}</h2>
           <Row>
             <Col className='mx-2'>
               <h2>Start Date</h2>
@@ -426,13 +446,6 @@ const ElectricalForm = () => {
           </Row>
         </>
       );
-    } else if (index === 4) {
-      return (
-        <div>
-          <h3 className='question-header'>{questions[5]}</h3>
-          <input className='text-input' type="text" value={answer} onChange={handleAnswerChange} />
-        </div>
-      )
     } else if (index === 5) {
       return (
         <div>
@@ -475,33 +488,33 @@ const ElectricalForm = () => {
           </div>
         )}
         <div className="button-container">
-        <Button
-                        className="prev-button"
-                        style={buttonStyle}
-                        onMouseOver={handleMouseOver}
-                        onMouseOut={handleMouseOut}
-                        onClick={handlePreviousQuestion}
-                        disabled={currentQuestionIndex === 0}
-                    >
-                        Previous
-                    </Button>
-                    {currentQuestionIndex < questions.length - 2 ? (
-                        <Button className="next-button" 
-                                onClick={handleNextQuestion}
-                                style={buttonStyle}
-                                onMouseOver={handleMouseOver}
-                                onMouseOut={handleMouseOut}>
-                            Next
-                        </Button>
-                    ) : (
-                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} 
-                                disabled={!isFormValid()} 
-                                onClick={handleSubmit}
-                                style={buttonStyle}
-                                onMouseOver={handleMouseOver}
-                                onMouseOut={handleMouseOut}>
-                            Submit
-                        </Button>
+          <Button
+            className="prev-button"
+            style={buttonStyle}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+            onClick={handlePreviousQuestion}
+            disabled={currentQuestionIndex === 0}
+          >
+            Previous
+          </Button>
+          {currentQuestionIndex < questions.length - 2 ? (
+            <Button className="next-button"
+              onClick={handleNextQuestion}
+              style={buttonStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}>
+              Next
+            </Button>
+          ) : (
+            <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`}
+              disabled={!isFormValid()}
+              onClick={handleSubmit}
+              style={buttonStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}>
+              Submit
+            </Button>
           )}
         </div>
       </div>

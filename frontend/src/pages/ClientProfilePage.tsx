@@ -9,6 +9,7 @@ import moment from 'moment';
 import { Auth } from 'aws-amplify';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ClientProjectCard } from '../components/ClientProjectCard';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../components/styles';
 
 export const ClientProfilePage = () => {
 
@@ -41,7 +42,7 @@ export const ClientProfilePage = () => {
       <Row className='workshopContent'>
       {sortedProjects.map((project: ddbGetAllQueryResponse, index) => (
         <ClientProjectCard 
-        key={index}
+        key={project.projectId}
         projectId={project.projectId}
         projectType={project.projectType}
         description={project.description}
@@ -68,7 +69,7 @@ export const ClientProfilePage = () => {
   return (
        <HelmetProvider>
       <Helmet>
-        <title>My Projects | Submit your Project Whenever You're Ready</title>
+        <title>My Projects | Project Managing Interface </title>
         <meta
           name="description"
           content="Welcome to the page where you can manage and publish your projects for contractors to see! We want to protect the privacy of your information, so you tell us when you're ready."
@@ -82,7 +83,12 @@ export const ClientProfilePage = () => {
         by clicking on the button below and it will expedite your project request whenever you're ready.</p>
         <div className='mt-5'>
         {/* <Button className="mx-2" style={{ backgroundColor: '#164863' }} href="#" size="lg">I'm Ready!</Button> */}
-        <Button className="mx-2" style={{"backgroundColor": "black"}} href="#" size="lg">Provide Information</Button>
+        <Button className="mx-2" style={buttonStyle} 
+                onMouseOver={handleMouseOver}
+                onMouseOut={handleMouseOut}
+                href="#" 
+                size="lg">
+                Provide Information</Button>
         </div>
       </Col>
       {renderProject(projects)}

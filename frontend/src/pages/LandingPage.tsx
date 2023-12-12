@@ -59,7 +59,7 @@ export const LandingPage = () => {
               <Col className="clientIntro clientTypewriter mt-5" sm={7}>
                 <h1 className='loadingText'><Type /></h1>
                 <h2 className='clientHeroH2'>ready when you are.</h2>
-                <p className='clientHeroParagraph'>In need of contractors for hire? We will present multiple companies tailored to your specific needs while making typical contract negotiations a thing of the past.</p>
+                <p className='clientHeroParagraph'>In need of contractors for hire? We will present multiple companies tailored to your specific needs and make typical contract negotiations a thing of the past.</p>
                 <div className='mt-5 clientHeroButtonContainer'>
                   <Button className="mx-2 clientHeroButtons" 
                           style={buttonStyle} 

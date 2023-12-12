@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
+import Carousel from 'react-bootstrap/Carousel'
 // @ts-ignore
 import defaultImage from '../assets/defaultimage.jpg'
 import { buttonStyle, handleMouseOut, handleMouseOver } from './styles';
@@ -18,7 +19,6 @@ interface FormData {
 
 // TODO: transfer image upload capabilities here from ProjectCard
 export const ClientProjectCard = (project: ProjectProps) => {
-  const [bid, setBid] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     imageUrls: [] as File[],
   });
@@ -28,8 +28,19 @@ export const ClientProjectCard = (project: ProjectProps) => {
   }
 
   const handlePublish = async (projectId: string) => {
+    console.log(projectId);
     try {
-      const response = await ddbPublishProject(projectId);
+      const response = await ddbPublishProject(projectId, true);
+      console.log(response);
+    } catch (err) {
+      console.log(`err: ${JSON.stringify(err, null, 2)}`);
+    }
+  }
+
+  const handleUnpublish = async (projectId: string) => {
+    console.log(projectId);
+    try {
+      const response = await ddbPublishProject(projectId, false);
       console.log(response);
     } catch (err) {
       console.log(`err: ${JSON.stringify(err, null, 2)}`);
@@ -87,95 +98,103 @@ export const ClientProjectCard = (project: ProjectProps) => {
   return (
     // <Link className="custom-link my-5" to={`/${props.projectId}`}>
     <Container className="d-flex justify-content-center align-items-center">
-    <Card className="workshopCard">
-      <Row>
-        <Col md={12} lg={4}>
-          <div className="image-container">
-            {project.imageUrls ? (
-              project.imageUrls.map((imageUrl) => (
-                <Card.Img
-                  key={imageUrl} // Add a unique key to each image
-                  variant="top"
-                  src={removeParams(imageUrl)}
-                  className="workshopCardImg"
-                />
-              ))
-            ) : (
-              <Card.Img
-                variant="top"
-                src={defaultImage}
-                alt="default image"
-                className="workshopCardImg"
-              />
-            )}
-          </div>
-        </Col>
-        <Col md={12} lg={4}>
-          <Card.Body>
-            <Card.Title className="workshopCardTitle">{project.projectType}</Card.Title>
-            <Card.Text>
-              <strong>Description:</strong> {project.description}
-            </Card.Text>
-            <Card.Text>
-              <strong>Material:</strong> {project.material}
-            </Card.Text>
-            {project.projectSize && (
-              <Card.Text>
-                <strong>Project Size:</strong> {project.projectSize} sqft
-              </Card.Text>
-            )}
-            <Card.Text>
-              <strong>Desired Completion Time:</strong> {project.desiredCompletionTime}
-            </Card.Text>
-            <Card.Text>
-              <strong>Start Date:</strong> {moment(project.startDate).format('MMMM Do, YYYY')}
-            </Card.Text>
-            <Card.Text>
-              <strong>End Date:</strong> {moment(project.endDate).format('MMMM Do, YYYY')}
-            </Card.Text>
-            <Card.Text>
-              <strong>Created At:</strong> {moment(project.createdAt).format('MMMM Do, YYYY')}
-            </Card.Text>
-          </Card.Body>
-        </Col>
-        <Col md={12} lg={4}>
-          <form className="image-form mt-5" encType='multipart/form-data'>
-            <div className="mb-4">
-              <input
-                type="file"
-                accept="image/*"
-                name="imageUrl"
-                multiple
-                onChange={handleImageChange}
-              />
-              {formData.imageUrls !== null ? (
-                <p>Selected Image Count: {formData.imageUrls ? formData.imageUrls.length : 0}</p>
+      <Card className="workshopCard my-5">
+        <Row>
+          <Col md={12} lg={4}>
+            <Carousel interval={null} >
+              {project.imageUrls ? (
+                project.imageUrls.map((imageUrl, index) => (
+                  <Carousel.Item key={index}>
+                    <Card.Img src={removeParams(imageUrl)} alt="project image" />
+                  </Carousel.Item>
+                ))
               ) : (
-                <p>No Image Selected</p>
+                <Carousel.Item>
+                  <Card.Img src={defaultImage} alt="default image" />
+                </Carousel.Item>
               )}
-            </div>
-            <Button
-              style={buttonStyle}
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-              onClick={(e) => updateImages(project, e)}
-            >
-              {project.imageUrls ? `Change Pictures` : `Upload`}
-            </Button>
-            <Button
-              // publish post
-              onClick={() => handlePublish(project.projectId ?? '')}
-              style={buttonStyle}
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-              Send to Contractors
-            </Button>
-          </form>
-        </Col>
-      </Row>
-    </Card>
-  </Container>
+            </Carousel>
+          </Col>
+          <Col md={12} lg={4}>
+            <Card.Body>
+              <Card.Title className="workshopCardTitle">{project.projectType}</Card.Title>
+              <Card.Text>
+                <strong>Description:</strong> {project.description}
+              </Card.Text>
+              {project.material &&
+                <Card.Text>
+                  <strong>Material:</strong> {project.material}
+                </Card.Text>
+              }
+              {project.projectSize && (
+                <Card.Text>
+                  <strong>Project Size:</strong> {project.projectSize} sqft
+                </Card.Text>
+              )}
+              <Card.Text>
+                <strong>Desired Completion Time:</strong> {project.desiredCompletionTime}
+              </Card.Text>
+              <Card.Text>
+                <strong>Start Date:</strong> {moment(project.startDate).format('MMMM Do, YYYY')}
+              </Card.Text>
+              <Card.Text>
+                <strong>End Date:</strong> {moment(project.endDate).format('MMMM Do, YYYY')}
+              </Card.Text>
+              <Card.Text>
+                <strong>Created At:</strong> {moment(project.createdAt).format('MMMM Do, YYYY')}
+              </Card.Text>
+            </Card.Body>
+          </Col>
+          <Col md={12} lg={4}>
+            <form className="image-form mt-5" encType='multipart/form-data'>
+              <div className="mb-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="imageUrl"
+                  multiple
+                  onChange={handleImageChange}
+                />
+                {formData.imageUrls !== null ? (
+                  <p>Selected Image Count: {formData.imageUrls ? formData.imageUrls.length : 0}</p>
+                ) : (
+                  <p>No Image Selected</p>
+                )}
+              </div>
+              <Button
+                style={buttonStyle}
+                onMouseOver={handleMouseOver}
+                onMouseOut={handleMouseOut}
+                onClick={(e) => updateImages(project, e)}
+              >
+                {project.imageUrls ? `Change Pictures` : `Upload`}
+              </Button>
+              {project.isPublished === true ? (
+                <Button
+                  // unpublish post
+                  onClick={() => handleUnpublish(project.projectId ?? '')}
+                  style={buttonStyle}
+                  onMouseOver={handleMouseOver}
+                  onMouseOut={handleMouseOut}
+                >
+                  Remove from Workshop
+                </Button>
+              ) : (
+                <Button
+                  // publish post
+                  onClick={() => handlePublish(project.projectId ?? '')}
+                  style={buttonStyle}
+                  onMouseOver={handleMouseOver}
+                  onMouseOut={handleMouseOut}
+                >
+                  Send to Contractors
+                </Button>
+              )}
+            </form>
+          </Col>
+        </Row>
+      </Card>
+    </Container>
     // </Link>
   );
 };

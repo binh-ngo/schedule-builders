@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form'
 import defaultImage from '../assets/defaultimage.jpg'
 import { buttonStyle, handleMouseOut, handleMouseOver } from './styles';
 import moment from 'moment'
+import { Carousel } from 'react-bootstrap'
 
 
 type WorkshopCardProps = {
@@ -56,45 +57,40 @@ export const WorkshopCard = (props: WorkshopCardProps) => {
 
   return (
     <Container className="d-flex justify-content-center align-items-center">
-      <Card className="workshopCard">
-        <Row>
-          <Col md={4}>
+      <Card className="workshopCard my-3">
+      <Row>
+        <Col md={12} lg={4}>
+        <Carousel interval={null} >
             {props.imageUrls ? (
-          props.imageUrls.map((imageUrl, index) => (
-            <Card.Img
-              variant="top"
-              src={removeParams(imageUrl)}
-              className="card-img-responsive"
-              style={{ height: '100%' }}
-            />
-          ))
-        ) : (
-            <Card.Img
-              variant="top"
-              src={defaultImage}
-              alt="default image"
-              className="workshopCardImg"
-            />
-          )}
+              props.imageUrls.map((imageUrl, index) => (
+                <Carousel.Item key={index}>
+                  <Card.Img className="workshopCardImg" src={removeParams(imageUrl)} alt="project image"/>
+                </Carousel.Item>
+              ))
+            ) : (
+              <Carousel.Item>
+                <Card.Img src={defaultImage} alt="default image" />
+              </Carousel.Item>
+            )}
+          </Carousel>
           </Col>
-          <Col md={8}>
+          <Col md={12} lg={5} className='workshopCardBody'>
             <Card.Body>
               <Card.Title className="workshopCardTitle">{props.projectType}</Card.Title>
               <Card.Text>
                 <strong>Description:</strong> {props.description}
               </Card.Text>
+              {props.material && (
               <Card.Text>
                 <strong>Material:</strong> {props.material}
               </Card.Text>
+              )}
               {props.projectSize && (
               <Card.Text>
                 <strong>Project Size:</strong> {props.projectSize} sqft
               </Card.Text>
                 )
               }
-              <Card.Text>
-                <strong>Desired Completion Time:</strong> {props.desiredCompletionTime} {(moment(props.startDate).format('MMMM Do, YYYY') !== moment(props.endDate).format('MMMM Do, YYYY')) && `| ${props.startDate}-${props.endDate}`}
-              </Card.Text>
               <Card.Text>
                 <strong>Start Date:</strong> {moment(props.startDate).format('MMMM Do, YYYY')}
               </Card.Text>
@@ -104,7 +100,9 @@ export const WorkshopCard = (props: WorkshopCardProps) => {
               <Card.Text>
                 <strong>Created At:</strong> {moment(props.createdAt).format('MMMM Do, YYYY')}
               </Card.Text>
-              <div className='bidSection'>
+            </Card.Body>
+          </Col>
+              <Col md={12} lg={3} className='bidSection'>
                 <Form.Label>
                   $
                 </Form.Label>
@@ -132,9 +130,7 @@ export const WorkshopCard = (props: WorkshopCardProps) => {
                 onMouseOut={handleMouseOut}
               >
                 {`Submit Bid`}</Button>
-              </div>
-            </Card.Body>
-          </Col>
+              </Col>
         </Row>
       </Card>
     </Container>

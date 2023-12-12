@@ -28,10 +28,12 @@ export const Header = () => {
     async function fetchUserData() {
       try {
         const user = await Auth.currentAuthenticatedUser();
-        console.log(`Cognito username: ${user.username}`);
-        console.log(`Cognito profile: ${user.attributes.profile}`);
-        setUsername(user.username);
-        setProfile(user.attributes.profile);
+        if(user) {
+          console.log(`Cognito username: ${user.username}`);
+          console.log(`Cognito profile: ${user.attributes.profile}`);
+          setUsername(user.username);
+          setProfile(user.attributes.profile);
+        }
       } catch (error) {
         console.error('Error getting Cognito user:', error);
       }

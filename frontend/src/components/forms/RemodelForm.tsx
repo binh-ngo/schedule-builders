@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { Button } from 'react-bootstrap';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
+import { Auth } from 'aws-amplify';
 
 const RemodelForm = () => {
     const questions: string[] = [
@@ -41,6 +42,19 @@ const RemodelForm = () => {
         phone,
         email
     }
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const user = await Auth.currentAuthenticatedUser();
+            console.log(`Cognito username: ${user.username}`);
+            console.log(`Cognito profile: ${user.attributes.profile}`);
+            if(user) {
+                setName(user.username);
+                setEmail(user.attributes.email);
+            }
+        }
+        fetchUserData();
+      }, []);
 
     let navigate = useNavigate();
 
@@ -183,7 +197,7 @@ const RemodelForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/projects/${createdProject.clientName}`);
+            navigate(`/projects`);
         } else {
             console.log("onSave called but title or children are empty");
         }

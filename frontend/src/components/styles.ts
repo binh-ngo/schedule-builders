@@ -3,7 +3,7 @@ import { MouseEvent } from "react";
 export const buttonStyle = {
   backgroundColor: 'black',
   borderColor: 'transparent',
-  transition: 'box-shadow 0.3s',
+  transition: 'background-color 0.3s ease-in-out, color 0.3s ease-in-out',
   fontFamily: 'Lato',
   border: '2px solid white',
   color: 'white'

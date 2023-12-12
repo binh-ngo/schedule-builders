@@ -2,10 +2,7 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
 import { Client, Project, ProjectInput } from "../types";
-import { calculateProjectEstimate } from "./costEstimator";
-const {SNSClient, PublishCommand} = require('@aws-sdk/client-sns');
-
-const snsClient = new SNSClient({region: 'us-east-1'});
+import { calculateProjectEstimate, ProjectEstimateProps } from "./costEstimator";
 
 require("dotenv").config({ path: ".env" });
 
@@ -43,6 +40,12 @@ const createProject = async (projectInput: ProjectInput) => {
     // Patios 10-20 / sqft
     // https://www.bankrate.com/homeownership/how-much-does-it-cost-to-build-a-deck/#how-much-it-costs
 
+    const costEstimatorObject: ProjectEstimateProps = {
+        material: projectInput.material ?? 'NA',
+        projectType: projectInput.projectType ?? 'NA',
+        projectSize: projectInput.projectSize ?? 1
+    }
+
     const project: Project = {
         clientId,
         clientName: formattedName,
@@ -59,7 +62,7 @@ const createProject = async (projectInput: ProjectInput) => {
         propertyType: projectInput.propertyType,
         contractorName: '',
         contractorId: '',
-        earlyEstimate: calculateProjectEstimate(projectInput.material, projectInput.projectType, projectInput.projectSize),
+        earlyEstimate: calculateProjectEstimate(costEstimatorObject),
         estimate: 0,
         startDate: projectInput.startDate,
         endDate: projectInput.endDate,
@@ -132,27 +135,11 @@ const createProject = async (projectInput: ProjectInput) => {
         ReturnConsumedCapacity: "TOTAL",
     };
     
-    const snsParams = {
-        Subject: "New Project Created",
-        Message: `A new project in the ${client.city} area has entered the Workshop! Check it out: https://schedule.builders/pro/workshop
-        `, 
-        TopicArn: process.env.TOPIC_ARN
-      };
-      console.log(process.env.TOPIC_ARN)
     try {
         const newProject = await docClient.batchWrite(params).promise();
         console.log(`Created project: ${JSON.stringify(project, null, 2)}`);
         console.log(`Created client: ${JSON.stringify(client, null, 2)}`);
 
-        if (newProject) {
-            try{
-                const snsResult = await snsClient.send(new PublishCommand(snsParams));
-                console.log(`SNS Result: ${JSON.stringify(snsResult, null, 2)}`);
-            } catch (err) {
-                console.log(`SNS Error: ${JSON.stringify(err, null, 2)}`);
-                throw err;
-            }
-        };
         return project;
     } catch (err) {
         console.log(`Error: ${JSON.stringify(err, null, 2)}`);

@@ -211,7 +211,7 @@ export type ProjectAppsyncEvent = {
         projectId?: string;
         clientName?: string;
         projectInput?: ProjectInput;
-        published?: boolean
+        isPublished?: boolean
       };
 }
 

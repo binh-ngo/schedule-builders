@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
+import { Auth } from 'aws-amplify';
 
 const HandypersonForm = () => {
     const questions: string[] = [
@@ -41,6 +42,19 @@ const HandypersonForm = () => {
         phone,
         email
     }
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const user = await Auth.currentAuthenticatedUser();
+            console.log(`Cognito username: ${user.username}`);
+            console.log(`Cognito profile: ${user.attributes.profile}`);
+            if(user) {
+                setName(user.username);
+                setEmail(user.attributes.email);
+            }
+        }
+        fetchUserData();
+      }, []);
 
     let navigate = useNavigate();
 
@@ -194,7 +208,7 @@ const HandypersonForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/projects/${createdProject.clientName}`);
+            navigate(`/projects`);
         } else {
             console.log("onSave called but title or children are empty");
         }
@@ -213,7 +227,7 @@ const HandypersonForm = () => {
         return isTextInputsValid && isQuestionsValid;
     };
 
-    const projectTypes = ['General handyperson', 'Carpentry', 'Doors', 'Electrical', 'Plumbing', 'Appliances', 'Furniture Assembly', 'Drywall', 'Windows', 'Landscaping', 'Air conditioning system', 'Interior painting', 'Exterior painting', 'Siding', 'Other'];
+    const projectTypes = ['General handyperson', 'Carpentry', 'Doors', 'Electrical', 'Plumbing', 'Appliances', 'Furniture Assembly', 'Drywall', 'Window', 'Landscaping', 'Air conditioning system', 'Interior painting', 'Exterior painting', 'Siding', 'Other'];
     const propertyTypes = ['Residential', 'Business'];
 
     const renderInput = (question: string, answer: string, index: number) => {

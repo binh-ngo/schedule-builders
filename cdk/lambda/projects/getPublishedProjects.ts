@@ -3,20 +3,22 @@ import { ddbQueryPostsParams } from "../types";
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const getPublishedProjects = async () => {
+const getPublishedProjects = async (clientName: string) => {
   console.log(`getPublishedProjects called`);
 
   const params: ddbQueryPostsParams = {
-    TableName: process.env.POSTS_TABLE || "",
-    KeyConditionExpression: "#PK = :post_partition",
-    FilterExpression: "#published = :published",
+    TableName: process.env.CONTRACTORS_TABLE || "",
+    KeyConditionExpression: "#PK = :post_partition AND begins_with(#SK, :sk_prefix)", 
+    FilterExpression: "#isPublished = :isPublished",
     ExpressionAttributeNames: {
       "#PK": "PK",
-      "#published": "published",
+      "#SK": "SK",
+      "#isPublished": "isPublished",
     },
     ExpressionAttributeValues: {
-      ":post_partition": `PROJECTS`,
-      ":published": true,
+      ":post_partition": `CLIENT#${clientName}`,
+      ":sk_prefix": "PROJECT#",
+      ":isPublished": true,
     },
     ReturnConsumedCapacity: "TOTAL",
     ScanIndexForward: false,

@@ -22,6 +22,9 @@ import getAllProjectsFromAllClients from "./projects/getAllProjectsFromAllClient
 import getAllProjectsWithEstimates from "./projects/getAllProjectsWithEstimates";
 import getAllProjectsWithEstimatesAndContractors from "./projects/getAllProjectsWithEstimatesAndContractors";
 import getAllProjectsWithoutEstimates from "./projects/getAllProjectsWithoutEstimates";
+import getAllPublishedProjectsFromAllClients from "./projects/getAllPublishedProjectsFromAllClients";
+import getAllUnpublishedProjectsFromAllClients from "./projects/getAllUnpublishedProjectsFromAllClients";
+
 import getProjectById from "./projects/getProjectById";
 import getPublishedProjects from "./projects/getPublishedProjects";
 import getUnpublishedProjects from "./projects/getUnpublishedProjects";
@@ -59,6 +62,8 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" 
     case "getAllProjectsWithoutEstimates":
     case "getPublishedProjects":
     case "getUnpublishedProjects":
+    case "getAllPublishedProjectsFromAllUsers":
+    case "getAllUnpublishedProjectsFromAllUsers":
     case "getProjectById":
     case "publishProject":
     case "createProject":
@@ -125,11 +130,15 @@ function handleProjectEvent(event: ProjectAppsyncEvent) {
     case "getAllProjectsWithoutEstimates":
       return getAllProjectsWithoutEstimates();
     case "getPublishedProjects":
-      return getPublishedProjects();
+      return getPublishedProjects(event.arguments.clientName!);
     case "getUnpublishedProjects":
-      return getUnpublishedProjects();
+      return getUnpublishedProjects(event.arguments.clientName!);
+    case "getAllPublishedProjectsFromAllClients":
+      return getAllPublishedProjectsFromAllClients();
+    case "getAllUnpublishedProjectsFromAllClients":
+      return getAllUnpublishedProjectsFromAllClients();
     case "publishProject":
-      return publishProject(event.arguments.projectId!, event.arguments.published!);
+      return publishProject(event.arguments.projectId!, event.arguments.isPublished!);
     case "createProject":
       return createProject(event.arguments.projectInput!);
     case "updateProject":

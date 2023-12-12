@@ -3,21 +3,19 @@ import { ddbQueryPostsParams } from "../types";
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const getUnpublishedProjects = async (clientName: string) => {
-  console.log(`getUnpublishedProjects called`);
+const getAllUnpublishedProjectsFromAllClients = async () => {
+  console.log(`getAllUnpublishedProjectsFromAllClients called`);
 
   const params: ddbQueryPostsParams = {
     TableName: process.env.CONTRACTORS_TABLE || "",
-    KeyConditionExpression: "#PK = :post_partition AND begins_with(#SK, :sk_prefix)", 
+    KeyConditionExpression: "#PK = :post_partition", 
     FilterExpression: "#isPublished = :isPublished",
     ExpressionAttributeNames: {
       "#PK": "PK",
-      "#SK": "SK",
       "#isPublished": "isPublished",
     },
     ExpressionAttributeValues: {
-      ":post_partition": `CLIENT#${clientName}`,
-      ":sk_prefix": "PROJECT#",
+      ":post_partition": `PROJECTS`,
       ":isPublished": false,
     },
     ReturnConsumedCapacity: "TOTAL",
@@ -37,4 +35,4 @@ const getUnpublishedProjects = async (clientName: string) => {
   }
 };
 
-export default getUnpublishedProjects;
+export default getAllUnpublishedProjectsFromAllClients;

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { Button } from 'react-bootstrap';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
+import { Auth } from 'aws-amplify';
 
 const PlumbingForm = () => {
 
@@ -31,6 +32,19 @@ const PlumbingForm = () => {
     const [slideLeft, setSlideLeft] = useState(false);
     const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const user = await Auth.currentAuthenticatedUser();
+            console.log(`Cognito username: ${user.username}`);
+            console.log(`Cognito profile: ${user.attributes.profile}`);
+            if(user) {
+                setName(user.username);
+                setEmail(user.attributes.email);
+            }
+        }
+        fetchUserData();
+      }, []);
 
     const { signIn, clientSignUp } = useContext(AccountContext);
 
@@ -168,10 +182,8 @@ const PlumbingForm = () => {
         const project = {
             projectType: answers[0],
             description: answers[1],
-            material: answers[2],
-            projectSize: answers[3],
-            desiredCompletionTime: answers[4],
-            propertyType: answers[5],
+            propertyType: answers[2],
+            desiredCompletionTime: answers[3],
             clientName: contactInfo.name,
             address: contactInfo.address,
             city: contactInfo.city,
@@ -190,7 +202,7 @@ const PlumbingForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/projects/${createdProject.clientName}`);
+            navigate(`/projects`);
         } else {
             console.log("onSave called but title or children are empty");
         }

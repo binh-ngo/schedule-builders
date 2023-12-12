@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
@@ -10,12 +10,12 @@ import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
+import { Auth } from 'aws-amplify';
 
 const LandscapingForm = () => {
     const questions: string[] = [
         'What landscaping work do you need?',
         'Please provide a detailed description of what you want us to do.',
-        'Select what will be included in your landscaping project',
         'What is your timeframe?',
         'What type of property is it?',
         'Please provide your contact information and we will reach out to you shortly.'
@@ -42,6 +42,19 @@ const LandscapingForm = () => {
         phone,
         email
     }
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const user = await Auth.currentAuthenticatedUser();
+            console.log(`Cognito username: ${user.username}`);
+            console.log(`Cognito profile: ${user.attributes.profile}`);
+            if(user) {
+                setName(user.username);
+                setEmail(user.attributes.email);
+            }
+        }
+        fetchUserData();
+      }, []);
 
     let navigate = useNavigate();
 
@@ -169,9 +182,8 @@ const LandscapingForm = () => {
         const project = {
             projectType: answers[0],
             description: answers[1],
-            material: answers[2],
-            desiredCompletionTime: answers[3],
-            propertyType: answers[4],
+            desiredCompletionTime: answers[2],
+            propertyType: answers[3],
             clientName: contactInfo.name,
             address: contactInfo.address,
             city: contactInfo.city,
@@ -190,7 +202,7 @@ const LandscapingForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/projects/${createdProject.clientName}`);
+            navigate(`/projects`);
         } else {
             console.log("onSave called but title or children are empty");
         }
@@ -206,12 +218,11 @@ const LandscapingForm = () => {
 
         const isQuestionsValid = answers.every(answer => answer !== '');
 
-        const isNumber = !isNaN(Number(answers[3]));
-        return isTextInputsValid && isQuestionsValid && isNumber;
+        return isTextInputsValid && isQuestionsValid;
     };
 
-    const projectTypes = ['Landscaping for yard/garden', 'Grade or reslope grounds', 'Delivery of soil/sand/mulch/rock', 'Install sod', 'Other'];
-    const projectMaterial = ['Trees/shrubs', 'Special planting area/garden', 'Grass', 'Concrete flatwork (patio, walkway, etc.)', 'Sprinkler system', 'Masonry (brick and/or stone work)', 'Landscape lighting', 'Drainage system', 'Fencing', 'Retaining wall', 'Wooden structures (deck, gazebo, etc.)'];
+    const projectTypes = ['Landscaping for yard/garden', 'Grade or reslope grounds', 'Delivery of soil/sand/mulch/rock', 'Install sod', 'Other landscaping projects'];
+    // const projectMaterial = ['Trees/shrubs', 'Special planting area/garden', 'Grass', 'Concrete flatwork (patio, walkway, etc.)', 'Sprinkler system', 'Masonry (brick and/or stone work)', 'Landscape lighting', 'Drainage system', 'Fencing', 'Retaining wall', 'Wooden structures (deck, gazebo, etc.)'];
     const propertyTypes = ['Residential', 'Business'];
 
     const renderInput = (question: string, answer: string, index: number) => {
@@ -244,35 +255,6 @@ const LandscapingForm = () => {
                 </div>
             );
         } else if (index === 2) {
-            return (
-                <div>
-                    <h3 className='question-header'>{question}</h3>
-                    <div className='radio-buttons'>
-                        {projectMaterial.map((type: string) => (
-                            <div key={type} className='radio-button-container'>
-                                <input
-                                    key={type}
-                                    className='radio-button'
-                                    type="radio"
-                                    id={type}
-                                    name="material"
-                                    value={type}
-                                    checked={answer === type}
-                                    onChange={handleAnswerChange}
-                                />
-                                <label htmlFor={type} className='custom-radio-button-label'>
-                                    <div
-                                        className={`custom-radio-button ${answer === type ? 'checked' : ''}`}
-                                        onClick={() => handleAnswerChange}
-                                    ></div>
-                                    {type}
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        } else if (index === 3) {
             answer = getTimePassed(startDate, endDate);
             return (
                 <>
@@ -306,7 +288,7 @@ const LandscapingForm = () => {
                     </Row>
                 </>
             );
-        } else if (index === 4) {
+        } else if (index === 3) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>
@@ -336,7 +318,7 @@ const LandscapingForm = () => {
                 </div>
             );
         }
-        else if (index === 5) {
+        else if (index === 4) {
             return (
                 <div>
                     <h3 className='question-header'>{question}</h3>

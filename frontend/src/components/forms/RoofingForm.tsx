@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
@@ -9,13 +9,14 @@ import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { Button } from 'react-bootstrap';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
+import { Auth } from 'aws-amplify';
 
 const RoofingForm = () => {
   const questions: string[] = [
     'What do you need help with?',
-    'Please provide a detailed description of what you want us to do.',
     'What material makes up your roof?',
-    'How tall is your building (in feet)?',
+    'Please provide a detailed description of what you want us to do.',
+    'What is the approximate size of the area in square footage that needs to be worked on?',
     'When would you like this request to be completed?',
     'What kind of location is this?',
     'Please provide your contact information and we will reach out to you shortly.'
@@ -42,6 +43,19 @@ const RoofingForm = () => {
     phone,
     email
   }
+
+  useEffect(() => {
+    async function fetchUserData() {
+        const user = await Auth.currentAuthenticatedUser();
+        console.log(`Cognito username: ${user.username}`);
+        console.log(`Cognito profile: ${user.attributes.profile}`);
+        if(user) {
+            setName(user.username);
+            setEmail(user.attributes.email);
+        }
+    }
+    fetchUserData();
+  }, []);
 
   let navigate = useNavigate();
 
@@ -168,8 +182,8 @@ const RoofingForm = () => {
     };
     const project = {
       projectType: answers[0],
-      description: answers[1],
-      material: answers[2],
+      material: answers[1],
+      description: answers[2],
       projectSize: answers[3],
       desiredCompletionTime: answers[4],
       propertyType: answers[5],
@@ -191,7 +205,7 @@ const RoofingForm = () => {
       console.error('Response is not a GraphQL result:', response);
     } if (createdProject) {
       console.log("Project successfully created")
-      navigate(`/projects/${createdProject.clientName}`);
+      navigate(`/projects`);
     } else {
       console.log("onSave called but title or children are empty");
     }
@@ -244,7 +258,7 @@ const RoofingForm = () => {
           </div>
         </div>
       );
-    } else if (index === 2) {
+    } else if (index === 1) {
       return (
         <div>
           <h3 className='question-header'>{question}</h3>
