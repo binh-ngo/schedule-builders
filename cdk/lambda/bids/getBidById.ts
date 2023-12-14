@@ -12,8 +12,8 @@ const getBidById = async (bidId: string) => {
   const params = {
     TableName: process.env.CONTRACTORS_TABLE,
     Key: {
-      PK: `FORM#${bidId}`,
-      SK: `FORM#${bidId}`,
+      PK: `BID#${bidId}`,
+      SK: `BID#${bidId}`,
     },
     ReturnConsumedCapacity: "TOTAL",
   };

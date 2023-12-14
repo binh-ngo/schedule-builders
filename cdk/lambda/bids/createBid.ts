@@ -14,7 +14,7 @@ const createBid = async (bidInput: BidInput) => {
             contractorId: bidInput.contractorId,
             bidAmount: bidInput.bidAmount,
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            updatedAt: ''
         };
 
         // Store Chef data in DynamoDB

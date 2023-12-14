@@ -1,3 +1,8 @@
+import createBid from "./bids/createBid";
+import deleteBid from "./bids/deleteBid";
+import getAllBids from "./bids/getAllBids";
+import getBidById from "./bids/getBidById";
+import updateBid from "./bids/updateBid";
 import deleteClient from "./clients/deleteClient";
 import getAllClients from "./clients/getAllClients";
 import getClientById from "./clients/getClientById";
@@ -31,7 +36,7 @@ import getUnpublishedProjects from "./projects/getUnpublishedProjects";
 import publishProject from "./projects/publishProject";
 import updateProject from "./projects/updateProject";
 
-import { ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, ProjectAppsyncEvent } from "./types";
+import { BidAppsyncEvent, ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, ProjectAppsyncEvent } from "./types";
 
 export async function handler(event: any): Promise<any> {
   console.log(`EVENT --- ${JSON.stringify(event)}`);
@@ -46,14 +51,19 @@ export async function handler(event: any): Promise<any> {
     return handleContractorEvent(event);
   } else if (eventType === "Form") {
     return handleFormEvent(event);
-  }
+  } else if (eventType === "Bid") {
+    return handleBidEvent(event);
+  } 
+  // else if (eventType === "Message") {
+  //   return handleMessageEvent(event);
+  // }
   else {
     throw new Error(`Unknown event type.`);
   }
 }
 
 // Function to determine the event type based on the field name
-function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" {
+function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" | "Bid" | "Message"{
   switch (event.info.fieldName) {
     case "getAllProjects":
     case "getAllProjectsFromAllClients":
@@ -81,6 +91,18 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" 
     case "updateContractor":
     case "deleteContractor":
       return "Contractor";
+    case "getAllBids":
+    case "getBidById":
+    case "createBid":
+    case "updateBid":
+    case "deleteBid":
+      return "Bid";
+    // case "getAllMessages":
+    // case "getMessageById":
+    // case "createMessage":
+    // case "updateMessage":
+    // case "deleteMessage":
+    //   return "Message";
     case "getAllForms":
     case "getFormById":
     case "getSelectedForm":
@@ -195,6 +217,49 @@ function handleFormEvent(event: FormAppsyncEvent) {
     //   );
     case "deleteForm":
       return deleteForm(event.arguments.formName!, event.arguments.formId!);
+    default:
+      throw new Error(`Unknown field name: ${event.info.fieldName}`);
+  }
+}
+
+// Handler function for Message events
+// function handleMessageEvent(event: ContractorAppsyncEvent) {
+//   switch (event.info.fieldName) {
+//     case "getContractorById":
+//       return getContractorById(event.arguments.contractorName!, event.arguments.contractorId!);
+//     case "getAllContractors":
+//       return getAllContractors();
+//     case "createContractor":
+//       return createContractor(event.arguments.contractorInput!);
+//     case "updateContractor":
+//       return updateContractor(
+//         event.arguments.contractorName!,
+//         event.arguments.contractorId!,
+//         event.arguments.contractorInput!
+//       );
+//     case "deleteContractor":
+//       return deleteContractor(event.arguments.contractorName!, event.arguments.contractorId!);
+//     default:
+//       throw new Error(`Unknown field name: ${event.info.fieldName}`);
+//   }
+// }
+
+// Handler function for Bid events
+function handleBidEvent(event: BidAppsyncEvent) {
+  switch (event.info.fieldName) {
+    case "getBidById":
+      return getBidById(event.arguments.bidId!);
+    case "getAllBids":
+      return getAllBids(event.arguments.projectId!);
+    case "createBid":
+      return createBid(event.arguments.bidInput!);
+    case "updateBid":
+      return updateBid(
+        event.arguments.bidId!,
+        event.arguments.bidInput!
+      );
+    case "deleteBid":
+      return deleteBid(event.arguments.projectId!, event.arguments.bidId!);
     default:
       throw new Error(`Unknown field name: ${event.info.fieldName}`);
   }

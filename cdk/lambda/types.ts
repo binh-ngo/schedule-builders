@@ -238,6 +238,18 @@ export type FormAppsyncEvent = {
       };
 }
 
+export type BidAppsyncEvent = {
+    info: {
+        fieldName: string;
+      };
+      arguments: {
+        bidId?: string;
+        projectId?: string;
+        bidAmount?: number;
+        bidInput?: BidInput;
+      };
+}
+
 
 export type ProjectFormManager = {
   questions: string[];
