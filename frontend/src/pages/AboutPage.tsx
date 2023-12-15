@@ -49,7 +49,7 @@ export const AboutPage = () => {
             <Card.Title>Our Mission</Card.Title>
             <Card.Text>
               Our mission is to be an essential partner for the client and contractor by making project negotiations obsolete.
-              Contractors will request the money they believe they deserve, and clients will receive assistance every step of the 
+              Contractors will request the money they deserve, and clients will receive assistance every step of the 
               way to make their decision. 
             </Card.Text>
           </Card.Body>

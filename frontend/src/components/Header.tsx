@@ -14,7 +14,6 @@ import { BiLogInCircle } from "react-icons/bi"
 import { AccountContext } from "../Accounts";
 import { Login } from "./Login";
 import { Auth } from "aws-amplify";
-import { ddbGetAllProjects } from "../graphql/projects";
 
 export const Header = () => {
   const [expand, updateExpanded] = useState(false);
@@ -85,18 +84,7 @@ export const Header = () => {
                   <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
                 </Nav.Link>
               </Nav.Item>
-
-              <Nav.Item>
-                <Nav.Link
-                  as={Link}
-                  to="/pro"
-                  onClick={() => updateExpanded(false)}
-                >
-                  <TbHammer style={{'marginBottom': "2px"}}/> Pro
-                </Nav.Link>
-              </Nav.Item>
-
-
+          
               <Nav.Item>
                 <Nav.Link
                   as={Link}
@@ -109,6 +97,17 @@ export const Header = () => {
                   About Us
                 </Nav.Link>
               </Nav.Item>
+                
+                <Nav.Item>
+                <Nav.Link
+                  as={Link}
+                  to="/pro"
+                  onClick={() => updateExpanded(false)}
+                >
+                  <TbHammer style={{'marginBottom': "2px"}}/> Pro
+                </Nav.Link>
+              </Nav.Item>
+
 
               {isAdmin &&
               <Nav.Item>
@@ -129,7 +128,7 @@ export const Header = () => {
                   as={Link}
                   to="/pro/workshop"
                   onClick={() => updateExpanded(false)}
-                >
+                  >
                   <BsBuildings style={{ marginBottom: "2px" }}/> Workshop
                 </Nav.Link>
               </Nav.Item>
@@ -141,7 +140,7 @@ export const Header = () => {
                   as={Link}
                   to="/projects"
                   onClick={() => updateExpanded(false)}
-                >
+                  >
                   My Projects
                 </Nav.Link>
               </Nav.Item>

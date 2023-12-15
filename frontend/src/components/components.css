@@ -1,3 +1,4 @@
+
 .header {
   color: black;
 }
@@ -91,6 +92,9 @@
 .question-instruction {
   font-size: 1rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .question-form {
@@ -102,12 +106,12 @@
     align-self: center;
     justify-content: space-between;
     border: 1px solid #ccc;
-    border-radius: 15px;
-    padding: 20px;
+    border-radius: 8px;
+    padding: 1rem;
     min-height: 70vh;
-    min-width: 60vw;
+    min-width: 90vw;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    transform: translateX(40%);
+    transform: translateX(25.2%);
   }
 .contact-info {
     display: flex;
@@ -333,7 +337,7 @@
 
 .sticky {
   transition: all 0.3s ease-out 0s !important;
-  box-shadow: 0px 1px 10px 0px rgb(0, 0, 0, 1) !important;
+  box-shadow: 0px 1px 4px 0px rgb(143, 142, 142) !important;
   backdrop-filter: blur(15px) !important;
 }
 
@@ -342,7 +346,12 @@
   position: fixed !important;
   transition: all 0.3s ease-out 0s !important;
   padding: 0.3rem 2rem !important;
-  font-size: .9rem !important;
+  font-size: 1rem !important;
+  font-weight: 600;
+}
+
+.navbar .brand {
+  font-size: 1.5rem;
 }
 
 .navbar-nav .nav-item a::after {
@@ -652,7 +661,7 @@ margin: 5rem 0
   min-height: 70vh;
   min-width: 70vw;
   max-width: 70vw;
-  box-shadow: 0px 0px 10px #F6E71D;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
 }
 
 .create-question-form-container {
@@ -730,20 +739,58 @@ margin: 5rem 0
   font-weight: 900 !important;
 }
 
+.clientProjectCard {
+  width: 90%;
+  margin: 1rem 0;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.clientProjectCard:hover {
+  transform: scale(1.01);
+}
+
+.clientProjectCardImg {
+  height: 100%;
+  width: auto;
+}
+
+.clientProjectCardTitle {
+  font-size: 1.5rem !important;
+  font-family: 'Raleway';
+  font-weight: 900 !important;
+  text-decoration: underline;
+}
+
+.clientProjectCardBody strong {
+  font-size: 1rem !important;
+  font-family: 'Raleway';
+  font-weight: 900 !important;
+}
+
+.bidInputSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.bidLabel {
+  font-size: large;
+  margin-right: 1%;
+}
+
 .bidInput {
-  width: 20% !important;
-  margin-right: 1rem;
+  width: 43% !important;
 }
 
 .bidSection {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-}
-
-.bidSection label {
-  font-size: large;
-  margin-right: 1%;
+  margin-bottom: 2rem;
 }
 
 .workshopContent {
@@ -786,6 +833,10 @@ margin: 5rem 0
   max-height: 320px;
   min-height: 100%;
   }
+
+.projectImage {
+  border-radius: 20px;
+}
 
 /*                 */
 /*  MEDIA QUERIES  */
@@ -848,6 +899,28 @@ margin: 5rem 0
   .projectInfo {
     margin-top: 20%;
   }
+  .formButtons {
+    flex-direction: column;
+  }
+  .create-form-instructions {
+    width: 50%;
+    text-align: center;
+    transform: translateX(48%);
+  }
+  .create-question-form {
+    margin-top: 20%;
+  }
+  .hero-section {
+    margin-top: -25%;
+  }
+  .question-form {
+    box-sizing: content-box;
+  }
+  .date {
+    width: 9rem;
+    height: 2.5rem;
+    font-size: large;
+  }
 }
 
 @media only screen and (min-width:391px) and (max-width:575px) {
@@ -880,9 +953,6 @@ margin: 5rem 0
     margin-left: -21%;
     transform: translateY(58%);
   }
-  .create-question-form {
-    transform: translateX(40%);
-  }
   .iconBar {
     margin-top: 50%;
     margin-bottom: -120%;
@@ -893,7 +963,12 @@ margin: 5rem 0
   .radio-buttons {
     font-size: 1.2rem;
   }
+    .question-form {
+    box-sizing: content-box;
+    margin-left: 1%;
+  }
 }
+
 @media only screen and (min-width: 576px) {
   .contractorTypewriter h1, h2, p, .heroButtonContainer{
     text-align: left;
@@ -948,6 +1023,13 @@ margin: 5rem 0
     .question-header {
       font-size: 1.8rem;
     }
+    .quesAttRow {
+      width: 80%;
+      transform: translateX(10%);
+    }
+    .create-question-form {
+      margin-top: 5%;
+    }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1000px) {
@@ -990,6 +1072,16 @@ margin: 5rem 0
   .iconBar {
     margin-bottom: -50%;
   }
+  .create-question-form {
+    margin-top: 5%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .question-form {
+    min-width: 80vw;
+    margin-left: 4.8rem;
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1679px) {
@@ -1021,6 +1113,16 @@ margin: 5rem 0
   .iconBar {
     margin-top: 10%;
     margin-bottom: -25%;
+  }
+  .nav-tabs {
+    margin-top: -10%;
+  }
+  .create-form-instructions {
+    font-size: 1rem;
+    transform: translateX(27.5%);
+  }
+  .question-form {
+    margin-left: 7rem;
   }
 }
 
@@ -1071,6 +1173,9 @@ margin: 5rem 0
   }
   .contractorHeroImg img{
     margin-bottom: -2rem;
+  }
+  .create-form-instructions {
+    font-size: 1.5rem;
   }
 }
 

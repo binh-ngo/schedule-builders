@@ -24,7 +24,7 @@ export const Description = () => {
           <FaWpforms size={50}/>
           <h3 className='my-3'>Post to Workshop</h3>
           <p>
-            If you're ready, your project will be available in the contractor Marketplace. You also have the option to answer additional questions to receive a more exact estimate.
+            If you're ready, your project will be made available in the Workshop. You can also provide additional information like pictures of the work site to give contractors the information to make an accurate bid.
           </p>
         </Col>
 

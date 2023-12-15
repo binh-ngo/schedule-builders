@@ -6,20 +6,6 @@ import { HiOutlineTrophy } from "react-icons/hi2";
 import { RxStar } from "react-icons/rx";
 import { PiMedal } from "react-icons/pi";
 
-// type Contractor = {
-//   contractorName: string;
-//   company: string;
-//   specialty: string;
-//   address: string;
-//   city: string;
-//   email: string;
-//   imageUrl: string;
-//   phone: string;
-//   rating: number;
-//   createdAt: string;
-//   description: string;
-// }
-
 export const Page1 = () => {
   return (
     <>

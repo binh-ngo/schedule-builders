@@ -4,10 +4,14 @@ import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { ddbGetAllProjectsFromAllClients } from '../graphql/projects';
 import { ddbGetAllQueryResponse } from '../types/types';
 import moment from 'moment';
+import { Auth } from 'aws-amplify';
+import { ddbGetAllContractors } from '../graphql/messages';
 
 
 export const Workshop = () => {
   const [projects, setProjects] = useState([]);
+  const [username, setUsername] = useState('');
+  const [contractorId, setContractorId] = useState('');
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -16,6 +20,32 @@ export const Workshop = () => {
     };
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        if (user) {
+          console.log(user.username + ' is logged in.')
+          setUsername(user.username);
+          const resp = await ddbGetAllContractors();
+          
+          for (let i = 0; i < resp.length; i++) {
+            const emailPart = resp[i].email ? resp[i].email.split("@")[0] : '';
+            if (emailPart === username) {
+              setContractorId(resp[i].contractorId);
+              console.log(`Contractor ID: ${emailPart} stored`)
+            } else {
+              console.log('User is not a contractor!')
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error getting Cognito user:', error);
+      }
+    }
+    fetchUserData();
+  }, [username]);
 
   const renderProject = (data: ddbGetAllQueryResponse[]) => {
     const sortedProjects = data.sort(
@@ -46,6 +76,9 @@ export const Workshop = () => {
         endDate={project.endDate}
         desiredCompletionTime={project.desiredCompletionTime}
         createdAt={project.createdAt}
+        projectId={project.projectId}
+        username={username}
+        contractorId={contractorId}
         />
       ))}
       </div>

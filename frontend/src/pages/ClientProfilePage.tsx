@@ -20,8 +20,6 @@ export const ClientProfilePage = () => {
     async function fetchUserData() {
       try {
         const user = await Auth.currentAuthenticatedUser();
-        console.log(`Cognito username: ${user.username}`);
-        console.log(`Cognito profile: ${user.attributes.profile}`);
         const response = await ddbGetAllProjects(user.username);
         if (response) {
           console.log('API Response:', response);

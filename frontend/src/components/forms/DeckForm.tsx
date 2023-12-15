@@ -181,8 +181,7 @@ const DeckForm = () => {
             console.log('Form data submitted:', answers);
             console.log('With this contact information:', contactInfo);
         };
-        console.log(`START DATE PREISO ----- ${startDate}`)
-        console.log(`ENDDATE PREISO ----- ${endDate}`)
+
         const project = {
             projectType: answers[0],
             description: answers[1],

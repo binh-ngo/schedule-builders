@@ -1,9 +1,11 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../Accounts';
 import { ddbCreateContractor, ddbGetAllContractors } from '../graphql/contractors';
+import { buttonStyle, handleMouseOut, handleMouseOver } from '../components/styles';
 
 interface FormData {
   contractorName: string;
@@ -331,14 +333,17 @@ export const CreateContractor = (props: any) => {
             />
           </Form.Group>
 
-          <button
-            className={`contractor-form-input submit-button ${!isFormValid() ? "btn btn-secondary" : ""
+          <Button
+            className={`contractor-form-input ${!isFormValid() ? "btn btn-secondary" : ""
               }`}
             disabled={!isFormValid()}
+            style={buttonStyle}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
             onClick={handleSubmit}
           >
             Submit
-          </button>
+          </Button>
         </Form>
       </div>
     </HelmetProvider>

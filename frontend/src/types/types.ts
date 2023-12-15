@@ -21,6 +21,7 @@ export type ddbGetAllQueryResponse = {
   createdAt: string;
   updatedAt?: string;
   earlyEstimate?: string;
+  isPublished?: boolean;
 }
 
 export type ddbGetAllFormResponse = {
@@ -62,4 +63,29 @@ export type ProjectProps = {
   createdAt: string;
   updatedAt?: string;
   isPublished?: boolean
+}
+
+export type WorkshopCardProps = {
+  projectType: string;
+  description: string;
+  city: string;
+  material: string;
+  projectSize: number;
+  propertyType: string;
+  imageUrls: string[] | undefined;
+  earlyEstimate: string | undefined;
+  startDate: string | undefined;
+  endDate: string | undefined;
+  desiredCompletionTime: string;
+  createdAt: string;
+  projectId?: string;
+  username?: string;
+  contractorId?: string;
+}
+
+export type BidInput = {
+  projectId: string;
+  contractorName: string;
+  contractorId: string;
+  bidAmount: number;
 }
