@@ -23,6 +23,7 @@ const updateProject = async (
 
     const project: Project = {
         clientName: retrievedProject.clientName,
+        clientUsername: retrievedProject.clientUsername,
         clientId: retrievedProject.clientId,
         projectId: retrievedProject.projectId,
         email: projectInput.email ? projectInput.email : retrievedProject.email,

@@ -96,6 +96,7 @@ export type ContractorInput = {
 
 export type Project = {
     clientName: string;
+    clientUsername: string;
     clientId: string;
     clientPhone: string;
     email: string;

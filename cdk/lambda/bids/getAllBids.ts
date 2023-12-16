@@ -9,7 +9,7 @@ const getAllBids = async (projectId: string) => {
 
   const params: ddbQueryPostsParams = {
     TableName: process.env.CONTRACTORS_TABLE || "",
-    KeyConditionExpression: "#PK = :post_partition and #SK = :sk_prefix",
+    KeyConditionExpression: "#PK = :post_partition and begins_with(#SK, :sk_prefix)",
     ExpressionAttributeNames: {
       "#PK": "PK",
       "#SK": "SK",

@@ -187,6 +187,7 @@ type Project @aws_api_key @aws_cognito_user_pools {
 type Client @aws_api_key @aws_cognito_user_pools {
     clientId: String
     clientName: String
+    clientUsername: String
     clientPhone: String
     username: String
     address: String

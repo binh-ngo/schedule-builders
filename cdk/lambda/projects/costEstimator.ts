@@ -100,9 +100,28 @@ export const calculateProjectEstimate = (props: ProjectEstimateProps): string =>
     'Other plumbing projects': [6000, 12000],
 
     // Remodeling prices
-    'Bathroom remodel': [31000, 94000],
-    'Kitchen remodel': [31000, 177000],
-    'Other remodeling projects': [20000, 100000],
+    'Bathroom remodel -> Shower/Bath': [3965, 11757],
+    'Bathroom remodel -> Toilet': [185, 400],
+    'Bathroom remodel -> Countertops': [300, 4000],
+    'Bathroom remodel -> Flooring': [600, 1000],
+    'Bathroom remodel -> Cabinets/Vanity': [500, 3000],
+    'Bathroom remodel -> Sinks': [216, 643],
+
+    'Kitchen remodel -> Countertops': [600, 8000],
+    'Kitchen remodel -> Sinks': [216, 643],
+    'Kitchen remodel -> Appliances': [121, 285],
+    'Kitchen remodel -> Cabinets': [477, 709],
+    'Kitchen remodel -> Flooring': [611.8, 835.2],
+    'Kitchen remodel -> Electrical': [2003, 2393],
+    
+    'Other remodeling projects -> Multiple rooms': [20000, 60000],
+    'Other remodeling projects -> Garage': [7000, 15000],
+    'Other remodeling projects -> Living Room': [1500, 20000],
+    'Other remodeling projects -> Sunroom/Patio': [7500, 80000],
+    'Other remodeling projects -> Major home repairs': [17697, 79125],
+    'Other remodeling projects -> Basement': [30000, 50000],
+    'Other remodeling projects -> Bedroom': [7000, 14000],
+    'Other remodeling projects -> Disability Accommodation': [5000, 20000],
 
     // Roofing prices
     'Install or repair roof': [12000, 15000],
@@ -346,20 +365,105 @@ export const calculateProjectEstimate = (props: ProjectEstimateProps): string =>
       return `${otherPlumbingTotalCost.toFixed(2)}`;
 
       // Remodeling Costs
-    case 'Bathroom remodel':
-      const bathroomRemodelProjectCost = projectPrices[props.projectType!];
-      const bathroomRemodelTotalCost = (bathroomRemodelProjectCost[0] + bathroomRemodelProjectCost[1]) / 2;
-      return `${bathroomRemodelTotalCost.toFixed(2)}`;
+    case 'Bathroom remodel -> Shower/Bath':
+      const showerProjectCost = projectPrices[props.projectType!];
+      const showerTotalCost = (showerProjectCost[0] + showerProjectCost[1]) / 2;
+      return `${showerTotalCost.toFixed(2)}`;
+      
+    case 'Bathroom remodel -> Toilet':
+      const toiletProjectCost = projectPrices[props.projectType!];
+      const toiletTotalCost = (toiletProjectCost[0] + toiletProjectCost[1]) / 2;
+      return `${toiletTotalCost.toFixed(2)}`;
 
-    case 'Kitchen remodel':
-      const kitchenRemodelProjectCost = projectPrices[props.projectType!];
-      const kitchenRemodelTotalCost = (kitchenRemodelProjectCost[0] + kitchenRemodelProjectCost[1]) / 2;
-      return `${kitchenRemodelTotalCost.toFixed(2)}`;
+    case 'Bathroom remodel -> Countertops':
+      const bathroomCountertopProjectCost = projectPrices[props.projectType!];
+      const bathroomCountertopTotalCost = (bathroomCountertopProjectCost[0] + bathroomCountertopProjectCost[1]) / 2;
+      return `${bathroomCountertopTotalCost.toFixed(2)}`;
 
-    case 'Other remodeling projects':
-      const otherRemodelingProjectCost = projectPrices[props.projectType!];
-      const otherRemodelingTotalCost = (otherRemodelingProjectCost[0] + otherRemodelingProjectCost[1]) / 2;
-      return `${otherRemodelingTotalCost.toFixed(2)}`;
+    case 'Bathroom remodel -> Flooring':
+      const bathroomFlooringProjectCost = projectPrices[props.projectType!];
+      const bathroomFlooringTotalCost = (bathroomFlooringProjectCost[0] + bathroomFlooringProjectCost[1]) / 2;
+      return `${bathroomFlooringTotalCost.toFixed(2)}`;
+
+    case 'Bathroom remodel -> Cabinets/Vanity':
+      const vanityProjectCost = projectPrices[props.projectType!];
+      const vanityTotalCost = (vanityProjectCost[0] + vanityProjectCost[1]) / 2;
+      return `${vanityTotalCost.toFixed(2)}`;
+
+    case 'Bathroom remodel -> Sinks':
+      const bathroomSinksProjectCost = projectPrices[props.projectType!];
+      const bathroomSinksTotalCost = (bathroomSinksProjectCost[0] + bathroomSinksProjectCost[1]) / 2;
+      return `${bathroomSinksTotalCost.toFixed(2)}`;
+
+    case 'Kitchen remodel -> Countertops':
+      const kitchenCountertopsProjectCost = projectPrices[props.projectType!];
+      const kitchenCountertopsTotalCost = (kitchenCountertopsProjectCost[0] + kitchenCountertopsProjectCost[1]) / 2;
+      return `${kitchenCountertopsTotalCost.toFixed(2)}`;
+
+    case 'Kitchen remodel -> Sinks':
+      const kitchenSinksProjectCost = projectPrices[props.projectType!];
+      const kitchenSinksTotalCost = (kitchenSinksProjectCost[0] + kitchenSinksProjectCost[1]) / 2;
+      return `${kitchenSinksTotalCost.toFixed(2)}`;
+
+    case 'Kitchen remodel -> Appliances':
+      const kitchenAppliancesProjectCost = projectPrices[props.projectType!];
+      const kitchenAppliancesTotalCost = (kitchenAppliancesProjectCost[0] + kitchenAppliancesProjectCost[1]) / 2;
+      return `${kitchenAppliancesTotalCost.toFixed(2)}`;
+
+    case 'Kitchen remodel -> Cabinets':
+      const kitchenCabinetsProjectCost = projectPrices[props.projectType!];
+      const kitchenCabinetsTotalCost = (kitchenCabinetsProjectCost[0] + kitchenCabinetsProjectCost[1]) / 2;
+      return `${kitchenCabinetsTotalCost.toFixed(2)}`;
+
+    case 'Kitchen remodel -> Flooring':
+      const kitchenFlooringProjectCost = projectPrices[props.projectType!];
+      const kitchenFlooringTotalCost = (kitchenFlooringProjectCost[0] + kitchenFlooringProjectCost[1]) / 2;
+      return `${kitchenFlooringTotalCost.toFixed(2)}`;
+
+    case 'Kitchen remodel -> Electrical':
+      const kitchenElectricalProjectCost = projectPrices[props.projectType!];
+      const kitchenElectricalTotalCost = (kitchenElectricalProjectCost[0] + kitchenElectricalProjectCost[1]) / 2;
+      return `${kitchenElectricalTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Garage':
+      const garageRemodelingProjectCost = projectPrices[props.projectType!];
+      const garageRemodelingTotalCost = (garageRemodelingProjectCost[0] + garageRemodelingProjectCost[1]) / 2;
+      return `${garageRemodelingTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Living Room':
+      const livingRoomRemodelingProjectCost = projectPrices[props.projectType!];
+      const livingRoomRemodelingTotalCost = (livingRoomRemodelingProjectCost[0] + livingRoomRemodelingProjectCost[1]) / 2;
+      return `${livingRoomRemodelingTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Sunroom/Patio':
+      const sunroomRemodelingProjectCost = projectPrices[props.projectType!];
+      const sunroomRemodelingTotalCost = (sunroomRemodelingProjectCost[0] + sunroomRemodelingProjectCost[1]) / 2;
+      return `${sunroomRemodelingTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Major home repairs':
+      const majorRemodelingProjectCost = projectPrices[props.projectType!];
+      const majorRemodelingTotalCost = (majorRemodelingProjectCost[0] + majorRemodelingProjectCost[1]) / 2;
+      return `${majorRemodelingTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Basement':
+      const basementRemodelingProjectCost = projectPrices[props.projectType!];
+      const basementRemodelingTotalCost = (basementRemodelingProjectCost[0] + basementRemodelingProjectCost[1]) / 2;
+      return `${basementRemodelingTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Bedroom':
+      const bedroomRemodelingProjectCost = projectPrices[props.projectType!];
+      const bedroomRemodelingTotalCost = (bedroomRemodelingProjectCost[0] + bedroomRemodelingProjectCost[1]) / 2;
+      return `${bedroomRemodelingTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Disability Accommodation':
+      const disabilityRemodelingProjectCost = projectPrices[props.projectType!];
+      const disabilityRemodelingTotalCost = (disabilityRemodelingProjectCost[0] + disabilityRemodelingProjectCost[1]) / 2;
+      return `${disabilityRemodelingTotalCost.toFixed(2)}`;
+
+    case 'Other remodeling projects -> Multiple Rooms':
+      const multipleRoomRemodelingProjectCost = projectPrices[props.projectType!];
+      const multipleRoomRemodelingTotalCost = (multipleRoomRemodelingProjectCost[0] + multipleRoomRemodelingProjectCost[1]) / 2;
+      return `${multipleRoomRemodelingTotalCost.toFixed(2)}`;
 
     // Roofing Costs
     case 'Install or repair roof':

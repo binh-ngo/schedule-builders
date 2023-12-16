@@ -49,6 +49,7 @@ const createProject = async (projectInput: ProjectInput) => {
     const project: Project = {
         clientId,
         clientName: formattedName,
+        clientUsername: client.username,
         clientPhone: projectInput.clientPhone,
         email: projectInput.email,
         address: projectInput.address,
