@@ -158,6 +158,7 @@ type Project @aws_api_key @aws_cognito_user_pools {
     clientName: String
     clientId: String
     clientPhone: String
+    clientUsername: String
     email: String
     address: String
     city: String
@@ -189,7 +190,6 @@ type Client @aws_api_key @aws_cognito_user_pools {
     clientName: String
     clientUsername: String
     clientPhone: String
-    username: String
     address: String
     city: String
     email: String

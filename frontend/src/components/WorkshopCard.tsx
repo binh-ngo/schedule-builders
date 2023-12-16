@@ -87,8 +87,11 @@ export const WorkshopCard = (props: WorkshopCardProps) => {
                 <Card.Text>
                   <strong>Project Size:</strong> {props.projectSize} sqft
                 </Card.Text>
-              )
-              }
+                )
+              } 
+              <Card.Text>
+                <strong>Early Estimate:</strong> ${props.earlyEstimate}
+              </Card.Text>
               <Card.Text>
                 <strong>Start Date:</strong> {moment(props.startDate).format('MMMM Do, YYYY')}
               </Card.Text>
@@ -96,7 +99,7 @@ export const WorkshopCard = (props: WorkshopCardProps) => {
                 <strong>End Date:</strong> {moment(props.endDate).format('MMMM Do, YYYY')}
               </Card.Text>
               <Card.Text>
-                <strong>Created At:</strong> {moment(props.createdAt).format('MMMM Do, YYYY')}
+                <strong>Created At:</strong> {moment(props.createdAt).format('MMMM Do, YYYY h:mm a')}
               </Card.Text>
             </Card.Body>
           </Col>

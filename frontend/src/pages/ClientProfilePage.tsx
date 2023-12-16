@@ -77,8 +77,8 @@ export const ClientProfilePage = () => {
     <Row>
       <Col className="clientProfileParagraph" sm={7}>
         <h1>Welcome!</h1>
-        <p className='clientParagraph'>We value the privacy of your information so we will only send it out when you're ready. Are you trying to get this product done sooner? Provide further information
-        by clicking on the button below and it will expedite your project request whenever you're ready.</p>
+        <p className='clientParagraph'>We value the privacy of your information so we will only send it out to pros when you're ready. Are you trying to get this product done sooner? Provide further information
+        by clicking on the button below or click on the link and submit pictures and it will expedite your project request.</p>
         <div className='mt-5'>
         {/* <Button className="mx-2" style={{ backgroundColor: '#164863' }} href="#" size="lg">I'm Ready!</Button> */}
         <Button className="mx-2" style={buttonStyle} 

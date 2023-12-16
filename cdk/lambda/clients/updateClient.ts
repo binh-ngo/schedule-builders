@@ -23,7 +23,7 @@ const updateClient = async (
             clientId,
             clientName: clientInput.clientName,
             clientPhone: clientInput.phone,
-            username: clientInput.username,
+            clientUsername: clientInput.clientUsername,
             address: clientInput.address,
             city: clientInput.city,
             email: clientInput.email,

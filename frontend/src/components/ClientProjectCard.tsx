@@ -40,7 +40,7 @@ export const ClientProjectCard = (project: ProjectProps) => {
           </Col>
           <Col md={12} lg={8} className='clientProjectCardBody'>
             <Card.Body>
-              <Link to={`projects/${project.projectId}`}>
+              <Link to={`/projects/${project.projectId}`}>
               <Card.Title className="clientProjectCardTitle">{project.projectType}</Card.Title>
               </Link>
               <Card.Text>
@@ -56,6 +56,9 @@ export const ClientProjectCard = (project: ProjectProps) => {
                   <strong>Project Size:</strong> {project.projectSize} sqft
                 </Card.Text>
               )}
+              <Card.Text>
+                <strong>Early Estimate:</strong> ${project.earlyEstimate}
+              </Card.Text>
               <Card.Text>
                 <strong>Start Date:</strong> {moment(project.startDate).format('MMMM Do, YYYY')}
               </Card.Text>

@@ -64,7 +64,7 @@ const updateProject = async (
 
         if (projectInput.imageUrls) {
             const imageUrls = await Promise.all(projectInput.imageUrls.map(async (imageUrl: string) => {
-                return await generateUploadURL(retrievedProject.username, projectId);
+                return await generateUploadURL(username, projectId);
             }));
             project.imageUrls = imageUrls;
         }

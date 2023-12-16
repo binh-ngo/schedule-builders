@@ -6,6 +6,8 @@ import { calculateProjectEstimate, ProjectEstimateProps } from "./costEstimator"
 
 require("dotenv").config({ path: ".env" });
 
+const sns = new AWS.SNS();
+
 // TODO: as of right now, clients don't need to sign in, so they have to fill out the 
 // form every time they want to do another project
 const createProject = async (projectInput: ProjectInput) => {
@@ -29,7 +31,7 @@ const createProject = async (projectInput: ProjectInput) => {
         clientId,
         clientName: formattedName,
         clientPhone: projectInput.clientPhone,
-        username: extractUsernameFromEmail(projectInput.email)!,
+        clientUsername: extractUsernameFromEmail(projectInput.email)!,
         address: projectInput.address,
         city: projectInput.city,
         email: projectInput.email,
@@ -49,7 +51,7 @@ const createProject = async (projectInput: ProjectInput) => {
     const project: Project = {
         clientId,
         clientName: formattedName,
-        clientUsername: client.username,
+        clientUsername: client.clientUsername,
         clientPhone: projectInput.clientPhone,
         email: projectInput.email,
         address: projectInput.address,
@@ -104,7 +106,7 @@ const createProject = async (projectInput: ProjectInput) => {
                 {
                     PutRequest: {
                         Item: {
-                            PK: `CLIENT#${client.username}`,
+                            PK: `CLIENT#${client.clientUsername}`,
                             SK: `PROJECT#${projectId}`,
                             type: 'project',
                             ...project,
@@ -115,7 +117,7 @@ const createProject = async (projectInput: ProjectInput) => {
                     PutRequest: {
                         Item: {
                             PK: `CLIENTS`,
-                            SK: `CLIENT#${client.username}`,
+                            SK: `CLIENT#${client.clientUsername}`,
                             type: 'client',
                             ...client,
                         },
@@ -124,7 +126,7 @@ const createProject = async (projectInput: ProjectInput) => {
                 {
                     PutRequest: {
                         Item: {
-                            PK: `CLIENT#${client.username}`,
+                            PK: `CLIENT#${client.clientUsername}`,
                             SK: `CLIENT#${clientId}`,
                             type: 'client',
                             ...client,
@@ -140,6 +142,18 @@ const createProject = async (projectInput: ProjectInput) => {
         const newProject = await docClient.batchWrite(params).promise();
         console.log(`Created project: ${JSON.stringify(project, null, 2)}`);
         console.log(`Created client: ${JSON.stringify(client, null, 2)}`);
+
+        const topicParams = {
+            Name: `ProjectBidNotifications-${projectId}`,
+        };
+        const snsTopic = await sns.createTopic(topicParams).promise();
+
+        const subscribeParams = {
+            Protocol: "email", 
+            TopicArn: snsTopic.TopicArn,
+            Endpoint: projectInput.email,
+        };
+        await sns.subscribe(subscribeParams).promise();
 
         return project;
     } catch (err) {

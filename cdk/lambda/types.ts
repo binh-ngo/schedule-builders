@@ -44,7 +44,7 @@ export type Client = {
     clientId: string;
     clientName: string
     clientPhone: string;
-    username: string;
+    clientUsername: string;
     address: string
     email:string;
     city: string
@@ -56,7 +56,7 @@ export type ClientInput = {
     clientName: string;
     email: string;
     phone: string;
-    username: string;
+    clientUsername: string;
     address: string;
     city: string;
 }

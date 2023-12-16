@@ -182,12 +182,20 @@ const [formData, setFormData] = useState<FormData>({
   return (
     <>
 <Container className="mt-5">
-      <Row className="mt-5">
+      <Row className="mt-5 mb-5">
+          <h1 className='mt-5'> {project?.projectType ?? ''}</h1>
+          <h3 className='my-1'> {project?.city}</h3>
         <Col sm="6" className="mt-5">
-          <h1 className='mt-5'>{project?.projectType ?? ''}</h1>
-          <h3 className='my-4'>{project?.city}</h3>
-          <h6>{project?.description}</h6>
-          <h6>{moment(project?.createdAt).format('MMMM Do, YYYY')}</h6> 
+          <h5><strong>Description: </strong> {project?.description}</h5>
+          {project?.material && (
+            <h5><strong>Material: </strong> {project?.material}</h5>
+          )}
+          {project?.projectSize && (
+            <h5><strong>Project Size: </strong>{project?.projectSize}</h5>
+          )}
+          <h5><strong>Availability: </strong> {moment(project?.startDate).format('MM/DD/YYYY')} - {moment(project?.endDate).format('MM/DD/YY')}</h5>
+          <h5><strong>Early Estimate: </strong> ${project?.earlyEstimate}</h5>
+          <h5><strong>Created On: </strong> {moment(project?.createdAt).format('MM/DD/YY')}</h5> 
         </Col>
         <Col sm="6" className="mt-5">
           <Carousel interval={null} >

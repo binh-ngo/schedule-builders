@@ -8,7 +8,6 @@ import { awsconfig } from "./aws-exports";
 import { Account } from "./Accounts";
 import { Admin } from "./pages/Admin";
 import { ContractorLandingPage } from "./pages/ContractorLandingPage";
-import { RequireAdminAuth } from "./RequireAdminAuth";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { CreateContractor } from "./pages/CreateContractor";
