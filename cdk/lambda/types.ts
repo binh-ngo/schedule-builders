@@ -158,7 +158,7 @@ export type Message = {
   projectId: string;
   body: string;
   authorId: string;
-  authorName: string
+  authorName: string;
   createdAt: string;
   updatedAt: string;
 }

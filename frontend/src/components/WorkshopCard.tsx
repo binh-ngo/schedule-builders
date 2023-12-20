@@ -27,12 +27,12 @@ export const WorkshopCard = (props: WorkshopCardProps) => {
       contractorName: props.username ?? '',
       contractorId: props.contractorId ?? ''
     }
-    console.log(bidInput);
+    // console.log(bidInput);
     let newBid = null;
     const response = await ddbCreateBid(bidInput);
     if('data' in response) {
       newBid = response.data.createBid;
-      console.log(`Response from DynamoDB: ${JSON.stringify(newBid)}`);
+      // console.log(`Response from DynamoDB: ${JSON.stringify(newBid)}`);
     } else {
       console.error('Response is not a GraphQL result:', response);
     } if (newBid) {

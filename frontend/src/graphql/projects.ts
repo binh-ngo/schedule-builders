@@ -87,7 +87,7 @@ const resp = await API.graphql({
   },
   authMode: "API_KEY",
 });
-console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+// console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
 return resp;
   };
   
@@ -141,7 +141,7 @@ export const ddbGetProjectById = async (projectId: string) => {
     },
     authMode: "API_KEY"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   const project = resp.data.getProjectById;
   return project;
@@ -196,7 +196,7 @@ export const ddbGetAllProjects = async (clientName: string) => {
     },
     authMode: "API_KEY"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllProjects;
 };
@@ -242,7 +242,7 @@ export const ddbGetAllProjectsFromAllClients = async () => {
     query: getAllProjectsFromAllClientsQuery,
     authMode: "API_KEY"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllProjectsFromAllClients;
 };
@@ -291,7 +291,7 @@ export const ddbGetAllProjectsWithEstimates = async () => {
     query: getAllProjectsWithEstimatesQuery,
     authMode: "API_KEY"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllProjectsWithEstimates;
 };
@@ -338,7 +338,7 @@ export const ddbGetAllProjectsWithEstimatesAndContractors = async () => {
     query: getAllProjectsWithEstimatesAndContractorsQuery,
     authMode: "API_KEY"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllProjectsWithEstimatesAndContractors;
 };
@@ -384,7 +384,7 @@ export const ddbGetAllProjectsWithoutEstimates = async () => {
     query: getAllProjectsWithoutEstimatesQuery,
     authMode: "API_KEY"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllProjectsWithoutEstimates;
 };
@@ -457,7 +457,7 @@ export const ddbUpdateProject = async (projectInput: SaveProjectProps) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   return resp;
 };
 
@@ -483,7 +483,7 @@ export const ddbDeleteProject = async (projectId: string, clientName: string) =>
   });
   // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
-  console.log(`successfully deleted: ${resp.data.deleteProject}`);
+  // console.log(`successfully deleted: ${resp.data.deleteProject}`);
 };
 // REMOVED CLIENT NAME FROM PARAMS
 const publishProjectQuery = `
@@ -534,7 +534,7 @@ export const ddbPublishProject = async (projectId: string, isPublished: boolean)
   });
   // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
-  console.log(`project ${projectId} successfully published: ${resp.data.publishProject}`);
+  // console.log(`project ${projectId} successfully published: ${resp.data.publishProject}`);
 }
 
 const getPublishedProjectsQuery = `
@@ -581,7 +581,7 @@ export const ddbGetPublishedProjects = async (clientName: string) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getPublishedProjects;
 };
@@ -630,7 +630,7 @@ export const ddbGetUnpublishedProjects = async (clientName: string) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getUnpublishedProjects;
 };
@@ -675,7 +675,7 @@ export const ddbGetAllPublishedProjectsFromAllClients = async () => {
     query: getAllPublishedProjectsFromAllClientsQuery,
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllPublishedProjectsFromAllClients;
 };
@@ -721,7 +721,7 @@ export const ddbGetAllUnpublishedProjectsFromAllClients = async () => {
     query: getAllUnpublishedProjectsFromAllClientsQuery,
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllUnpublishedProjectsFromAllClients;
 };

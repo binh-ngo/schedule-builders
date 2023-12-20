@@ -27,9 +27,9 @@ export const Header = () => {
     async function fetchUserData() {
       try {
         const user = await Auth.currentAuthenticatedUser();
-        if(user) {
-          console.log(`Cognito username: ${user.username}`);
-          console.log(`Cognito profile: ${user.attributes.profile}`);
+        if (user) {
+          // console.log(`Cognito username: ${user.username}`);
+          // console.log(`Cognito profile: ${user.attributes.profile}`);
           setUsername(user.username);
           setProfile(user.attributes.profile);
         }
@@ -49,7 +49,7 @@ export const Header = () => {
   }
 
   window.addEventListener("scroll", scrollHandler);
-  
+
   const isAdmin = profile === "admin";
   const isPro = (profile === "pro" || profile === "admin");
   const isClient = (profile === "client" || profile === "admin");
@@ -66,7 +66,7 @@ export const Header = () => {
           <strong className="brand">Schedule.builders</strong>
         </Navbar.Brand>
         <Navbar.Toggle
-          style={{'color': 'black'}}
+          style={{ 'color': 'black' }}
           aria-controls="responsive-navbar-nav"
           onClick={() => {
             updateExpanded(!expand);
@@ -77,39 +77,39 @@ export const Header = () => {
           <span></span>
         </Navbar.Toggle>
 
-          <Navbar.Collapse id="responsive-navbar-nav" style={{'color': 'black'}}>
-            <Nav className="ms-auto" defaultActiveKey="#home">
-              <Nav.Item>
-                <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
-                  <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
-                </Nav.Link>
-              </Nav.Item>
-          
-              <Nav.Item>
-                <Nav.Link
-                  as={Link}
-                  to="/about"
-                  onClick={() => updateExpanded(false)}
-                >
-                  <AiOutlineFundProjectionScreen
-                    style={{ marginBottom: "2px" }}
-                  />{" "}
-                  About Us
-                </Nav.Link>
-              </Nav.Item>
-                
-                <Nav.Item>
-                <Nav.Link
-                  as={Link}
-                  to="/pro"
-                  onClick={() => updateExpanded(false)}
-                >
-                  <TbHammer style={{'marginBottom': "2px"}}/> Pro
-                </Nav.Link>
-              </Nav.Item>
+        <Navbar.Collapse id="responsive-navbar-nav" style={{ 'color': 'black' }}>
+          <Nav className="ms-auto" defaultActiveKey="#home">
+            <Nav.Item>
+              <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
+                <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
+              </Nav.Link>
+            </Nav.Item>
 
 
-              {isAdmin &&
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/pro"
+                onClick={() => updateExpanded(false)}
+              >
+                <TbHammer style={{ 'marginBottom': "2px" }} /> Pro
+              </Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/about"
+                onClick={() => updateExpanded(false)}
+              >
+                <AiOutlineFundProjectionScreen
+                  style={{ marginBottom: "2px" }}
+                />{" "}
+                About Us
+              </Nav.Link>
+            </Nav.Item>
+
+            {isAdmin &&
               <Nav.Item>
                 <Nav.Link
                   as={Link}
@@ -128,8 +128,8 @@ export const Header = () => {
                   as={Link}
                   to="/pro/workshop"
                   onClick={() => updateExpanded(false)}
-                  >
-                  <BsBuildings style={{ marginBottom: "2px" }}/> Workshop
+                >
+                  <BsBuildings style={{ marginBottom: "2px" }} /> Workshop
                 </Nav.Link>
               </Nav.Item>
             }
@@ -140,43 +140,43 @@ export const Header = () => {
                   as={Link}
                   to="/projects"
                   onClick={() => updateExpanded(false)}
-                  >
+                >
                   My Projects
                 </Nav.Link>
               </Nav.Item>
             }
 
-              {!loggedInUser &&
-                <>
-                  <Nav.Item>
-                    <Nav.Link
-                      as={Link}
-                      to="/login"
-                      onClick={() => updateExpanded(false)}
-                    >
-                      <BiLogInCircle style={{ marginBottom: "2px" }} /> Login
-                    </Nav.Link>
-                  </Nav.Item>
+            {!loggedInUser &&
+              <>
+                <Nav.Item>
+                  <Nav.Link
+                    as={Link}
+                    to="/login"
+                    onClick={() => updateExpanded(false)}
+                  >
+                    <BiLogInCircle style={{ marginBottom: "2px" }} /> Log in
+                  </Nav.Link>
+                </Nav.Item>
 
-                  <Nav.Item>
-                    <Nav.Link
-                      as={Link}
-                      to="/create-contractor"
-                      onClick={() => updateExpanded(false)}
-                    >
-                      <BsFillClipboardCheckFill style={{ marginBottom: "2px" }} /> Signup
-                    </Nav.Link>
-                  </Nav.Item>
-                </>
-              }
+                <Nav.Item>
+                  <Nav.Link
+                    as={Link}
+                    to="/join-waitlist"
+                    onClick={() => updateExpanded(false)}
+                  >
+                    <BsFillClipboardCheckFill style={{ marginBottom: "2px" }} /> Sign up
+                  </Nav.Link>
+                </Nav.Item>
+              </>
+            }
 
-              {loggedInUser &&
-                <div className="login-header">
-                  <Login />
-                </div>
-              }
-            </Nav>
-          </Navbar.Collapse>
+            {loggedInUser &&
+              <div className="login-header">
+                <Login />
+              </div>
+            }
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

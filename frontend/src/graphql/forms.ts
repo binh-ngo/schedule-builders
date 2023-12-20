@@ -54,7 +54,7 @@ export const ddbCreateForm = async (formInput: CreateFormProps) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   return resp;
 };
 // ==================
@@ -88,7 +88,7 @@ export const ddbGetFormById = async (formName: string, formId: string) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   const form = resp.data.getFormById;
   // console.log(`post.content: ${post.content}`);
@@ -121,7 +121,7 @@ export const ddbGetAllForms = async () => {
     query: getAllFormsQuery,
     authMode: "AMAZON_COGNITO_USER_POOLS"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getAllForms;
 };
@@ -149,7 +149,7 @@ export const ddbGetSelectedForm = async () => {
     query: getSelectedFormQuery,
     authMode: "AMAZON_COGNITO_USER_POOLS"
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
   return resp.data.getSelectedForm;
 };
@@ -165,7 +165,7 @@ const deleteFormQuery = `
 `;
 
 export const ddbDeleteForm = async (formName: string, formId: string) => {
-  console.log(`delete called for contractor ${formName}`);
+  // console.log(`delete called for contractor ${formName}`);
   const resp = await API.graphql({
     query: deleteFormQuery,
     variables: {
@@ -176,7 +176,7 @@ export const ddbDeleteForm = async (formName: string, formId: string) => {
   });
   // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
-  console.log(`successfully deleted: ${resp.data.deleteForm}`);
+  // console.log(`successfully deleted: ${resp.data.deleteForm}`);
 };
 
 // ==================
@@ -215,7 +215,7 @@ export const ddbUpdateForm = async (formInput: SaveFormProps) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
-  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
 };
 
 const selectFormQuery = `
@@ -237,7 +237,7 @@ const selectFormQuery = `
       }
 `
 export const ddbAddSelection = async (formId: string) => {
-  console.log(`Form getting ready to be selected with FormId: ${formId}`);
+  // console.log(`Form getting ready to be selected with FormId: ${formId}`);
   const resp = await API.graphql({
     query: selectFormQuery,
     variables: {
@@ -248,11 +248,11 @@ export const ddbAddSelection = async (formId: string) => {
   });
   // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
-  console.log(`form ${formId} successfully selected: ${JSON.stringify(resp.data.adjustFormSelection)}`);
+  // console.log(`form ${formId} successfully selected: ${JSON.stringify(resp.data.adjustFormSelection)}`);
 }
 
 export const ddbRemoveSelection = async (formId: string) => {
-  console.log(`Form getting ready to be selected with FormId: ${formId}`);
+  // console.log(`Form getting ready to be selected with FormId: ${formId}`);
   const resp = await API.graphql({
     query: selectFormQuery,
     variables: {
@@ -263,5 +263,5 @@ export const ddbRemoveSelection = async (formId: string) => {
   });
   // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   // @ts-ignore
-  console.log(`form ${formId} successfully removed: ${resp.data.adjustFormSelection}`);
+  // console.log(`form ${formId} successfully removed: ${resp.data.adjustFormSelection}`);
 }

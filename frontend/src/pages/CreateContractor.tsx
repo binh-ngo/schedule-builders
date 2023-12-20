@@ -74,11 +74,11 @@ export const CreateContractor = (props: any) => {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fieldName = e.target.name;
     const file = e.target.files ? e.target.files[0] : null;
-    console.log(fieldName)
-    console.log(file!.name)
+    // console.log(fieldName)
+    // console.log(file!.name)
     if (file) {
       setFormData({ ...formData, [fieldName]: file });
-      console.log(`IMAGE ${formData.imageUrl}`)
+      // console.log(`IMAGE ${formData.imageUrl}`)
     } else {
       setFormData({ ...formData, [fieldName]: null });
     }
@@ -140,10 +140,10 @@ export const CreateContractor = (props: any) => {
     } else {
       try {
         const newUser = await proSignUp(removeEmailDomain(formData.email), formData.email, formData.password);
-        console.log("Account created.", newUser);
+        // console.log("Account created.", newUser);
         // Now, log in the newly created user
         const loggedInNewUser = await signIn(removeEmailDomain(formData.email), formData.password);
-        console.log("Logged in.", loggedInNewUser);
+        // console.log("Logged in.", loggedInNewUser);
         navigate(from, { replace: true });
       } catch (signupError) {
         console.error("Error creating account.", signupError);
@@ -166,7 +166,7 @@ export const CreateContractor = (props: any) => {
 
       if ('data' in response) {
         createdContractor = response.data.createContractor;
-        console.log(`Response from DynamoDB: ${JSON.stringify(createdContractor)}`);
+        // console.log(`Response from DynamoDB: ${JSON.stringify(createdContractor)}`);
       } else {
         console.error('Response is not a GraphQL result:', response);
       }
@@ -174,7 +174,7 @@ export const CreateContractor = (props: any) => {
       if (createdContractor) {
         console.log("Contractor successfully created");
         const uploadUrl = createdContractor.imageUrl;
-        console.log(`S3 URL ~~~~~~~~${uploadUrl}`);
+        // console.log(`S3 URL ~~~~~~~~${uploadUrl}`);
         await fetch(uploadUrl, {
           method: "PUT",
           headers: {

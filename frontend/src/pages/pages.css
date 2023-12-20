@@ -80,3 +80,6 @@ p, span, button, input {
     margin-top: 6rem;
 }
 
+.descriptionText {
+    font-size: 1.1rem;
+}

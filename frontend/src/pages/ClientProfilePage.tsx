@@ -22,7 +22,7 @@ export const ClientProfilePage = () => {
         const user = await Auth.currentAuthenticatedUser();
         const response = await ddbGetAllProjects(user.username);
         if (response) {
-          console.log('API Response:', response);
+          // console.log('API Response:', response);
           setProjects(response);
         }        
       } catch (error) {

@@ -1,4 +1,5 @@
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import  Row  from 'react-bootstrap/Row';
 import Carousel from 'react-bootstrap/Carousel';
@@ -14,8 +15,9 @@ import { BidInput, ddbGetAllQueryResponse, ProjectProps } from '../types/types';
 // @ts-ignore
 import defaultImage from '../assets/defaultimage.jpg'
 import moment from 'moment';
-import { ddbGetAllBids } from '../graphql/bids';
+import { ddbCreateBid, ddbGetAllBids } from '../graphql/bids';
 import { Auth } from 'aws-amplify';
+import { ddbGetAllContractors } from '../graphql/contractors';
 
 interface FormData {
   imageUrls: File[] | undefined;
@@ -33,6 +35,8 @@ const [formData, setFormData] = useState<FormData>({
   const [bidMax, setBidMax] = useState(0);
   const [bidAverage, setBidAverage] = useState(0);
   const [username, setUsername] = useState('');
+  const [contractorId, setContractorId] = useState('');
+  const [bid, setBid] = useState(0);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -44,7 +48,6 @@ const [formData, setFormData] = useState<FormData>({
         }
       } catch (error) {
         console.error('Error fetching project:', error);
-        // Handle error or log it as needed
       }
     };
 
@@ -70,12 +73,53 @@ const [formData, setFormData] = useState<FormData>({
         try {
             const user = await Auth.currentAuthenticatedUser();
             setUsername(user.username);
+            const resp = await ddbGetAllContractors();
+          for (let i = 0; i < resp.length; i++) {
+            const emailPart = resp[i].email ? resp[i].email.split("@")[0] : '';
+            if (emailPart === username) {
+              setContractorId(resp[i].contractorId);
+              console.log(`Contractor ID: ${emailPart} stored`)
+            } else {
+              console.log('User is not a contractor!')
+            }
+          }
         } catch (error) {
             console.error('Error getting Cognito user:', error);
         }
     }
     fetchUserData();
-}, []);
+}, [username]);
+
+const handleCreateBid = async (projectId: string) => {
+  if (bid) {
+    console.log('Bid is being processed.')
+  }
+  const bidInput = {
+    projectId,
+    bidAmount: bid,
+    contractorName: username ?? '',
+    contractorId: contractorId ?? ''
+  }
+  // console.log(bidInput);
+  let newBid = null;
+  const response = await ddbCreateBid(bidInput);
+  if('data' in response) {
+    newBid = response.data.createBid;
+    // console.log(`Response from DynamoDB: ${JSON.stringify(newBid)}`);
+  } else {
+    console.error('Response is not a GraphQL result:', response);
+  } if (newBid) {
+    console.log("Project successfully created")
+  } else {
+    console.log("onSave called but title or children are empty");
+  }
+}
+
+const isBidValid = () => {
+  const valid = bid !== 0;
+
+  return valid;
+};
 
   const getBidData = (bidData: BidInput[]) => {
     if (bidData.length === 0) {
@@ -112,7 +156,7 @@ const [formData, setFormData] = useState<FormData>({
     console.log(projectId);
     try {
       const response = await ddbPublishProject(projectId, true);
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(`err: ${JSON.stringify(err, null, 2)}`);
     }
@@ -122,7 +166,7 @@ const [formData, setFormData] = useState<FormData>({
     console.log(projectId);
     try {
       const response = await ddbPublishProject(projectId, false);
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(`err: ${JSON.stringify(err, null, 2)}`);
     }
@@ -152,12 +196,12 @@ const [formData, setFormData] = useState<FormData>({
       const response = await ddbUpdateProject(projectInput);
       if ('data' in response) {
         updatedProject = response.data.updateProject;
-        console.log(`Response from DynamoDB: ${JSON.stringify(updatedProject)}`);
+        // console.log(`Response from DynamoDB: ${JSON.stringify(updatedProject)}`);
       } else {
         console.error('Response is not a GraphQL result:', response);
       } if (updatedProject) {
         console.log("Images successfully uploaded")
-        console.log(updatedProject.imageUrls)
+        // console.log(updatedProject.imageUrls)
         const uploadUrls = updatedProject.imageUrls;
         for (let i = 0; i < uploadUrls.length; i++) {
           fetch(uploadUrls[i], {
@@ -176,15 +220,15 @@ const [formData, setFormData] = useState<FormData>({
 
   const projectOwner = project?.email ? project.email.split('@')[0] : '';
 
-  console.log(`username ----- ${username}`)
-  console.log(`projectOwner ----- ${projectOwner}`)
+  // console.log(`username ----- ${username}`)
+  // console.log(`projectOwner ----- ${projectOwner}`)
   
   return (
     <>
-<Container className="mt-5">
-      <Row className="mt-5 mb-5">
-          <h1 className='mt-5'> {project?.projectType ?? ''}</h1>
-          <h3 className='my-1'> {project?.city}</h3>
+<Container className='projectPage'>
+      <Row>
+          <h1> {project?.projectType ?? ''}</h1>
+          <h3 className='my-1'> {project?.clientName} | {project?.city}</h3>
         <Col sm="6" className="mt-5">
           <h5><strong>Description: </strong> {project?.description}</h5>
           {project?.material && (
@@ -196,8 +240,41 @@ const [formData, setFormData] = useState<FormData>({
           <h5><strong>Availability: </strong> {moment(project?.startDate).format('MM/DD/YYYY')} - {moment(project?.endDate).format('MM/DD/YY')}</h5>
           <h5><strong>Early Estimate: </strong> ${project?.earlyEstimate}</h5>
           <h5><strong>Created On: </strong> {moment(project?.createdAt).format('MM/DD/YY')}</h5> 
+          {username !== projectOwner && (
+        <div className='bidSection'>
+            <div className="bidInputSection">
+            <Form.Label className="bidLabel">
+              $
+              </Form.Label>
+            <Form.Control
+              type="text"
+              id={`Bid-${projectId}-input`}
+              className="bg-transparent bidInput"
+              aria-describedby={`Bid-${projectId}-input`}
+              value={bid === 0 ? '' : bid}
+              onChange={(e) => {
+                const newValue = parseInt(e.target.value, 10);
+                if (!isNaN(newValue)) {
+                  setBid(newValue);
+                } else {
+                  setBid(0);
+                }
+              }}
+              />
+              </div>
+            <Button
+              disabled={!isBidValid()}
+              onClick={() => handleCreateBid(projectId ?? '')}
+              style={buttonStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            >
+              {`Submit Bid`}</Button>
+          </div>
+        )}
         </Col>
-        <Col sm="6" className="mt-5">
+
+        <Col sm="6">
           <Carousel interval={null} >
               {project?.imageUrls ? (
                 project?.imageUrls.map((imageUrl, index) => (
@@ -215,7 +292,7 @@ const [formData, setFormData] = useState<FormData>({
       </Row>
       {username === projectOwner && (
 
-      <Row className="mb-5">
+      <Row className="my-5">
             <Tabs
               defaultActiveKey={selectedTab}
               onSelect={(key) => setSelectedTab(key as string)}
@@ -291,7 +368,6 @@ const [formData, setFormData] = useState<FormData>({
             </Tabs>
       </Row>
       )}
-
     </Container>          
     </>
     )

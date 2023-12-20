@@ -48,15 +48,15 @@ const DeckForm = () => {
     useEffect(() => {
         async function fetchUserData() {
             const user = await Auth.currentAuthenticatedUser();
-            console.log(`Cognito username: ${user.username}`);
-            console.log(`Cognito profile: ${user.attributes.profile}`);
-            if(user) {
+            // console.log(`Cognito username: ${user.username}`);
+            // console.log(`Cognito profile: ${user.attributes.profile}`);
+            if (user) {
                 setName(user.username);
                 setEmail(user.attributes.email);
             }
         }
         fetchUserData();
-      }, []);
+    }, []);
 
     let navigate = useNavigate();
 
@@ -131,9 +131,9 @@ const DeckForm = () => {
         setTimeout(() => {
             setSlideLeft(false);
         }, 0);
-        console.log(answers);
-        console.log(`START DATE ----${startDate}`)
-        console.log(`END DATE ----${endDate}`)
+        // console.log(answers);
+        // console.log(`START DATE ----${startDate}`)
+        // console.log(`END DATE ----${endDate}`)
     };
 
     const handlePreviousQuestion = () => {
@@ -144,9 +144,9 @@ const DeckForm = () => {
         setTimeout(() => {
             setSlideRight(false);
         }, 0);
-        console.log(answers)
-        console.log(`START DATE ----${startDate}`)
-        console.log(`END DATE ----${endDate}`)
+        // console.log(answers)
+        // console.log(`START DATE ----${startDate}`)
+        // console.log(`END DATE ----${endDate}`)
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -171,10 +171,10 @@ const DeckForm = () => {
             // const tempPassword = ulid();
             try {
                 const newUser = await clientSignUp(removeEmailDomain(email), email, 'password');
-                console.log("Account created.", newUser);
+                // console.log("Account created.", newUser);
                 // Now, log in the newly created user
                 const loggedInNewUser = await signIn(removeEmailDomain(email), 'password');
-                console.log("Logged in.", loggedInNewUser);
+                // console.log("Logged in.", loggedInNewUser);
             } catch (signupError) {
                 console.error("Error creating account.", signupError);
             }
@@ -197,17 +197,19 @@ const DeckForm = () => {
             startDate: new Date(startDate).toISOString(),
             endDate: new Date(endDate).toISOString()
         }
-        console.log(`PROJECT-------${JSON.stringify(project)}`)
+        // console.log(`PROJECT-------${JSON.stringify(project)}`)
 
         let createdProject = null;
         const response = await ddbCreateProject(project);
         if ('data' in response) {
             createdProject = response.data.createProject;
-            console.log(`Response from DynamoDB: ${JSON.stringify(createdProject)}`);
+            // console.log(`Response from DynamoDB: ${JSON.stringify(createdProject)}`);
         } else {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
+
+          
             navigate(`/projects`);
         } else {
             console.log("onSave called but title or children are empty");

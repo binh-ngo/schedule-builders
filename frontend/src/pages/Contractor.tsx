@@ -17,7 +17,7 @@ export const Contractor = () => {
     const fetchQuestions = async () => {
       console.log('Fetching data...');
       const responseWithEstimates = await ddbGetAllProjectsWithEstimates();
-      console.log('Data fetched:', responseWithEstimates);
+      // console.log('Data fetched:', responseWithEstimates);
       setProjectsWithEstimates(responseWithEstimates);
       setLoading(false);
     };

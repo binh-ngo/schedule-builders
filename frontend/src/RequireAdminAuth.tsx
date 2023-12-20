@@ -11,7 +11,7 @@ export const RequireAdminAuth = ({ children }: { children: JSX.Element }) => {
     async function fetchUserData() {
         try {
             const user = await Auth.currentAuthenticatedUser();
-            console.log(`Cognito username: ${user.username}`);
+            // console.log(`Cognito username: ${user.username}`);
             setProfile(user.attributes.profile);
             ;
         } catch (error) {

@@ -38,7 +38,7 @@ const resp = await API.graphql({
   },
   authMode: "AMAZON_COGNITO_USER_POOLS",
 });
-console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+// console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
 return resp;
   };
 // =====================
@@ -66,7 +66,7 @@ export const ddbGetBidById = async (bidId: string) => {
       },
       authMode: "AMAZON_COGNITO_USER_POOLS"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
     const bid = resp.data.getBidById;
     // console.log(`post.content: ${post.content}`);
@@ -97,7 +97,7 @@ export const ddbGetBidById = async (bidId: string) => {
       },
       authMode: "AMAZON_COGNITO_USER_POOLS"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
     return resp.data.getAllBids;
   }; 
@@ -132,7 +132,7 @@ const updateBidQuery = `
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   };
 
 // ==============
@@ -156,5 +156,5 @@ export const ddbDeleteBid = async (projectId: string, bidId: string) => {
     });
     // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
-    console.log(`successfully deleted: ${resp.data.deleteBid}`);
+    // console.log(`successfully deleted: ${resp.data.deleteBid}`);
   };

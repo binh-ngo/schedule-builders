@@ -36,7 +36,7 @@ export const ContractorLandingPage = () => {
                           style={buttonStyle}
                           onMouseOver={handleMouseOver}
                           onMouseOut={handleMouseOut}
-                          href='/create-contractor' 
+                          href='/join-waitlist' 
                           size="lg">Sign up!</Button>
                   {/* <Button className="mx-2 heroButtons"
                           style={buttonStyle}
@@ -56,27 +56,27 @@ export const ContractorLandingPage = () => {
               {/* Panel 1 */}
               <Col md={4} className="text-center descriptionBlock">
                 <FaRegUserCircle size={50} color="#164863" />
-                <h3>Submit info</h3>
-                <p>
-                  Create a profile so we can get you in contact with potential clients!
+                <h3 className="my-3">Submit Info</h3>
+                <p className='descriptionText'>
+                  Sign up for our waitlist and await verification from our team.
                 </p>
               </Col>
 
               {/* Panel 2 */}
               <Col md={4} className="text-center descriptionBlock">
-                <BsBuildings size={50} color="#427D9D" />
-                <h3>Customize form</h3>
-                <p>
-                  Tailor your form to receive additional information if necessary, and bid on verified projects in our Workshop.
+                <CiSearch size={50} color="#427D9D" />
+                <h3 className="my-3">Browse</h3>
+                <p className='descriptionText'>
+                  You now have access to our <strong>Workshop</strong>, where you can view many types of projects in the Seattle area. 
                 </p>
               </Col>
 
               {/* Panel 3 */}
               <Col md={4} className="text-center descriptionBlock">
-                <CiSearch size={50} color="#9BBEC8" />
-                <h3>Relax</h3>
-                <p>
-                  We know that running your business and marketing can be a lot to handle. Do what you do best, we'll handle the rest.
+                <BsBuildings size={50} color="#9BBEC8" />
+                <h3 className="my-3">Secure Projects</h3>
+                <p className='descriptionText'>
+                  Give your potential clients your best price and availability for the project and secure the job for your company! 
                 </p>
               </Col>
             </Row>

@@ -12,8 +12,8 @@ const getMessageById = async (messageId: string) => {
   const params = {
     TableName: process.env.CONTRACTORS_TABLE,
     Key: {
-      PK: `FORM#${messageId}`,
-      SK: `FORM#${messageId}`,
+      PK: `MESSAGE#${messageId}`,
+      SK: `MESSAGE#${messageId}`,
     },
     ReturnConsumedCapacity: "TOTAL",
   };

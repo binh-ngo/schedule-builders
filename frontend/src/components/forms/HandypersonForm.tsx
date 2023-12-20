@@ -46,8 +46,8 @@ const HandypersonForm = () => {
     useEffect(() => {
         async function fetchUserData() {
             const user = await Auth.currentAuthenticatedUser();
-            console.log(`Cognito username: ${user.username}`);
-            console.log(`Cognito profile: ${user.attributes.profile}`);
+            // console.log(`Cognito username: ${user.username}`);
+            // console.log(`Cognito profile: ${user.attributes.profile}`);
             if(user) {
                 setName(user.username);
                 setEmail(user.attributes.email);
@@ -135,9 +135,9 @@ const HandypersonForm = () => {
         setTimeout(() => {
             setSlideLeft(false);
         }, 0);
-        console.log(answers);
-        console.log(`START DATE ----${startDate}`)
-        console.log(`END DATE ----${endDate}`)
+        // console.log(answers);
+        // console.log(`START DATE ----${startDate}`)
+        // console.log(`END DATE ----${endDate}`)
     };
 
     const handlePreviousQuestion = () => {
@@ -148,9 +148,9 @@ const HandypersonForm = () => {
         setTimeout(() => {
             setSlideRight(false);
         }, 0);
-        console.log(answers)
-        console.log(`START DATE ----${startDate}`)
-        console.log(`END DATE ----${endDate}`)
+        // console.log(answers)
+        // console.log(`START DATE ----${startDate}`)
+        // console.log(`END DATE ----${endDate}`)
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -175,15 +175,15 @@ const HandypersonForm = () => {
             // const tempPassword = ulid();
             try {
                 const newUser = await clientSignUp(removeEmailDomain(email), email, 'password');
-                console.log("Account created.", newUser);
+                // console.log("Account created.", newUser);
                 // Now, log in the newly created user
                 const loggedInNewUser = await signIn(removeEmailDomain(email), 'password');
-                console.log("Logged in.", loggedInNewUser);
+                // console.log("Logged in.", loggedInNewUser);
             } catch (signupError) {
                 console.error("Error creating account.", signupError);
             }
-            console.log('Form data submitted:', answers);
-            console.log('With this contact information:', contactInfo);
+            // console.log('Form data submitted:', answers);
+            // console.log('With this contact information:', contactInfo);
         };
         const project = {
             projectType: answers[0],
@@ -203,7 +203,7 @@ const HandypersonForm = () => {
         const response = await ddbCreateProject(project)
         if ('data' in response) {
             createdProject = response.data.createProject;
-            console.log(`Response from DynamoDB: ${JSON.stringify(createdProject)}`);
+            // console.log(`Response from DynamoDB: ${JSON.stringify(createdProject)}`);
         } else {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {

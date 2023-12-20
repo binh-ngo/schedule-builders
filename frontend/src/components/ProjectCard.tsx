@@ -40,7 +40,7 @@ export const ProjectCard = (project: ProjectProps) => {
     const response = await ddbUpdateProject(projectInput);
     if ('data' in response) {
       setContractor(contractor);
-      console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
+      // console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
     } else {
       console.error('Response is not a GraphQL result:', response);
     }
@@ -54,7 +54,7 @@ export const ProjectCard = (project: ProjectProps) => {
     }
     const response = await ddbUpdateProject(projectInput);
     if ('data' in response) {
-      console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
+      // console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
       setEstimate(estimate);
     } else {
       console.error('Response is not a GraphQL result:', response);
@@ -69,7 +69,7 @@ export const ProjectCard = (project: ProjectProps) => {
     }
     const response = await ddbUpdateProject(projectInput);
     if ('data' in response) {
-      console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
+      // console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
     } else {
       console.error('Response is not a GraphQL result:', response);
     }
@@ -84,7 +84,7 @@ export const ProjectCard = (project: ProjectProps) => {
     const response = await ddbUpdateProject(projectInput);
     if ('data' in response) {
       window.location.reload();
-      console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
+      // console.log(`Response from DynamoDB: ${JSON.stringify(response)}`);
     } else {
       console.error('Response is not a GraphQL result:', response);
     }
@@ -96,14 +96,14 @@ export const ProjectCard = (project: ProjectProps) => {
     if (files !== null) {
       const updatedImageUrls = [...formData.imageUrls!, ...Array.from(files)];
       setFormData({ ...formData, imageUrls: updatedImageUrls });
-      console.log(`IMAGES: ${updatedImageUrls}`);
+      // console.log(`IMAGES: ${updatedImageUrls}`);
     }
   };
 
   const updateImages = async (project: ProjectProps, e: React.FormEvent) => {
     e.preventDefault();
     if (formData.imageUrls) {
-      console.log('Images submitted:', formData);
+      // console.log('Images submitted:', formData);
 
       const projectInput = {
         imageUrls: formData.imageUrls || undefined,
@@ -114,12 +114,12 @@ export const ProjectCard = (project: ProjectProps) => {
       const response = await ddbUpdateProject(projectInput);
       if ('data' in response) {
         updatedProject = response.data.updateProject;
-        console.log(`Response from DynamoDB: ${JSON.stringify(updatedProject)}`);
+        // console.log(`Response from DynamoDB: ${JSON.stringify(updatedProject)}`);
       } else {
         console.error('Response is not a GraphQL result:', response);
       } if (updatedProject) {
-        console.log("Images successfully uploaded")
-        console.log(updatedProject.imageUrls)
+        // console.log("Images successfully uploaded")
+        // console.log(updatedProject.imageUrls)
         const uploadUrls = updatedProject.imageUrls;
         for (let i = 0; i < uploadUrls.length; i++) {
           fetch(uploadUrls[i], {

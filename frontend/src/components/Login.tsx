@@ -21,7 +21,7 @@ export const Login = (props:any) => {
     try {
       // Check if the user exists
       const existingUser = await signIn(email, password);
-      console.log("Logged in.", existingUser);
+      // console.log("Logged in.", existingUser);
       navigate(from, { replace: true });
     } catch (loginError) {
       console.error("Error logging in.", loginError);
@@ -53,6 +53,7 @@ export const Login = (props:any) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
+          <Form.Label><a href='/forgot-password'>Reset Password</a></Form.Label>
           {errorMessage && <p className="text-danger">{errorMessage}</p>}
           <div className="d-flex justify-content-center">
             {!loggedInUser && (

@@ -26,7 +26,7 @@ export const Workshop = () => {
       try {
         const user = await Auth.currentAuthenticatedUser();
         if (user) {
-          console.log(user.username + ' is logged in.')
+          // console.log(user.username + ' is logged in.')
           setUsername(user.username);
           const resp = await ddbGetAllContractors();
           

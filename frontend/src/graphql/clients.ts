@@ -42,7 +42,7 @@ export const ddbGetClientById = async (clientName: string, clientId: string) => 
       },
       authMode: "API_KEY"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
     const client = resp.data.getClientById;
     // console.log(`post.content: ${post.content}`);
@@ -72,7 +72,7 @@ export const ddbGetClientById = async (clientName: string, clientId: string) => 
       query: getAllClientsQuery,
       authMode: "API_KEY"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
     return resp.data.getAllClients;
   }; 
@@ -112,7 +112,7 @@ const updateClientQuery = `
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   };
 
 // ===========
@@ -137,5 +137,5 @@ export const ddbDeleteClient = async (clientId: string, clientName: string) => {
     });
     // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
-    console.log(`successfully deleted: ${resp.data.deleteClient}`);
+    // console.log(`successfully deleted: ${resp.data.deleteClient}`);
   };

@@ -52,7 +52,7 @@ const resp = await API.graphql({
   },
   authMode: "API_KEY",
 });
-console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+// console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
 return resp;
   };
 // =====================
@@ -86,7 +86,7 @@ export const ddbGetContractorById = async (contractorName: string, contractorId:
       },
       authMode: "API_KEY"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
     const contractor = resp.data.getContractorById;
     // console.log(`post.content: ${post.content}`);
@@ -119,7 +119,7 @@ export const ddbGetContractorById = async (contractorName: string, contractorId:
       query: getAllContractorsQuery,
       authMode: "API_KEY"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
     return resp.data.getAllContractors;
   }; 
@@ -165,7 +165,7 @@ const updateContractorQuery = `
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   };
 
 // ==============
@@ -179,7 +179,7 @@ const deleteContractorQuery = `
 `;
 
 export const ddbDeleteContractor = async (contractorName: string, contractorId: string) => {
-    console.log(`delete called for contractor ${contractorName}`);
+    // console.log(`delete called for contractor ${contractorName}`);
     const resp = await API.graphql({
       query: deleteContractorQuery,
       variables: {
@@ -190,5 +190,5 @@ export const ddbDeleteContractor = async (contractorName: string, contractorId: 
     });
     // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
-    console.log(`successfully deleted: ${resp.data.deleteContractor}`);
+    // console.log(`successfully deleted: ${resp.data.deleteContractor}`);
   };

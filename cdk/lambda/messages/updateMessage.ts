@@ -36,16 +36,6 @@ const updateBid = async (
                         {
                             PutRequest: {
                                 Item: {
-                                    PK: `MESSAGES`,
-                                    SK: `MESSAGE#${message.messageId}`,
-                                    type: "message",
-                                    ...message
-                                },
-                            },
-                        },
-                        {
-                            PutRequest: {
-                                Item: {
                                     PK: `MESSAGE#${message.messageId}`,
                                     SK: `MESSAGE#${message.messageId}`,
                                     type: 'message',
