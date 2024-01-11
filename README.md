@@ -9,6 +9,7 @@ This application consists of a database that connects consumers with contractors
   * Image Upload
   * Built-in Messaging
   * SEO
+  * Automated email notifications for contractors and clients
 
   Please feel free to check it out at [schedule.builders](http://www.schedule.builders)
 
