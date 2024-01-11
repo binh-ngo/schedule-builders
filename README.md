@@ -15,10 +15,6 @@ This application consists of a database that connects consumers with contractors
 
   Please feel free to check it out at [schedule.builders](http://www.schedule.builders)
   
-## Table of Contents
-  * [Questions](#questions)
-  * [License](#license)
-      
   ## Questions
         
   *For further questions:*
