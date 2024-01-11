@@ -14,7 +14,20 @@ This application consists of a database that connects consumers with contractors
   * SEO
 
   Please feel free to check it out at [schedule.builders](http://www.schedule.builders)
+
+  ## Tech
+
+  ### Frontend
+  * React
+  * Bootstrap
+  * Cognito
   
+  ### Backend
+  * GraphQL
+  * DynamoDB
+  * Appsync
+  * CDK
+
   ## Questions
         
   *For further questions:*
