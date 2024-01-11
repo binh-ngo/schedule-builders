@@ -1,7 +1,4 @@
 # Schedule.builders
-  
-## Description
-
 ![landingPage](/frontend/src/assets/readme.png)
 
 This application consists of a database that connects consumers with contractors for home-improvement projects; offers customizable forms for consumers to describe their service request, and provides an automated price estimator to streamline the inefficient process of home improvement estimations. Some of the functions of schedule.builders are:
