@@ -27,12 +27,13 @@ import PlumbingForm from "./components/forms/PlumbingForm";
 import LandscapingForm from "./components/forms/LandscapingForm";
 import RemodelForm from "./components/forms/RemodelForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Page1 } from "./pages/Page1";
+import { ContractorProfilePage } from "./pages/ContractorProfilePage";
 import { Workshop } from "./pages/Workshop";
 import { SingleProjectPage } from "./pages/SingleProjectPage";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
 import { JoinWaitlist } from "./pages/JoinWaitlist";
+import { RequireAuth } from "./RequireAuth";
 
 
 Amplify.configure(awsconfig);
@@ -49,10 +50,10 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/projects" element={<ClientProfilePage />} />
-            <Route path="/projects/:projectId" element={<SingleProjectPage />} />
+            <Route path="/projects/:projectId" element={<RequireAuth><SingleProjectPage /></RequireAuth>} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/pro" element={<ContractorLandingPage />} />
-            <Route path="/pro/:contractorName" element={<Page1 />} />
+            <Route path="/pro/:contractorId" element={<ContractorProfilePage />} />
             <Route path="/login" element={<RequestLogin />} />
             <Route path="/pro/contact" element={<ContactPage />} />
             <Route path="/admin" element={<RequireContractorAuth><Admin /></RequireContractorAuth>} />

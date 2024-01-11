@@ -1,20 +1,9 @@
-import React from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
-import { HelmetProvider, Helmet } from 'react-helmet-async';
+import { Col, Row, Container } from 'react-bootstrap';
 import { Login } from '../components/Login';
 import './pages.css'
 export const RequestLogin = () => {
   return (
-    <HelmetProvider>
-        <Helmet>
-          <title>Login Required</title>
-          <meta
-            name="description"
-            content="Access exclusive content and features by logging in. Please log in to continue and explore our offerings."
-          />
-        </Helmet>
+
       <div className='request-login'>
 
         <Container>
@@ -28,7 +17,6 @@ export const RequestLogin = () => {
           </Row>
         </Container>
       </div>
-    </HelmetProvider>
   );
 }
 

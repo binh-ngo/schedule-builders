@@ -19,13 +19,15 @@ type Query {
     getClientById(clientName: String!, clientId: String!): Client
 
     getAllContractors: [Contractor]
-    getContractorById(contractorName: String!, contractorId: String!): Contractor
+    getContractorById(contractorId: String!): Contractor
 
     getAllForms: [Form] @aws_cognito_user_pools
     getSelectedForm: [Form] @aws_cognito_user_pools
     getFormById(formId: String!): Form @aws_cognito_user_pools
 
     getAllMessages(projectId: String!): [Message] @aws_cognito_user_pools
+    getMessagesInThread(projectId: String!, authorName1: String!, authorName2: String!): [Message] @aws_cognito_user_pools
+    getAllThreadsInProject(projectId: String!): [Thread] @aws_cognito_user_pools
     getMessageById(projectId: String!, messageId: String!): Message @aws_cognito_user_pools
 
     getAllBids(projectId: String!): [Bid] @aws_cognito_user_pools
@@ -51,7 +53,6 @@ type Mutation {
     createContractor(contractorInput: ContractorInput): Contractor @aws_cognito_user_pools @aws_api_key
     deleteContractor(contractorName: String!, contractorId: String!): String @aws_cognito_user_pools
     updateContractor(
-        contractorName: String!
         contractorId: String!
         contractorInput: ContractorInput!
     ): Contractor @aws_cognito_user_pools
@@ -119,6 +120,7 @@ input ClientInput {
 input ContractorInput {
     contractorName: String
     company: String
+    description: String
     specialty: String
     address: String
     phone: String
@@ -152,6 +154,9 @@ input BidInput {
 input MessageInput {
     body: String
     authorId: String
+    projectId: String
+    authorName: String
+    threadId: String
 }
 
 type Project @aws_api_key @aws_cognito_user_pools {
@@ -200,6 +205,7 @@ type Client @aws_api_key @aws_cognito_user_pools {
 type Contractor @aws_api_key @aws_cognito_user_pools {
     contractorId: String
     contractorName: String
+    description: String
     company: String
     specialty: String
     address: String
@@ -208,6 +214,7 @@ type Contractor @aws_api_key @aws_cognito_user_pools {
     email: String
     imageUrl: String
     rating: Float
+    numProjects: Int
     createdAt: String
     updatedAt: String
 }
@@ -244,5 +251,15 @@ type Message @aws_cognito_user_pools {
     messageId: String
     body: String
     authorId: String
+    authorName: String
+    projectId: String
+    threadId: String
+    createdAt: String
+}
+
+type Thread {
+    threadId: String
+    projectId: String
+    numMessages: Int
     createdAt: String
 }

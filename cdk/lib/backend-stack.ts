@@ -262,6 +262,10 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         })
         contractorSiteDataSource.createResolver({
           typeName: "Query",
+          fieldName: "getMessagesInThread",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Query",
           fieldName: "getMessageById",
         })
         contractorSiteDataSource.createResolver({

@@ -2,8 +2,8 @@ const AWS = require("aws-sdk");
 require('dotenv').config()
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const getContractorById = async (contractorName: string, contractorId: string) => {
-  console.log(`getQuestionsById called with: (${contractorName}, ${contractorId})`);
+const getContractorById = async (contractorId: string) => {
+  console.log(`getContractorById called with: (${contractorId})`);
 
   if (!contractorId) {
     return { statusCode: 400, body: `Error: You are missing the client ID` };
@@ -13,7 +13,7 @@ const getContractorById = async (contractorName: string, contractorId: string) =
     TableName: process.env.CONTRACTORS_TABLE,
     Key: {
       PK: `CONTRACTOR#${contractorId}`,
-      SK: `CONTRACTOR#${contractorName}`,
+      SK: `CONTRACTOR#${contractorId}`,
     },
     ReturnConsumedCapacity: "TOTAL",
   };

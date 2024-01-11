@@ -2,23 +2,21 @@ import React, { useState, ChangeEvent, FormEvent, useContext, useEffect } from '
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';import moment from 'moment';
+import { Col, Row, Form, Modal } from 'react-bootstrap';
+import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { Button } from 'react-bootstrap';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
-import { Auth } from 'aws-amplify';
 
 const RemodelForm = () => {
     const questions: string[] = [
-      'What do you need help with?',
-      'Conditional Question Here',
-      'Please provide a detailed description of what you want us to do.',
-      'When would you like this request to be completed?',
-      'What kind of location is this?',
-      'Please provide your contact information and we will reach out to you shortly.'
+        'What do you need help with?',
+        'Conditional Question Here',
+        'Please provide a detailed description of what you want us to do.',
+        'When would you like this request to be completed?',
+        'What kind of location is this?',
+        'Please provide your contact information and we will reach out to you shortly.'
     ];
 
     const [name, setName] = useState('');
@@ -30,10 +28,14 @@ const RemodelForm = () => {
     const [endDate, setEndDate] = useState('');
     const [slideRight, setSlideRight] = useState(false);
     const [slideLeft, setSlideLeft] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    const { signIn, clientSignUp } = useContext(AccountContext);
+    const { signIn, clientSignUp, getCurrentAuthedUser } = useContext(AccountContext);
+
+    const handleShowPublishConfirmation = () => setShowConfirmation(true);
+    const handleClosePublishConfirmation = () => setShowConfirmation(false);
 
     const contactInfo = {
         name,
@@ -45,16 +47,21 @@ const RemodelForm = () => {
 
     useEffect(() => {
         async function fetchUserData() {
-            const user = await Auth.currentAuthenticatedUser();
-            // console.log(`Cognito username: ${user.username}`);
-            // console.log(`Cognito profile: ${user.attributes.profile}`);
-            if(user) {
-                setName(user.username);
-                setEmail(user.attributes.email);
+            try {
+                const user = await getCurrentAuthedUser();
+                if (user) {
+
+                    setName(user.username);
+                    setEmail(user.attributes.email);
+                } else {
+                    console.error("User object is undefined");
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
             }
         }
         fetchUserData();
-      }, []);
+    }, []);
 
     let navigate = useNavigate();
 
@@ -88,23 +95,23 @@ const RemodelForm = () => {
             case 'Email':
                 setEmail(event.target.value);
                 break;
-                case 'startDate':
-                    selectedStartDate = event.target.value;
-                    setStartDate(selectedStartDate);
-                    setEndDate('');
-                    const startDateInput = event.target as HTMLInputElement;
-                    const today = new Date().toISOString().split('T')[0];
-                    startDateInput.min = today;
-                    const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
-                    if (endDateInput) {
-                        endDateInput.min = selectedStartDate;
-                    }
-                    break;
-                case 'endDate':
-                    setEndDate(event.target.value);
-                    const duration = getTimePassed(startDate, event.target.value);
-                    updatedAnswers[currentQuestionIndex] = duration;
-                    break;
+            case 'startDate':
+                selectedStartDate = event.target.value;
+                setStartDate(selectedStartDate);
+                setEndDate('');
+                const startDateInput = event.target as HTMLInputElement;
+                const today = new Date().toISOString().split('T')[0];
+                startDateInput.min = today;
+                const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
+                if (endDateInput) {
+                    endDateInput.min = selectedStartDate;
+                }
+                break;
+            case 'endDate':
+                setEndDate(event.target.value);
+                const duration = getTimePassed(startDate, event.target.value);
+                updatedAnswers[currentQuestionIndex] = duration;
+                break;
             default:
                 updatedAnswers[currentQuestionIndex] = event.target.value;
                 break;
@@ -197,7 +204,7 @@ const RemodelForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-            navigate(`/projects`);
+            handleShowPublishConfirmation(); 
         } else {
             console.log("onSave called but title or children are empty");
         }
@@ -252,7 +259,7 @@ const RemodelForm = () => {
                                         onClick={() => handleAnswerChange}
                                     ></div>
                                     {type}
-                                </label>                                 
+                                </label>
                             </div>
                         ))}
                     </div>
@@ -450,46 +457,72 @@ const RemodelForm = () => {
     };
 
     return (
-        <div className={`question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
-            <div className={`question-form mb-5 ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
-                <div className={`progress-bar ${currentQuestionIndex === questions.length ? 'full-width' : ''}`} style={{ width: calculateProgress() }}></div>
-                {currentQuestionIndex !== questions.length && (
-                    <div className="question-answer">
-                        {renderInput(questions[currentQuestionIndex], answers[currentQuestionIndex], currentQuestionIndex)}
-                    </div>
-                )}
-                <div className="button-container">
-                <Button
-                        className="prev-button"
-                        style={buttonStyle}
-                        onMouseOver={handleMouseOver}
-                        onMouseOut={handleMouseOut}
-                        onClick={handlePreviousQuestion}
-                        disabled={currentQuestionIndex === 0}
-                    >
-                        Previous
-                    </Button>
-                    {currentQuestionIndex < questions.length - 1 ? (
-                        <Button className="next-button" 
+        <>
+            <div className={`question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+                <div className={`question-form mb-5 ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+                    <div className={`progress-bar ${currentQuestionIndex === questions.length ? 'full-width' : ''}`} style={{ width: calculateProgress() }}></div>
+                    {currentQuestionIndex !== questions.length && (
+                        <div className="question-answer">
+                            {renderInput(questions[currentQuestionIndex], answers[currentQuestionIndex], currentQuestionIndex)}
+                        </div>
+                    )}
+                    <div className="button-container">
+                        <Button
+                            className="prev-button"
+                            style={buttonStyle}
+                            onMouseOver={handleMouseOver}
+                            onMouseOut={handleMouseOut}
+                            onClick={handlePreviousQuestion}
+                            disabled={currentQuestionIndex === 0}
+                        >
+                            Previous
+                        </Button>
+                        {currentQuestionIndex < questions.length - 1 ? (
+                            <Button className="next-button"
                                 onClick={handleNextQuestion}
                                 style={buttonStyle}
                                 onMouseOver={handleMouseOver}
                                 onMouseOut={handleMouseOut}>
-                            Next
-                        </Button>
-                    ) : (
-                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`} 
-                                disabled={!isFormValid()} 
+                                Next
+                            </Button>
+                        ) : (
+                            <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`}
+                                disabled={!isFormValid()}
                                 onClick={handleSubmit}
                                 style={buttonStyle}
                                 onMouseOver={handleMouseOver}
                                 onMouseOut={handleMouseOut}>
-                            Submit
-                        </Button>
-                    )}
+                                Submit
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+            <Modal show={showConfirmation} onHide={handleClosePublishConfirmation}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Project Created</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Your project has been successfully created. Click on the link below to navigate to your project.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        style={buttonStyle}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
+                        onClick={handleClosePublishConfirmation}>
+                        Close
+                    </Button>
+                    <Button
+                        style={buttonStyle}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
+                        onClick={() => { navigate('/projects') }}>
+                        My Projects
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 };
 

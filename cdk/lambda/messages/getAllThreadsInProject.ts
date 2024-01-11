@@ -3,8 +3,8 @@ const AWS = require("aws-sdk");
 require('dotenv').config()
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const getAllMessages = async (projectId: string) => {
-  console.log(`getAllMessages called`);
+const getAllThreadsInProject = async (projectId: string) => {
+  console.log(`getAllThreadsInProject called`);
 
   const params: ddbQueryPostsParams = {
     TableName: process.env.CONTRACTORS_TABLE || "",
@@ -15,7 +15,7 @@ const getAllMessages = async (projectId: string) => {
     },
     ExpressionAttributeValues: {
       ":post_partition": `PROJECT#${projectId}`,
-      ":sk_prefix": "MESSAGE#",
+      ":sk_prefix": "THREAD#",
     },
     ReturnConsumedCapacity: "TOTAL",
     ScanIndexForward: true, // Set this to true for ascending order
@@ -35,4 +35,4 @@ const getAllMessages = async (projectId: string) => {
   }
 };
 
-export default getAllMessages;
+export default getAllThreadsInProject;

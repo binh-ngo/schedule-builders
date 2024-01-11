@@ -1,7 +1,4 @@
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
+import { Button, Col, Row, Container } from 'react-bootstrap';
 import './components.css'; 
 import Type from './Type';
 // @ts-ignore

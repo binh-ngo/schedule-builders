@@ -1,16 +1,15 @@
-import { Auth } from "aws-amplify";
 import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "./Accounts";
 import { RequestLogin } from "./pages/RequestLogin";
 
 export const RequireAdminAuth = ({ children }: { children: JSX.Element }) => {
   const [profile, setProfile] = useState('');
-  const { loggedInUser } = useContext(AccountContext);
+  const { loggedInUser, getCurrentAuthedUser } = useContext(AccountContext);
 
   useEffect(() => {
     async function fetchUserData() {
         try {
-            const user = await Auth.currentAuthenticatedUser();
+            const user = await getCurrentAuthedUser();
             // console.log(`Cognito username: ${user.username}`);
             setProfile(user.attributes.profile);
             ;

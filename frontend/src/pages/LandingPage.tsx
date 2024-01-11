@@ -1,7 +1,4 @@
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button'
+import { Container, Col, Row, Button } from 'react-bootstrap';
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { Description } from '../components/Description'
 import Type from '../components/Type'
@@ -67,12 +64,6 @@ export const LandingPage = () => {
                           onMouseOut={handleMouseOut}
                           href='#projects' 
                           size="lg">Submit Project</Button>
-                  <Button className="mx-2 clientHeroButtons"
-                          onMouseOver={handleMouseOver}
-                          onMouseOut={handleMouseOut}
-                          style={buttonStyle} 
-                          href='/about' 
-                          size="lg">About</Button>
                 </div>
               </Col>
               <Col sm={5}>

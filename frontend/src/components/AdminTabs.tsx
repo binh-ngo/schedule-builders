@@ -1,6 +1,4 @@
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import  Modal  from 'react-bootstrap/Modal';
+import { Tab, Tabs, Modal } from 'react-bootstrap';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { ddbGetAllProjectsWithEstimates, ddbGetAllProjectsWithEstimatesAndContractors, ddbGetAllProjectsWithoutEstimates } from '../graphql/projects';

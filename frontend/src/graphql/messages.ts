@@ -1,194 +1,190 @@
 import { API } from "aws-amplify";
 
-export type SaveContractorProps = {
-    contractorName: string;
-    contractorId?: string;
-    company: string;
-    specialty: string;
-    address: string;
-    phone: string;
-    city: string;
-    email: string;
-    imageUrl: File | null;
-    clientId?: string;
+export type SaveMessageProps = {
+    messageId?: string;
+    projectId?: string;
+    body?: string;
+    authorId?: string;
+    authorName?: string;
 }
 // ==================
-// CREATE CONTRACTOR
+// CREATE MESSAGE
 // ==================
 
-const createContractorQuery = `
-  mutation createContractor($contractorInput: ContractorInput!) {
-    createContractor(contractorInput: $contractorInput) {
-        contractorId
-        contractorName
-        company
-        specialty
-        address
-        city:
-        phone
-        email
-        imageUrl
-        createdAt
-        updatedAt
+const createMessageQuery = `
+  mutation createMessage($messageInput: MessageInput!) {
+    createMessage(messageInput: $messageInput) {
+      authorId
+      authorName
+      body
+      createdAt
+      messageId
+      threadId
+      projectId
     }
   }
 `;
 
-export const ddbCreateContractor = async (contractorInput: SaveContractorProps) => {
+export const ddbCreateMessage = async (messageInput: SaveMessageProps) => {
 
 const resp = await API.graphql({
-  query: createContractorQuery,
+  query: createMessageQuery,
   variables: {
-    contractorInput: {
-      contractorName: contractorInput.contractorName,
-      address: contractorInput.address,
-      city: contractorInput.city,
-      email: contractorInput.email,
-      company: contractorInput.company,
-      specialty: contractorInput.specialty,
-      phone: contractorInput.phone,
-      imageUrl: contractorInput.imageUrl
+    messageInput: {
+      projectId: messageInput.projectId,
+      body: messageInput.body,
+      authorId: messageInput.authorId,
+      authorName: messageInput.authorName,
     },
   },
-  authMode: "API_KEY",
+  authMode: "AMAZON_COGNITO_USER_POOLS",
 });
-console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+// console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
 return resp;
   };
 // =====================
-// GET CONTRACTOR BY ID
+// GET MESSAGE BY ID
 // =====================
 
-const getContractorByIdQuery = `
-query getContractorById($contractorName: String!, $contractorId: String!) {
-    getContractorById(contractorName: $contractorName, contractorId: $contractorId) {
-        contractorId
-        contractorName
-        company
-        specialty
-        address
-        city
-        phone
-        email
-        imageUrl
-        createdAt
-        updatedAt
+const getMessageByIdQuery = `
+query getMessageById($messageId: String!) {
+    getMessageById(messageId: $messageId) {
+      authorId
+      authorName
+      body
+      createdAt
+      messageId
+      threadId
+      projectId
     }
   }
 `
 
-export const ddbGetContractorById = async (contractorName: string, contractorId: string) => {
+export const ddbGetMessageById = async (messageId: string) => {
     const resp = await API.graphql({
-      query: getContractorByIdQuery,
+      query: getMessageByIdQuery,
       variables: {
-        contractorName,
-        contractorId,
+        messageId,
       },
-      authMode: "API_KEY"
+      authMode: "AMAZON_COGNITO_USER_POOLS"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
-    const contractor = resp.data.getContractorById;
+    const contractor = resp.data.getMessageById;
     // console.log(`post.content: ${post.content}`);
     return contractor;
   };
 
 // ===================
-// GET ALL CONTRACTORS
+// GET ALL MESSAGES
 // ===================
 
-  const getAllContractorsQuery = `
-  query getAllContractors {
-      getAllContractors {
-        contractorId
-        contractorName
-        company
-        specialty
-        address
-        city
-        phone
-        email
-        imageUrl
+  const getAllMessagesQuery = `
+  query getAllMessages($projectId: String!) {
+      getAllMessages(projectId: $projectId) {
+        authorId
+        authorName
+        body
         createdAt
-        updatedAt
+        messageId
+        threadId
+        projectId
       }
     }
   `
-  export const ddbGetAllContractors = async () => {
+  export const ddbGetAllMessages = async (projectId: string) => {
     const resp = await API.graphql({ 
-      query: getAllContractorsQuery,
-      authMode: "API_KEY"
+      query: getAllMessagesQuery,
+      variables: {
+        projectId,
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS"
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
-    return resp.data.getAllContractors;
+    return resp.data.getAllMessages;
+  }; 
+
+  const getMessagesInThreadQuery = `
+  query getMessagesInThread($projectId: String!, $authorName1: String!, $authorName2: String!) {
+      getMessagesInThread(projectId: $projectId, authorName1: $authorName1, authorName2: $authorName2) {
+        authorId
+        authorName
+        body
+        createdAt
+        messageId
+        threadId
+        projectId
+      }
+    }
+  `
+  export const ddbGetMessagesInThread = async (projectId: string, authorName1: string, authorName2: string) => {
+    const resp = await API.graphql({ 
+      query: getMessagesInThreadQuery,
+      variables: {
+        projectId,
+        authorName1,
+        authorName2
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS"
+    });
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // @ts-ignore
+    return resp.data.getMessagesInThread;
   }; 
 
 // ===================
-// UPDATE CONTRACTORS
+// UPDATE MESSAGES
 // ===================
 
-const updateContractorQuery = `
-    mutation updateContractor($contractorName: String!, $contractorId: String!, $contractorInput: ContractorInput!) {
-      updateContractor(contractorName: $contractorName, contractorId: $contractorId, contractorInput: $ContractorInput) {
-        contractorId
-        contractorName
-        company
-        specialty
-        address
-        city
-        phone
-        email
-        imageUrl
+const updateMessageQuery = `
+    mutation updateMessage($messageId: String!, $messageInput: MessageInput!) {
+      updateMessage(messageId: $messageId, messageInput: $messageInput) {
+        authorId
+        authorName
+        body
         createdAt
-        updatedAt
+        messageId
+        threadId
+        projectId
       }
     }
   `;
 
-  export const ddbUpdateContractor = async (contractorInput: SaveContractorProps) => {
+  export const ddbUpdateMessage = async (messageInput: SaveMessageProps) => {
     const resp = await API.graphql({
-      query: updateContractorQuery,
+      query: updateMessageQuery,
       variables: {
-        contractorName: contractorInput.contractorName,
-        contractorId: contractorInput.contractorId,
-        contractorInput: {
-          contractorName: contractorInput.contractorName,
-          phone: contractorInput.phone,
-          address: contractorInput.address,
-          company: contractorInput.company,
-          specialty: contractorInput.specialty,
-          imageUrl: contractorInput.imageUrl,
-          city: contractorInput.city,
-          email: contractorInput.email,
+        messageId: messageInput.messageId,
+        messageInput: {
+          body: messageInput.body,
+          authorId: messageInput.authorId,
         },
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
   };
 
 // ==============
-// DELETE CLIENT
+// DELETE MESSAGE
 // ==============
 
-const deleteContractorQuery = `
-  mutation deleteContractor($contractorName: String!, $contractorId: String!) {
-    deleteContractor(contractorName: $contractorName, contractorId: $contractorId)
+const deleteMessageQuery = `
+  mutation deleteMessage($messageId: String!) {
+    deleteMessage(messageId: $messageId)
   }
 `;
 
-export const ddbDeleteContractor = async (contractorName: string, contractorId: string) => {
-    console.log(`delete called for contractor ${contractorName}`);
+export const ddbDeleteMessage = async (messageId: string) => {
     const resp = await API.graphql({
-      query: deleteContractorQuery,
+      query: deleteMessageQuery,
       variables: {
-        contractorName,
-        contractorId,
+        messageId,
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
     // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
-    console.log(`successfully deleted: ${resp.data.deleteContractor}`);
+    console.log(`successfully deleted: ${resp.data.deleteMessage}`);
   };

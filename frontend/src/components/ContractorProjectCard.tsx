@@ -1,5 +1,4 @@
-import Card from "react-bootstrap/Card";
-import Carousel from "react-bootstrap/Carousel";
+import { Card, Carousel } from "react-bootstrap";
 // @ts-ignore
 import defaultImage from '../assets/defaultimage.jpg'
 

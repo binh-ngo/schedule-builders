@@ -24,6 +24,7 @@ const createContractor = async (contractorInput: ContractorInput) => {
         contractorId,
         contractorName: formattedName,
         company: formattedCompanyName,
+        description: contractorInput.description,
         specialty: contractorInput.specialty,
         address: contractorInput.address,
         city: contractorInput.city,
@@ -31,6 +32,7 @@ const createContractor = async (contractorInput: ContractorInput) => {
         imageUrl,
         phone: contractorInput.phone,
         rating: 0,
+        numProjects: 0,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     };
@@ -53,6 +55,16 @@ const createContractor = async (contractorInput: ContractorInput) => {
                             Item: {
                                 PK: `CONTRACTOR#${contractorId}`,
                                 SK: `CONTRACTOR#${formattedCompanyName}`,
+                                type: 'pro',
+                                ...contractor,
+                            },
+                        },
+                    },
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `CONTRACTOR#${contractorId}`,
+                                SK: `CONTRACTOR#${contractorId}`,
                                 type: 'pro',
                                 ...contractor,
                             },

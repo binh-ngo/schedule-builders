@@ -1,6 +1,5 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form'
+import { Button, Form } from 'react-bootstrap';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../Accounts';
@@ -11,6 +10,7 @@ interface FormData {
   contractorName: string;
   company: string;
   specialty: string;
+  description: string;
   imageUrl: File | null;
   address: string;
   city: string;
@@ -29,6 +29,7 @@ export const CreateContractor = (props: any) => {
     contractorName: '',
     company: '',
     specialty: '',
+    description: '',
     imageUrl: null,
     address: '',
     city: '',
@@ -154,6 +155,7 @@ export const CreateContractor = (props: any) => {
         contractorName: formData.contractorName,
         company: formData.company,
         specialty: formData.specialty,
+        description: formData.description,
         imageUrl: formData.imageUrl,
         address: formData.address,
         city: formData.city,
@@ -281,6 +283,18 @@ export const CreateContractor = (props: any) => {
                 <option key={option} value={option}>{option}</option>
               ))}
             </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="contractor-form-input" controlId="description">
+            <Form.Label className="contractor-form-label">Description</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Tell us about yourself"
+              name="description"
+              value={formData.description}
+              required
+              onChange={handleInputChange}
+            />
           </Form.Group>
 
           <Form.Group className="contractor-form-input" controlId="address">

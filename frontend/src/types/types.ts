@@ -24,6 +24,20 @@ export type ddbGetAllQueryResponse = {
   isPublished?: boolean;
 }
 
+export type getContractorResponse = {
+  contractorName: string;
+  contractorId: string;
+  description: string;
+  company: string;
+  specialty: string;
+  address: string;
+  phone: string;
+  city: string;
+  email: string;
+  imageUrl: string;
+  createdAt: string;
+}
+
 export type ddbGetAllFormResponse = {
   formId: string;
   formName: string;
@@ -88,4 +102,13 @@ export type BidInput = {
   contractorName: string;
   contractorId: string;
   bidAmount: number;
+}
+
+export type Message = {
+  messageId?: string;
+  projectId?: string;
+  body?: string;
+  authorId?: string;
+  authorName?: string;
+  createdAt?: string;
 }

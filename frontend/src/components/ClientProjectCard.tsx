@@ -1,8 +1,4 @@
-import Card from 'react-bootstrap/Card'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import Container from 'react-bootstrap/Container'
-import Carousel from 'react-bootstrap/Carousel'
+import { Card, Col, Row, Container, Carousel } from 'react-bootstrap'
 // @ts-ignore
 import defaultImage from '../assets/defaultimage.jpg'
 import moment from 'moment'

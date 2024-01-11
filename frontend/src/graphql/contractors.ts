@@ -5,6 +5,7 @@ export type SaveContractorProps = {
     contractorId?: string;
     company: string;
     specialty: string;
+    description: string;
     address: string;
     phone: string;
     city: string;
@@ -23,8 +24,9 @@ const createContractorQuery = `
         contractorName
         company
         specialty
+        description
         address
-        city:
+        city
         phone
         email
         imageUrl
@@ -46,6 +48,7 @@ const resp = await API.graphql({
       email: contractorInput.email,
       company: contractorInput.company,
       specialty: contractorInput.specialty,
+      description: contractorInput.description,
       phone: contractorInput.phone,
       imageUrl: contractorInput.imageUrl
     },
@@ -60,12 +63,13 @@ return resp;
 // =====================
 
 const getContractorByIdQuery = `
-query getContractorById($contractorName: String!, $contractorId: String!) {
-    getContractorById(contractorName: $contractorName, contractorId: $contractorId) {
+query getContractorById($contractorId: String!) {
+    getContractorById(contractorId: $contractorId) {
         contractorId
         contractorName
         company
         specialty
+        description
         address
         city
         phone
@@ -77,16 +81,15 @@ query getContractorById($contractorName: String!, $contractorId: String!) {
   }
 `
 
-export const ddbGetContractorById = async (contractorName: string, contractorId: string) => {
+export const ddbGetContractorById = async (contractorId: string) => {
     const resp = await API.graphql({
       query: getContractorByIdQuery,
       variables: {
-        contractorName,
         contractorId,
       },
       authMode: "API_KEY"
     });
-    // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+    console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
     const contractor = resp.data.getContractorById;
     // console.log(`post.content: ${post.content}`);
@@ -104,6 +107,7 @@ export const ddbGetContractorById = async (contractorName: string, contractorId:
         contractorName
         company
         specialty
+        description
         address
         city
         phone
@@ -129,12 +133,13 @@ export const ddbGetContractorById = async (contractorName: string, contractorId:
 // ===================
 
 const updateContractorQuery = `
-    mutation updateContractor($contractorName: String!, $contractorId: String!, $contractorInput: ContractorInput!) {
-      updateContractor(contractorName: $contractorName, contractorId: $contractorId, contractorInput: $ContractorInput) {
+    mutation updateContractor($contractorId: String!, $contractorInput: ContractorInput!) {
+      updateContractor(contractorId: $contractorId, contractorInput: $ContractorInput) {
         contractorId
         contractorName
         company
         specialty
+        description
         address
         city
         phone

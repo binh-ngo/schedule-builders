@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { WorkshopCard } from '../components/WorkshopCard'
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { ddbGetAllProjectsFromAllClients } from '../graphql/projects';
 import { ddbGetAllQueryResponse } from '../types/types';
 import moment from 'moment';
-import { Auth } from 'aws-amplify';
-import { ddbGetAllContractors } from '../graphql/messages';
+import { ddbGetAllContractors } from '../graphql/contractors';
+import { AccountContext } from '../Accounts';
 
 
 export const Workshop = () => {
   const [projects, setProjects] = useState([]);
   const [username, setUsername] = useState('');
   const [contractorId, setContractorId] = useState('');
+
+  const { getCurrentAuthedUser } = useContext(AccountContext);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -24,7 +26,7 @@ export const Workshop = () => {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const user = await Auth.currentAuthenticatedUser();
+        const user = await getCurrentAuthedUser();
         if (user) {
           // console.log(user.username + ' is logged in.')
           setUsername(user.username);
@@ -36,7 +38,7 @@ export const Workshop = () => {
               setContractorId(resp[i].contractorId);
               console.log(`Contractor ID: ${emailPart} stored`)
             } else {
-              console.log('User is not a contractor!')
+              // console.log('User is not a contractor!')
             }
           }
         }

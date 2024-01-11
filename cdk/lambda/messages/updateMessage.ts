@@ -3,7 +3,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 import { Bid, Message, MessageInput, } from "../types";
 import getMessageById from "./getMessageById";
 
-const updateBid = async (
+const updateMessage = async (
     messageId: string,
     messageInput: MessageInput
 ) => {
@@ -19,6 +19,7 @@ const updateBid = async (
         authorId: messageInput.authorId ? messageInput.authorId : retrievedMessage.authorId,
         authorName: messageInput.authorName ? messageInput.authorName : retrievedMessage.authorName,
         messageId: retrievedMessage.messageId,
+        threadId: retrievedMessage.threadId,
         body: messageInput.body ? messageInput.body : retrievedMessage.body,
         createdAt: retrievedMessage.createdAt,
         updatedAt: new Date().toISOString(),
@@ -73,4 +74,4 @@ const updateBid = async (
     }
 };
 
-export default updateBid;
+export default updateMessage;

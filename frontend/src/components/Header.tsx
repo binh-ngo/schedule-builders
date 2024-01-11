@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
   AiOutlineHome,
@@ -13,7 +11,6 @@ import { BsBuildings, BsFillClipboardCheckFill } from "react-icons/bs"
 import { BiLogInCircle } from "react-icons/bi"
 import { AccountContext } from "../Accounts";
 import { Login } from "./Login";
-import { Auth } from "aws-amplify";
 
 export const Header = () => {
   const [expand, updateExpanded] = useState(false);
@@ -21,12 +18,12 @@ export const Header = () => {
   const [username, setUsername] = useState('');
   const [profile, setProfile] = useState('');
 
-  const { loggedInUser } = useContext(AccountContext);
+  const { loggedInUser, getCurrentAuthedUser } = useContext(AccountContext);
 
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const user = await Auth.currentAuthenticatedUser();
+        const user = await getCurrentAuthedUser();
         if (user) {
           // console.log(`Cognito username: ${user.username}`);
           // console.log(`Cognito profile: ${user.attributes.profile}`);
@@ -168,12 +165,23 @@ export const Header = () => {
                   </Nav.Link>
                 </Nav.Item>
               </>
+
             }
 
             {loggedInUser &&
               <div className="login-header">
                 <Login />
               </div>
+            }
+
+            {loggedInUser &&
+              <Nav.Item>
+                <Nav.Link
+                  onClick={() => updateExpanded(false)}
+                >
+                  {username}
+                </Nav.Link>
+              </Nav.Item>
             }
           </Nav>
         </Navbar.Collapse>

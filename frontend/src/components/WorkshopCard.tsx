@@ -1,10 +1,5 @@
 import { useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
+import { Button, Card, Col, Row, Container, Form } from 'react-bootstrap'
 // @ts-ignore
 import defaultImage from '../assets/defaultimage.jpg'
 import { buttonStyle, handleMouseOut, handleMouseOver } from './styles';

@@ -2,15 +2,12 @@ import { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react';
 import '../components.css';
 import { ddbCreateProject } from '../../graphql/projects';
 import { useNavigate } from 'react-router-dom/';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
+import { Col, Row, Form, Modal } from 'react-bootstrap';
 import moment from 'moment';
 import { ddbGetAllClients } from '../../graphql/clients';
 import { AccountContext } from '../../Accounts';
 import { Button } from 'react-bootstrap';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../styles';
-import { Auth } from 'aws-amplify';
 
 const DeckForm = () => {
     const questions: string[] = [
@@ -32,10 +29,15 @@ const DeckForm = () => {
     const [endDate, setEndDate] = useState('');
     const [slideRight, setSlideRight] = useState(false);
     const [slideLeft, setSlideLeft] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [answers, setAnswers] = useState<string[]>(Array(Math.max(0, questions.length - 1)).fill(''));
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    const { signIn, clientSignUp } = useContext(AccountContext);
+    const { signIn, clientSignUp, getCurrentAuthedUser } = useContext(AccountContext);
+
+    const handleShowPublishConfirmation = () => setShowConfirmation(true);
+    const handleClosePublishConfirmation = () => setShowConfirmation(false);
+
 
     const contactInfo = {
         name,
@@ -47,12 +49,17 @@ const DeckForm = () => {
 
     useEffect(() => {
         async function fetchUserData() {
-            const user = await Auth.currentAuthenticatedUser();
-            // console.log(`Cognito username: ${user.username}`);
-            // console.log(`Cognito profile: ${user.attributes.profile}`);
-            if (user) {
-                setName(user.username);
-                setEmail(user.attributes.email);
+            try {
+                const user = await getCurrentAuthedUser();
+                if (user) {
+
+                    setName(user.username);
+                    setEmail(user.attributes.email);
+                } else {
+                    console.error("User object is undefined");
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
             }
         }
         fetchUserData();
@@ -208,9 +215,7 @@ const DeckForm = () => {
             console.error('Response is not a GraphQL result:', response);
         } if (createdProject) {
             console.log("Project successfully created")
-
-          
-            navigate(`/projects`);
+            handleShowPublishConfirmation(); 
         } else {
             console.log("onSave called but title or children are empty");
         }
@@ -241,7 +246,7 @@ const DeckForm = () => {
                     <h3 className='question-header'>{question}</h3>
                     <div className="radio-buttons">
                         {projectTypes.map((type: string) => (
-                            <div className='radio-button-container'>
+                            <div key={type} className='radio-button-container'>
                                 <input
                                     className='radio-button'
                                     key={type}
@@ -410,46 +415,72 @@ const DeckForm = () => {
     };
 
     return (
-        <div className={`question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
-            <div className={`question-form mb-5 ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
-                <div className={`progress-bar ${currentQuestionIndex === questions.length ? 'full-width' : ''}`} style={{ width: calculateProgress() }}></div>
-                {currentQuestionIndex !== questions.length && (
-                    <div className="question-answer">
-                        {renderInput(questions[currentQuestionIndex], answers[currentQuestionIndex], currentQuestionIndex)}
+        <>
+            <div className={`question-form-container ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+                <div className={`question-form mb-5 ${slideRight ? 'slideRight' : ''} ${slideLeft ? 'slideLeft' : ''}`}>
+                    <div className={`progress-bar ${currentQuestionIndex === questions.length ? 'full-width' : ''}`} style={{ width: calculateProgress() }}></div>
+                    {currentQuestionIndex !== questions.length && (
+                        <div className="question-answer">
+                            {renderInput(questions[currentQuestionIndex], answers[currentQuestionIndex], currentQuestionIndex)}
+                        </div>
+                    )}
+                    <div className="button-container">
+                        <Button
+                            className="prev-button"
+                            style={buttonStyle}
+                            onMouseOver={handleMouseOver}
+                            onMouseOut={handleMouseOut}
+                            onClick={handlePreviousQuestion}
+                            disabled={currentQuestionIndex === 0}
+                        >
+                            Previous
+                        </Button>
+                        {currentQuestionIndex < questions.length - 1 ? (
+                            <Button className="next-button"
+                                onClick={handleNextQuestion}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
+                                Next
+                            </Button>
+                        ) : (
+                            <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`}
+                                disabled={!isFormValid()}
+                                onClick={handleSubmit}
+                                style={buttonStyle}
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}>
+                                Submit
+                            </Button>
+                        )}
                     </div>
-                )}
-                <div className="button-container">
+                </div>
+            </div>
+            <Modal show={showConfirmation} onHide={handleClosePublishConfirmation}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Project Created</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Your project has been successfully created. Click on the link below to navigate to your project.
+                </Modal.Body>
+                <Modal.Footer>
                     <Button
-                        className="prev-button"
                         style={buttonStyle}
                         onMouseOver={handleMouseOver}
                         onMouseOut={handleMouseOut}
-                        onClick={handlePreviousQuestion}
-                        disabled={currentQuestionIndex === 0}
-                    >
-                        Previous
+                        onClick={handleClosePublishConfirmation}>
+                        Close
                     </Button>
-                    {currentQuestionIndex < questions.length - 1 ? (
-                        <Button className="next-button"
-                            onClick={handleNextQuestion}
-                            style={buttonStyle}
-                            onMouseOver={handleMouseOver}
-                            onMouseOut={handleMouseOut}>
-                            Next
-                        </Button>
-                    ) : (
-                        <Button className={`submit-button ${!isFormValid() ? 'btn btn-secondary' : ''}`}
-                            disabled={!isFormValid()}
-                            onClick={handleSubmit}
-                            style={buttonStyle}
-                            onMouseOver={handleMouseOver}
-                            onMouseOut={handleMouseOut}>
-                            Submit
-                        </Button>
-                    )}
-                </div>
-            </div>
-        </div>
+                    <Button
+                        style={buttonStyle}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
+                        onClick={() => { navigate('/projects') }}>
+                        My Projects
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 };
 

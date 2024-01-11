@@ -19,6 +19,13 @@ import deleteForm from "./form/deleteForm";
 import getAllForms from "./form/getAllForms";
 import getFormById from "./form/getFormById";
 import { getSelectedForm } from "./form/getSelectedForm";
+import createMessage from "./messages/createMessage";
+import deleteMessage from "./messages/deleteMessage";
+import getAllMessages from "./messages/getAllMessages";
+import getAllMessagesInThread from "./messages/getAllMessagesInThread";
+import getMessageById from "./messages/getMessageById";
+import getMessagesInThread from "./messages/getMessagesInThread";
+import updateMessage from "./messages/updateMessage";
 
 import createProject from "./projects/createProject";
 import deleteProject from "./projects/deleteProject";
@@ -36,7 +43,7 @@ import getUnpublishedProjects from "./projects/getUnpublishedProjects";
 import publishProject from "./projects/publishProject";
 import updateProject from "./projects/updateProject";
 
-import { BidAppsyncEvent, ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, ProjectAppsyncEvent } from "./types";
+import { BidAppsyncEvent, ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, MessageAppsyncEvent, ProjectAppsyncEvent } from "./types";
 
 export async function handler(event: any): Promise<any> {
   console.log(`EVENT --- ${JSON.stringify(event)}`);
@@ -54,9 +61,9 @@ export async function handler(event: any): Promise<any> {
   } else if (eventType === "Bid") {
     return handleBidEvent(event);
   } 
-  // else if (eventType === "Message") {
-  //   return handleMessageEvent(event);
-  // }
+  else if (eventType === "Message") {
+    return handleMessageEvent(event);
+  }
   else {
     throw new Error(`Unknown event type.`);
   }
@@ -97,12 +104,13 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" 
     case "updateBid":
     case "deleteBid":
       return "Bid";
-    // case "getAllMessages":
-    // case "getMessageById":
-    // case "createMessage":
-    // case "updateMessage":
-    // case "deleteMessage":
-    //   return "Message";
+    case "getAllMessages":
+    case "getMessagesInThread":
+    case "getMessageById":
+    case "createMessage":
+    case "updateMessage":
+    case "deleteMessage":
+      return "Message";
     case "getAllForms":
     case "getFormById":
     case "getSelectedForm":
@@ -179,14 +187,13 @@ function handleProjectEvent(event: ProjectAppsyncEvent) {
 function handleContractorEvent(event: ContractorAppsyncEvent) {
   switch (event.info.fieldName) {
     case "getContractorById":
-      return getContractorById(event.arguments.contractorName!, event.arguments.contractorId!);
+      return getContractorById(event.arguments.contractorId!);
     case "getAllContractors":
       return getAllContractors();
     case "createContractor":
       return createContractor(event.arguments.contractorInput!);
     case "updateContractor":
       return updateContractor(
-        event.arguments.contractorName!,
         event.arguments.contractorId!,
         event.arguments.contractorInput!
       );
@@ -223,26 +230,27 @@ function handleFormEvent(event: FormAppsyncEvent) {
 }
 
 // Handler function for Message events
-// function handleMessageEvent(event: ContractorAppsyncEvent) {
-//   switch (event.info.fieldName) {
-//     case "getContractorById":
-//       return getContractorById(event.arguments.contractorName!, event.arguments.contractorId!);
-//     case "getAllContractors":
-//       return getAllContractors();
-//     case "createContractor":
-//       return createContractor(event.arguments.contractorInput!);
-//     case "updateContractor":
-//       return updateContractor(
-//         event.arguments.contractorName!,
-//         event.arguments.contractorId!,
-//         event.arguments.contractorInput!
-//       );
-//     case "deleteContractor":
-//       return deleteContractor(event.arguments.contractorName!, event.arguments.contractorId!);
-//     default:
-//       throw new Error(`Unknown field name: ${event.info.fieldName}`);
-//   }
-// }
+function handleMessageEvent(event: MessageAppsyncEvent) {
+  switch (event.info.fieldName) {
+    case "getMessageById":
+      return getMessageById(event.arguments.messageId!);
+    case "getAllMessages":
+      return getAllMessages(event.arguments.projectId!);
+    case "getMessagesInThread":
+      return getMessagesInThread(event.arguments.projectId!, event.arguments.authorName1!, event.arguments.authorName2!);
+    case "createMessage":
+      return createMessage(event.arguments.messageInput!);
+    case "updateMessage":
+      return updateMessage(
+        event.arguments.messageId!,
+        event.arguments.messageInput!
+      );
+    case "deleteMessage":
+      return deleteMessage(event.arguments.authorName!, event.arguments.messageId!);
+    default:
+      throw new Error(`Unknown field name: ${event.info.fieldName}`);
+  }
+}
 
 // Handler function for Bid events
 function handleBidEvent(event: BidAppsyncEvent) {

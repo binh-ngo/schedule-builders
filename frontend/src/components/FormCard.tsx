@@ -1,11 +1,7 @@
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+import { Card, ListGroup, Button, CardText, Modal } from 'react-bootstrap';
 // @ts-ignore
 import { useEffect, useState } from 'react';
 import { ddbAddSelection, ddbDeleteForm, ddbGetAllForms, ddbGetSelectedForm, ddbRemoveSelection } from '../graphql/forms';
-import Button from 'react-bootstrap/Button';
-import CardText from 'react-bootstrap/CardText';
-import Modal from 'react-bootstrap/Modal';
 
 type FormProps = {
   formName: string;

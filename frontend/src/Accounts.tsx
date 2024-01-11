@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify";
 
 interface AccountContextType {
   loggedInUser: CognitoUser | null;
+  getCurrentAuthedUser: () => Promise<any>;
   resetCurrentAuthedUser: () => Promise<any>;
   signIn: (username: string, password: string) => Promise<any>;
   signOut: (callback: VoidFunction) => Promise<any>;
@@ -23,12 +24,25 @@ const Account = ({ children }: { children: ReactNode }) => {
         const user = await Auth.currentAuthenticatedUser();
         if (user) {
           setLoggedInUser(user);
+          return user;
         }
       } catch (err) {
         console.error("Error retrieving the current authenticated user.", err);
       }
     }
   };
+
+  const getCurrentAuthedUser = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      if (user) {
+        setLoggedInUser(user);
+        return user;
+      }
+    } catch (err) {
+      console.error("Error retrieving the current authenticated user.", err);
+    }
+  }
 
   const signIn = async (username: string, password: string) => {
     try {
@@ -99,7 +113,8 @@ const Account = ({ children }: { children: ReactNode }) => {
     signIn,
     signOut,
     proSignUp,
-    clientSignUp
+    clientSignUp,
+    getCurrentAuthedUser
   };
 
   return (

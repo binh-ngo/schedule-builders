@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AccountContext } from '../Accounts';
 import { useNavigate } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Form, Button } from 'react-bootstrap';
 import { buttonStyle, handleMouseOut, handleMouseOver } from '../components/styles'
 
 export const Login = (props:any) => {

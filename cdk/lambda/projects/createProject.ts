@@ -5,10 +5,7 @@ import { Client, Project, ProjectInput } from "../types";
 import { calculateProjectEstimate, ProjectEstimateProps } from "./costEstimator";
 
 require("dotenv").config({ path: ".env" });
-const config = {
-    region: 'us-east-1'
-}
-const sns = new AWS.SNS();
+
 
 // TODO: as of right now, clients don't need to sign in, so they have to fill out the 
 // form every time they want to do another project
@@ -144,18 +141,6 @@ const createProject = async (projectInput: ProjectInput) => {
         const newProject = await docClient.batchWrite(params).promise();
         console.log(`Created project: ${JSON.stringify(project, null, 2)}`);
         console.log(`Created client: ${JSON.stringify(client, null, 2)}`);
-
-        const topicParams = {
-            Name: `ProjectBidNotifications-${projectId}`,
-        };
-        const snsTopic = await sns.createTopic(topicParams).promise();
-
-        const subscribeParams = {
-            Protocol: "email", 
-            TopicArn: snsTopic.TopicArn,
-            Endpoint: projectInput.email,
-        };
-        await sns.subscribe(subscribeParams).promise();
         return project;
     } catch (err) {
         console.log(`Error: ${JSON.stringify(err, null, 2)}`);

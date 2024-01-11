@@ -1,8 +1,4 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
+import { Col, Button, Row, Container } from 'react-bootstrap';
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import Type from '../components/Type'
 // @ts-ignore

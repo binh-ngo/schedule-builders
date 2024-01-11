@@ -4,7 +4,6 @@ import { Contractor, ContractorInput } from "../types";
 import getContractorById from "./getContractorById";
 
 const updateContractor = async (
-    contractorName: string,
     contractorId: string,
     contractorInput: ContractorInput
 ) => {
@@ -13,28 +12,30 @@ const updateContractor = async (
         return { statusCode: 400, body: 'invalid request, you are missing the parameter body' };
     };
     
-    if (!contractorName || !contractorId) {
+    if (!contractorId) {
         return { statusCode: 400, body: 'invalid request, you are missing the pk or sk.' };
     }
 
-    const retrievedContractor = await getContractorById(contractorName, contractorId);
+    const retrievedContractor = await getContractorById(contractorId);
 
         const contractor: Contractor = {
             contractorId,
-            contractorName,
+            contractorName: retrievedContractor.contractorName,
             company: contractorInput.company ? contractorInput.company : retrievedContractor.company,
+            description: contractorInput.description ? contractorInput.description : retrievedContractor.description,
             specialty: contractorInput.specialty ? contractorInput.specialty : retrievedContractor.specialty,
             address: contractorInput.address ? contractorInput.address : retrievedContractor.address,
             city: contractorInput.city ? contractorInput.city : retrievedContractor.city,
             email: contractorInput.email ? contractorInput.email : retrievedContractor.email,
             imageUrl: contractorInput.imageUrl ? contractorInput.imageUrl : retrievedContractor.imageUrl,
             phone: contractorInput.phone ? contractorInput.phone : retrievedContractor.phone,
+            numProjects: retrievedContractor.numProjects,
             rating: retrievedContractor.rating,
             createdAt: retrievedContractor.createdAt,
             updatedAt: new Date().toISOString(),
         };
 
-        console.log(`UPDATE contractor called with:` + JSON.stringify(` UserPK: ${contractorName} and UserSk: ${contractorId}`));
+        console.log(`UPDATE contractor called with:` + JSON.stringify(` UserPK: ${contractor.contractorName} and UserSk: ${contractorId}`));
         // const eventBody = JSON.parse(event.body);
         // console.log(`EVENT BODY ${eventBody}`);
         console.log(`TYPEOF CONTRACTORINPUT --------- ${typeof (contractorInput)}`);
@@ -46,7 +47,7 @@ const updateContractor = async (
                         PutRequest: {
                             Item: {
                                 PK: `CONTRACTORS`,
-                                SK: `CONTRACTOR#${contractorName}`,
+                                SK: `CONTRACTOR#${contractor.contractorName}`,
                                 type: "contractor",
                                 ...contractor
                             },
@@ -56,7 +57,17 @@ const updateContractor = async (
                         PutRequest: {
                             Item: {
                                 PK: `CONTRACTOR#${contractorId}`,
-                                SK: `CONTRACTOR#${contractorName}`,
+                                SK: `CONTRACTOR#${contractor.contractorName}`,
+                                type: 'contractor',
+                                ...contractor,
+                            },
+                        },
+                    },
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `CONTRACTOR#${contractorId}`,
+                                SK: `CONTRACTOR#${contractorId}`,
                                 type: 'contractor',
                                 ...contractor,
                             },

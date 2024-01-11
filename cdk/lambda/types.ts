@@ -68,6 +68,7 @@ export type ClientInput = {
 export type Contractor = {
     contractorId: string;
     contractorName: string;
+    description: string;
     company: string;
     specialty: string;
     address: string;
@@ -76,6 +77,7 @@ export type Contractor = {
     imageUrl: string;
     phone: string;
     rating: number;
+    numProjects: number;
     createdAt: string;
     updatedAt: string;
 }
@@ -83,6 +85,7 @@ export type Contractor = {
 export type ContractorInput = {
     contractorName: string;
     company: string;
+    description: string;
     specialty: string;
     address: string;
     city: string;
@@ -155,6 +158,7 @@ export type ProjectInput = {
 
 export type Message = {
   messageId: string;
+  threadId: string;
   projectId: string;
   body: string;
   authorId: string;
@@ -166,6 +170,7 @@ export type Message = {
 export type MessageInput = {
   body: string;
   authorId: string;
+  threadId: string;
   authorName: string;
   projectId: string;
 }
@@ -189,6 +194,17 @@ export type BidInput = {
   contractorId: string;
   bidAmount: number;
 }
+//~~~~~~~~~~~~~~~~~~~~~~  //
+//  Thread Event Types    //
+// ~~~~~~~~~~~~~~~~~~~~~~ //
+
+export type Thread = {
+  threadId: string;
+  projectId: string;
+  numMessages: number;
+  createdAt: string;
+}
+
 //~~~~~~~~~~~~~~~~~~~~~~  //
 //  Appsync Event Types   //
 // ~~~~~~~~~~~~~~~~~~~~~~ //
@@ -236,6 +252,21 @@ export type FormAppsyncEvent = {
         formName?: string;
         formInput?: FormInput;
         isSelected?: boolean;
+      };
+}
+
+export type MessageAppsyncEvent = {
+    info: {
+        fieldName: string;
+      };
+      arguments: {
+        messageId?: string;
+        threadId?: string;
+        projectId?: string;
+        authorName?: string;
+        authorName1?: string;
+        authorName2?: string;
+        messageInput?: MessageInput;
       };
 }
 

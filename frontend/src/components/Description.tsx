@@ -1,7 +1,4 @@
-import React from 'react'
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
+import { Col, Row, Container } from 'react-bootstrap';
 import { FaRegUserCircle, FaWpforms } from "react-icons/fa";
 import { LiaUsersSolid } from "react-icons/lia";
 
@@ -31,7 +28,7 @@ export const Description = () => {
         {/* Panel 3 */}
         <Col md={4} className="text-center descriptionBlock">
           <LiaUsersSolid size={50}/>
-          <h3 className='my-3'>Choose Your Contractor</h3>
+          <h3 className='my-3'>Receive Bids</h3>
           <p>
             After viewing all the bids on your project, make the executive decision and choose the right contractor for you.
           </p>
