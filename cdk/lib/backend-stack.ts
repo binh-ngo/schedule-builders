@@ -43,6 +43,33 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       new CfnOutput(this, "ContractorSiteTableName", {
         value: contractorSiteTable.tableName,
       });
+
+      const chatbotTable = new Table(this, "ChatbotTable", {
+        billingMode: BillingMode.PAY_PER_REQUEST,
+        partitionKey: {
+          name: "PK",
+          type: AttributeType.STRING,
+        },
+        sortKey: {
+          name: "SK",
+          type: AttributeType.STRING,
+        },
+      });
+      new CfnOutput(this, "ChatbotTableName", {
+        value: chatbotTable.tableName,
+      });
+  
+      const chatbotLambda = new LambdaFunction(this, "chatbotLambda", {
+        runtime: Runtime.NODEJS_18_X,
+        handler: "chatbot.handler",
+        code: Code.fromAsset("lambda"),
+        memorySize: 512,
+        environment: {
+          // Contractor Table
+          CHATBOT_TABLE: chatbotTable.tableName,
+        },
+      });
+      chatbotTable.grantFullAccess(chatbotLambda);
   
       const contractorSiteLambda = new LambdaFunction(this, "ContractorSiteLambda", {
         runtime: Runtime.NODEJS_18_X,
@@ -122,11 +149,23 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         actions: ['dynamodb:UpdateItem'], 
         resources: [contractorSiteTable.tableArn],
       }));
+      
+      appSyncDataSourceRole.addToPolicy(new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['bedrock:*'], 
+        resources: ['*'],
+      }));
 
       const contractorSiteDataSource = api.addLambdaDataSource(
         "ContractorSiteDataSource",
         contractorSiteLambda
       );
+
+      const chatbotDataSource = api.addLambdaDataSource(
+        "ChatbotDataSource",
+        chatbotLambda
+      );
+
       // Project Resolvers
       contractorSiteDataSource.createResolver({
         typeName: "Query",
@@ -301,6 +340,11 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         contractorSiteDataSource.createResolver({
           typeName: "Mutation",
           fieldName: "updateBid",
+        })
+        // Chatbot Resolvers
+        chatbotDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "chatbotResponse",
         })
     }
   }

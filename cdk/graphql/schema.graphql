@@ -74,15 +74,16 @@ type Mutation {
         messageInput: MessageInput!
     ): Message @aws_cognito_user_pools
 
-    createBid (bidInput: BidInput): Bid @aws_cognito_user_pools
-    deleteBid (contractorName: String!, bidId: String!): String @aws_cognito_user_pools
-    updateBid (
+    createBid(bidInput: BidInput): Bid @aws_cognito_user_pools
+    deleteBid(contractorName: String!, bidId: String!): String @aws_cognito_user_pools
+    updateBid(
         projectId: String!
         bidId: String!
         bidInput: BidInput!
     ): Bid @aws_cognito_user_pools
-}
 
+    chatbotResponse(category: String!, prompt: String!): String @aws_cognito_user_pools @aws_api_key
+}
 
 input ProjectInput {
     clientName: String
