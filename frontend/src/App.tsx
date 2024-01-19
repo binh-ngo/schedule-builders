@@ -34,6 +34,9 @@ import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
 import { JoinWaitlist } from "./pages/JoinWaitlist";
 import { RequireAuth } from "./RequireAuth";
+import ChatbotPage from "./pages/ChatbotPage";
+// import Chatbox from "./components/Chatbox";
+// import { ddbChatbotResponse } from "./graphql/chatbot";
 
 
 Amplify.configure(awsconfig);
@@ -45,8 +48,9 @@ function App() {
         <Account>
           <Header />
           <Routes>
-            <Route path="/test" element={<ClientProfilePage />} />
+            <Route path="/test" element={<ChatbotPage />} />
             <Route path="/" element={<LandingPage />} />
+            <Route path="/chatbot" element={<ChatbotPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/projects" element={<ClientProfilePage />} />
@@ -74,6 +78,7 @@ function App() {
           </Routes>
         </Account>
       </Router>
+      {/* <Chatbox onSubmit={ddbChatbotResponse}/> */}
       <Footer />
     </div>
   );

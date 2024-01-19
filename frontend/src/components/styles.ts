@@ -15,11 +15,11 @@ export const iconBarCaptionStyle = {
 }
 
 export const iconMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
-  e.currentTarget.style.backgroundColor = '#ffffbf';
+  e.currentTarget.style.transform = 'scale(1.2)'; 
 }
 
 export const iconMouseOut = (e: MouseEvent<HTMLButtonElement>) => {
-  e.currentTarget.style.backgroundColor = 'white';
+  e.currentTarget.style.transform = 'scale(1)'; 
 }
 
 export const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {

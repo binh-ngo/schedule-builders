@@ -2,6 +2,53 @@
   color: black;
 }
 
+.chatbotPage {
+  margin-top: 8rem;
+}
+/* Chatbox styles */
+.chatbox {
+  width: 20rem;
+  height: 25rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border: solid 1px black;
+  padding: 0 !important;
+  margin: 0;
+  background-color: white;
+}
+
+.chatbot-text {
+  font-size: 1.5rem;
+}
+
+.chatbot-response {
+  margin: 4rem 0;
+}
+/* Minimized chatbox styles */
+.toggle-minimize {
+  width: 20rem;
+  height: 4rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100000;
+}
+
+/* Chatbox title styles */
+.chatbox-title {
+  background-color: black;
+  color: white;
+  margin-bottom: 0;
+  padding: 0.3rem;
+}
+
 .dropdown {
     font-size: 1.5rem;
 }
@@ -260,7 +307,7 @@
   }
 
 .footer-body {
-  z-index: 1;
+  z-index: -1;
   text-align: center !important;
 }
 

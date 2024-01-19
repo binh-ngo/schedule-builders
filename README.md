@@ -5,6 +5,7 @@ This application consists of a database that connects consumers with contractors
 
   * CRUD capability for projects, clients, contractors, messages, bids
   * Automated Early Project Estimates
+  * Chatbot powered by AI21 through Amazon Bedrock
   * User Authorization and Authentication
   * Image Upload
   * Built-in Messaging
@@ -24,6 +25,7 @@ This application consists of a database that connects consumers with contractors
   * GraphQL
   * DynamoDB
   * Appsync
+  * Bedrock
   * CDK
 
   ## Questions

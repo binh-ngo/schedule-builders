@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
-  AiOutlineUser,
 } from "react-icons/ai";
+import { SiChatbot } from "react-icons/si";
 import { TbHammer } from "react-icons/tb";
 import { BsBuildings, BsFillClipboardCheckFill } from "react-icons/bs"
 import { BiLogInCircle } from "react-icons/bi"
@@ -106,7 +106,20 @@ export const Header = () => {
               </Nav.Link>
             </Nav.Item>
 
-            {isAdmin &&
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/chatbot"
+                onClick={() => updateExpanded(false)}
+              >
+                <SiChatbot
+                  style={{ marginBottom: "2px" }}
+                />{" "}
+                Questions?
+              </Nav.Link>
+            </Nav.Item>
+
+            {/* {isAdmin &&
               <Nav.Item>
                 <Nav.Link
                   as={Link}
@@ -117,7 +130,7 @@ export const Header = () => {
                   <AiOutlineUser style={{ marginBottom: "2px" }} /> Admin
                 </Nav.Link>
               </Nav.Item>
-            }
+            } */}
 
             {isPro &&
               <Nav.Item>
@@ -165,7 +178,6 @@ export const Header = () => {
                   </Nav.Link>
                 </Nav.Item>
               </>
-
             }
 
             {loggedInUser &&
