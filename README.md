@@ -6,7 +6,13 @@ Welcome to Schedule.builders! This application consists of a serverless applicat
 
 # Why? 
 
-There are many ways to seek help for home improvement projects whether its through Angi, Thumbtack, Homeadvisor, or Porch. After doing extensive research I found that contractors would have to pay for leads (+$50/lead), and more often than not, they aren't reliable. If they do happen to be reliable, 10 other contractors are trying to contact that lead to secure the job, resulting in an uncomfortable experience for the client. Also, since these services are free for the client, most of the leads aren't even serious to begin with; they just want to find out a rough estimate for the project cost. Unfortunately, since the client's information is necessary to receive the early estimate, these services immediately push out their information resulting in the negative experience listed above.
+There are many ways to seek help for home improvement projects whether its through Angi, Thumbtack, Homeadvisor, or Porch. After doing extensive research I found these grievances:
+
+  * Leads cost +$50/lead 
+  * Client is bombarded by calls by contractors to secure the lead
+  * Since client pays no fees, most leads aren't serious to begin with
+  * Clients may only want to see their project cost estimate
+  * These companies immediately sell your data on retrieval
 
 To answer these problems, I created a service where clients can receive an early estimate for their project. They are required to provide their contact and project information, however, they make the decision when to send out their information. Clients have the opportunity to provide additional information and images before publishing their project to the "Workshop". This extra step filters out all the clients that just want estimate information and allows serious leads to progress. Then, once their project is published, contractors are immediately notified by email and have the opportunity to make bids free of cost. This type of marketplace promotes competitive pricing to secure the job which benefits both parties. Based on the client's preference, they will select their contractor and move forward with their home improvement project. At Schedule.builders, we emphasize the importance of data privacy so we implemented a user flow that creates a better experience for clients and contractors.
 
