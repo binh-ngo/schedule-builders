@@ -48,7 +48,7 @@ function App() {
         <Account>
           <Header />
           <Routes>
-            <Route path="/test" element={<ChatbotPage />} />
+            <Route path="/test" element={<CreateForm />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/chatbot" element={<ChatbotPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

@@ -14,11 +14,12 @@ const client = new BedrockRuntimeClient();
 
 exports.handler = async (event: ChatbotEvent) => {
     console.log(JSON.stringify(event))
+
 	const PROMPT =
 		`You are an expert in home renovations. Be prepared to answer questions about ${event.arguments.category}. ${event.arguments.prompt}`;
 
 	const input = {
-		body: `{"prompt":"${PROMPT}","maxTokens":2047,"temperature":0.7,"topP":1,"stopSequences":[],"countPenalty":{"scale":0},"presencePenalty":{"scale":0},"frequencyPenalty":{"scale":0}}`,
+		body: `{"prompt":"${PROMPT}","maxTokens":200,"temperature":0,"topP":1,"stopSequences":[],"countPenalty":{"scale":0},"presencePenalty":{"scale":0},"frequencyPenalty":{"scale":0}}`,
 		contentType: 'application/json',
 		accept: 'application/json',
 		modelId: 'ai21.j2-ultra-v1',

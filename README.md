@@ -1,7 +1,7 @@
 # Schedule.builders - AI Powered Home Improvement Resource
 ![landingPage](/frontend/src/assets/readme.png)
 
-Welcome to Schedule.builders! This application consists of a serverless application that connects consumers with contractors for home-improvement projects; offers forms for consumers to describe their service request, provides an automated price estimator to streamline the inefficient process of home improvement estimations, and features the "Workshop" where contractors can bid on published projects and message the project owner.
+Welcome to Schedule.builders! This is a serverless application that connects consumers with contractors for home-improvement projects; offers forms for consumers to describe their service request, provides an automated price estimator to streamline the inefficient process of home improvement estimations, and features the "Workshop" where contractors can bid on published projects and message the project owner.
   Please feel free to check it out at [schedule.builders](http://www.schedule.builders).
 
 # Why? 

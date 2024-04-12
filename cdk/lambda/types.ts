@@ -1,3 +1,6 @@
+import { Type } from "@aws-sdk/client-s3";
+import { bool } from "aws-sdk/clients/signer";
+
 export type ddbQueryPostsParams = {
     TableName: string;
     IndexName?: string;
@@ -270,6 +273,17 @@ export type MessageAppsyncEvent = {
       };
 }
 
+export type SurveyFormAppsyncEvent = {
+    info: {
+        fieldName: string;
+      };
+      arguments: {
+        jobId?: string;
+        owner?: string;
+        surveyFormInput?: SurveyFormInput;
+      };
+}
+
 export type BidAppsyncEvent = {
     info: {
         fieldName: string;
@@ -287,3 +301,149 @@ export type ProjectFormManager = {
   questions: string[];
   customQuestions: string[];
 }
+
+export type SurveyForm = {
+  owner: string;
+  date: string;
+  jobId: string;
+  address: string;
+  city: string;
+  email: string;
+  clientPhone: string;
+  squareFootage: number;
+  yearBuilt: number;
+  bathrooms: [Bathroom];
+  otherRoom: OtherRoom;
+  typeOfPiping: TypeOfPiping;
+  mainLine: MainLine;
+  misc: Miscellaneous;
+  additionalNotes: string;
+  contractPrice: number;
+  salesTax: number;
+  downPayment: number;
+  pipingInstalledPayment: number;
+  uponCompletionPayment: number;
+  salesPerson: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type SurveyFormInput = {
+  owner: string;
+  date: string;
+  address: string;
+  city: string;
+  email: string;
+  clientPhone: string;
+  squareFootage: number;
+  yearBuilt: number;
+  bathrooms: [Bathroom]
+  otherRoom: OtherRoom;
+  typeOfPiping: TypeOfPiping
+  mainLine: MainLine
+  misc: Miscellaneous
+  additionalNotes: string;
+  contractPrice: number;
+  salesTax: number;
+  downPayment: number;
+  pipingInstalledPayment: number;
+  uponCompletionPayment: number;
+  salesPerson: string;
+}
+
+type TypeOfPiping = {
+  pipeType: string;
+  pexFittingType: string;
+  foundationType: string;
+  crawlClearance: string;
+  numLevels: number;
+  units: number;
+}
+
+type MainLine = {
+  existingPipe: TypeAndSize;
+  replaceMain: boolean;
+  length: string; 
+  pressureReg: string;
+  valve: string;
+  hoseBibb: string;
+  tieInExistingSprinklers: string
+  directionalBoring: string;
+  concreteAsphaltCutting: boolean;
+  concreteAsphaltPatching: string;
+}
+
+type Miscellaneous = {
+  recirculationLine: RecirculationLine;
+  dishwasherLine: string;
+  quarterInchFridgeLine: string;
+  waterFilterLine: string;
+  totalHoseBibbs: TotalHoseBibbs;
+  relocateWaterHeater: boolean;
+  newWaterHeater: TypeAndSize;
+  insulatePipes: boolean;
+  quarterTurnValvesAndTubings: boolean;
+  tubValveInstall: CountAndEmployee;
+  showerValveInstall: CountAndEmployee;
+  tubShowerValveInstall: CountAndEmployee;
+  electricalGround:string;
+  patchingBy: string;
+  permitBy: string;
+}
+
+type CountAndEmployee = {
+  number: number
+  employee: string;
+}
+
+type TypeAndSize = {
+  size: number;
+  type: string;
+}
+
+type RecirculationLine = {
+  pipe: string;
+  pump: string;
+  timer: string;
+}
+
+type TotalHoseBibbs = {
+  regulated: number;
+  unregulated: number;
+}
+
+type Bathroom = {
+  sink1: DefaultConfig;
+  sink2: DefaultConfig;
+  toilet: DefaultConfig;
+  bidet: DefaultConfig;
+  tubShower1: BathtubShowerConfig;
+  tubShower2: BathtubShowerConfig;
+}
+
+type OtherRoom = {
+  kitchenSink1: DefaultConfig;
+  kitchenSink2: DefaultConfig;
+  refrigerator: DefaultConfig;
+  barSink: DefaultConfig;
+  landrySink: DefaultConfig;
+  washMachine: DefaultConfig;
+  waterHeater: DefaultConfig;
+  waterSoftener: DefaultConfig;
+}
+
+type DefaultConfig = {
+  verticals: string;
+  patching: number;
+  wallSide: string;
+  comments: string;
+}
+
+type BathtubShowerConfig = {
+  verticals: string;
+  patching: number;
+  wallSide: string;
+  valves: string;
+  comments: string;
+}
+

@@ -116,7 +116,7 @@ export const CreateForm = () => {
                 const response = await ddbCreateForm(formObject);
 
                 if ('data' in response) {
-                    // console.log(`Response from DynamoDB: ${JSON.stringify(response.data)}`);
+                    console.log(`Response from DynamoDB: ${JSON.stringify(response.data)}`);
                 } else {
                     console.error('Response is not a GraphQL result:', response);
                 }

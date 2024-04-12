@@ -32,6 +32,9 @@ type Query {
 
     getAllBids(projectId: String!): [Bid] @aws_cognito_user_pools
     getBidById(projectId: String!, bidId: String!): Bid @aws_cognito_user_pools
+
+    getAllSurveyForms: [SurveyForm]
+    getSurveyFormById(formId: String!): SurveyForm
 }
 
 type Mutation {
@@ -83,6 +86,13 @@ type Mutation {
     ): Bid @aws_cognito_user_pools
 
     chatbotResponse(category: String!, prompt: String!): String @aws_cognito_user_pools @aws_api_key
+
+    createSurveyForm(surveyFormInput: SurveyFormInput): SurveyForm @aws_cognito_user_pools
+    deleteSurveyForm(formId: String!): String @aws_cognito_user_pools
+    updateSurveyForm(
+        formId: String!
+        surveyFormInput: SurveyFormInput!
+    ): SurveyForm @aws_cognito_user_pools
 }
 
 input ProjectInput {
@@ -108,6 +118,119 @@ input ProjectInput {
     publishDate: String
     isPublished: Boolean
     isCompleted: Boolean
+}
+
+input SurveyFormInput {
+    owner: String
+    date: String
+    address: String
+    city: String
+    email: String
+    clientPhone: String
+    squareFootage: Int
+    yearbuilt: Int
+    bathrooms: [BathroomInput]
+    typeOfPiping: TypeOfPipingInput
+    mainLine: MainLineInput
+    misc: MiscellaneousInput
+    additionalNotes: String
+    contractPrice: Float
+    salesTax: Float
+    downPayment: Float
+    pipingInstalledPayment: Float
+    uponCompletionPayment: Float
+    salesPerson: String
+}
+
+input TypeOfPipingInput {
+    pipeType: String
+    pexFittingType: String
+    foundationType: String
+    crawlClearance: String
+    numLevels: Int
+    units: Int
+}
+
+input MainLineInput {
+    existingPipe: ExistingPipeInput
+    replaceMain: Boolean
+    length: String 
+    pressureReg: String
+    valve: String
+    hoseBibb: String
+    tieInExistingSprinklers: String
+    directionalBoring: String
+    concreteAsphaltCutting: Boolean
+    concreteAsphaltPatching: String
+}
+
+input ExistingPipeInput {
+    type: String
+    size: String
+}
+
+input MiscellaneousInput {
+    recirculationLine: RecirculationLineInput
+    dishwasherLine: String
+    quarterInchFridgeLine: String
+    waterFilterLine: String
+    totalHoseBibbs: TotalHoseBibbsInput
+    relocateWaterHeater: Boolean
+    newWaterHeater: NewWaterHeaterInput
+    insulatePipes: Boolean
+    quarterTurnValvesAndTubings: Boolean
+    tubValveInstall: CountAndEmployeeInput
+    showerValveInstall: CountAndEmployeeInput
+    tubShowerValveInstall: CountAndEmployeeInput
+    electricalGround:String
+    patchingBy: String
+    permitBy: String
+}
+
+input RecirculationLineInput {
+    pipe: String
+    pump: String
+    timer: String
+}
+
+input TotalHoseBibbsInput {
+    regulated: Int
+    unregulated: Int
+}
+
+input CountAndEmployeeInput {
+    number: Int
+    employee: String
+}
+
+input NewWaterHeaterInput {
+    # TODO: O/S definition
+    size: Int
+    type: String
+}
+
+input BathroomInput {
+    sink1: DefaultConfigInput
+    sink2: DefaultConfigInput
+    toilet: DefaultConfigInput
+    bidet: DefaultConfigInput
+    tubShower1: BathtubShowerInput
+    tubShower2: BathtubShowerInput
+}
+
+input DefaultConfigInput {
+    verticals: String
+    patching: Int
+    wallSide: String
+    comments: String
+}
+
+input BathtubShowerInput {
+    verticals: String
+    patching: Int
+    wallSide: String
+    valves: String
+    comments: String
 }
 
 input ClientInput {
@@ -263,4 +386,134 @@ type Thread {
     projectId: String
     numMessages: Int
     createdAt: String
+}
+
+type SurveyForm {
+    formId: String
+    owner: String
+    date: String
+    jobId: String
+    address: String
+    city: String
+    email: String
+    clientPhone: String
+    squareFootage: Int
+    yearbuilt: Int
+    bathrooms: [Bathroom]
+    otherRoom: OtherRooms
+    typeOfPiping: TypeOfPiping
+    mainLine: MainLine
+    misc: Miscellaneous
+    additionalNotes: String
+    contractPrice: Float
+    salesTax: Float
+    downPayment: Float
+    pipingInstalledPayment: Float
+    uponCompletionPayment: Float
+    salesPerson: String
+    createdAt: String
+    updatedAt: String
+}
+
+type TypeOfPiping {
+    pipeType: String
+    pexFittingType: String
+    foundationType: String
+    crawlClearance: String
+    numLevels: Int
+    units: Int
+}
+
+type MainLine {
+    existingPipe: ExistingPipe
+    replaceMain: Boolean
+    length: String 
+    pressureReg: String
+    valve: String
+    hoseBibb: String
+    tieInExistingSprinklers: String
+    directionalBoring: String
+    concreteAsphaltCutting: Boolean
+    concreteAsphaltPatching: String
+}
+
+type ExistingPipe {
+    type: String
+    size: String
+}
+
+type Miscellaneous {
+    recirculationLine: RecirculationLine
+    dishwasherLine: String
+    quarterInchFridgeLine: String
+    waterFilterLine: String
+    totalHoseBibbs: TotalHoseBibbs
+    relocateWaterHeater: Boolean
+    newWaterHeater: NewWaterHeater
+    insulatePipes: Boolean
+    # long name for the warning under miscellaneous
+    quarterTurnValvesAndTubings: Boolean
+    tubValveInstall: CountAndEmployee
+    showerValveInstall: CountAndEmployee
+    tubShowerValveInstall: CountAndEmployee
+    electricalGround:String
+    patchingBy: String
+    permitBy: String
+}
+
+type CountAndEmployee {
+    number: Int
+    employee: String
+}
+
+type NewWaterHeater {
+    # TODO: O/S definition
+    size: Int
+    type: String
+}
+
+type RecirculationLine {
+    pipe: String
+    pump: String
+    timer: String
+}
+
+type TotalHoseBibbs {
+    regulated: Int
+    unregulated: Int
+}
+
+type Bathroom {
+    sink1: DefaultConfig
+    sink2: DefaultConfig
+    toilet: DefaultConfig
+    bidet: DefaultConfig
+    tubShower1: BathtubShowerConfig
+    tubShower2: BathtubShowerConfig
+}
+
+type OtherRooms {
+    kitchenSink1: DefaultConfig
+    kitchenSink2: DefaultConfig
+    refrigerator: DefaultConfig
+    barSink: DefaultConfig
+    landrySink: DefaultConfig
+    washMachine: DefaultConfig
+    waterHeater: DefaultConfig
+    waterSoftener: DefaultConfig
+}
+
+type DefaultConfig {
+    verticals: String
+    patching: Int
+    wallSide: String
+    comments: String
+}
+
+type BathtubShowerConfig {
+    verticals: String
+    patching: Int
+    wallSide: String
+    valves: String
+    comments: String
 }

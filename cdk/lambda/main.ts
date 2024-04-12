@@ -42,8 +42,13 @@ import getPublishedProjects from "./projects/getPublishedProjects";
 import getUnpublishedProjects from "./projects/getUnpublishedProjects";
 import publishProject from "./projects/publishProject";
 import updateProject from "./projects/updateProject";
+import createSurveyForm from "./repipe/createSurveyForm";
+import deleteSurveyForm from "./repipe/deleteSurveyForm";
+import getAllSurveyForms from "./repipe/getAllSurveyForms";
+import getSurveyFormById from "./repipe/getSurveyFormById";
+import updateSurveyform from "./repipe/updateSurveyForm";
 
-import { BidAppsyncEvent, ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, MessageAppsyncEvent, ProjectAppsyncEvent } from "./types";
+import { BidAppsyncEvent, ClientAppsyncEvent, ContractorAppsyncEvent, FormAppsyncEvent, MessageAppsyncEvent, ProjectAppsyncEvent, SurveyFormAppsyncEvent } from "./types";
 
 export async function handler(event: any): Promise<any> {
   console.log(`EVENT --- ${JSON.stringify(event)}`);
@@ -64,13 +69,16 @@ export async function handler(event: any): Promise<any> {
   else if (eventType === "Message") {
     return handleMessageEvent(event);
   }
+  else if (eventType === "SurveyForm") {
+    return handleSurveyFormEvent(event);
+  }
   else {
     throw new Error(`Unknown event type.`);
   }
 }
 
 // Function to determine the event type based on the field name
-function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" | "Bid" | "Message"{
+function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" | "Bid" | "Message" | "SurveyForm" {
   switch (event.info.fieldName) {
     case "getAllProjects":
     case "getAllProjectsFromAllClients":
@@ -111,6 +119,12 @@ function getEventType(event: any): "Client" | "Project" | "Contractor" | "Form" 
     case "updateMessage":
     case "deleteMessage":
       return "Message";
+    case "getAllSurveyForms":
+    case "getSurveyFormById":
+    case "createSurveyForm":
+    case "updateSurveyForm":
+    case "deleteSurveyForm":
+      return "SurveyForm";
     case "getAllForms":
     case "getFormById":
     case "getSelectedForm":
@@ -268,6 +282,25 @@ function handleBidEvent(event: BidAppsyncEvent) {
       );
     case "deleteBid":
       return deleteBid(event.arguments.projectId!, event.arguments.bidId!);
+    default:
+      throw new Error(`Unknown field name: ${event.info.fieldName}`);
+  }
+}
+function handleSurveyFormEvent(event: SurveyFormAppsyncEvent) {
+  switch (event.info.fieldName) {
+    case "getSurveyFormById":
+      return getSurveyFormById(event.arguments.jobId!);
+    case "getAllSurveyForms":
+      return getAllSurveyForms();
+    case "createSurveyForm":
+      return createSurveyForm(event.arguments.surveyFormInput!);
+    case "updateSurveyForm":
+      return updateSurveyform(
+        event.arguments.jobId!,
+        event.arguments.surveyFormInput!
+      );
+    case "deleteSurveyForm":
+      return deleteSurveyForm(event.arguments.owner!, event.arguments.jobId!);
     default:
       throw new Error(`Unknown field name: ${event.info.fieldName}`);
   }

@@ -320,6 +320,28 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
           fieldName: "updateMessage",
         })
 
+        // SurveyForm Resolvers
+        contractorSiteDataSource.createResolver({
+          typeName: "Query",
+          fieldName: "getAllSurveyForms",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Query",
+          fieldName: "getSurveyFormById",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "createSurveyForm",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "deleteSurveyForm",
+        })
+        contractorSiteDataSource.createResolver({
+          typeName: "Mutation",
+          fieldName: "updateSurveyForm",
+        })
+
         // Bid Resolvers
         contractorSiteDataSource.createResolver({
           typeName: "Query",
