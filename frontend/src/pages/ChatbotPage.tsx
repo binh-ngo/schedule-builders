@@ -18,12 +18,15 @@ const ChatbotPage: React.FC = () => {
   return (
     <Container className='chatbotPage'>
       <Row className="justify-content-md-center mt-5">
-        <Col md={6}>
-          <div className="chatbot-container">
+        <Col md={6} className="chatbot-container">
+          <div className="chat-header">
             <h1>Schedule.builders Chatbot</h1>
+          </div>
+          
+          <div className="chat-footer">
             <Form onSubmit={handleSubmit}>
-              <Form.Group className="my-3" controlId="categorySelect">
-                <Form.Label>Category:</Form.Label>
+              <Form.Group controlId="categorySelect" className='my-2'>
+                <Form.Label className='font-weight-bold'>Select a category:</Form.Label>
                 <Form.Control
                   as="select"
                   value={category}
@@ -38,8 +41,8 @@ const ChatbotPage: React.FC = () => {
                   <option value="Roofing">Roofing</option>
                 </Form.Control>
               </Form.Group>
-              <Form.Group className="my-3" controlId="promptInput">
-                <Form.Label>Prompt:</Form.Label>
+              <Form.Group controlId="promptInput" className='my-2'>
+                <Form.Label className='font-weight-bold'>Ask me a question:</Form.Label>
                 <Form.Control
                   type="text"
                   value={prompt}
@@ -47,7 +50,6 @@ const ChatbotPage: React.FC = () => {
                 />
               </Form.Group>
               <Button
-                className="my-3"
                 style={buttonStyle}
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}
@@ -56,14 +58,13 @@ const ChatbotPage: React.FC = () => {
               </Button>
             </Form>
           </div>
-        </Col>
-        <Col md={6} className="chatbot-response">
-          {response && (
-            <>
-              <h1>Generated Response:</h1>
-              <p className='chatbot-text'>{response}</p>
-            </>
-          )}
+          <div className="chat-body">
+            {response && (
+              <div className="my-10">
+                <p className='chatbot-text'>{response}</p>
+              </div>
+            )}
+          </div>
         </Col>
       </Row>
     </Container>
